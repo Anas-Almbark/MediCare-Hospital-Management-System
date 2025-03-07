@@ -43,4 +43,4 @@ MediCare is a comprehensive **Hospital Management System (HMS)** designed to imp
 ## 🛠️ Tech Stack  
 - **Back-End:** Laravel, MySQL, Sanctum API  
 - **Front-End:** React.js, Redux, Tailwind CSS  
-- **Other:** JWT Authentication, RESTful API, Docker (optional)  
+- **Other:** JWT Authentication, RESTful API 
