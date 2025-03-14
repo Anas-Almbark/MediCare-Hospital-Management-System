@@ -482,6 +482,7 @@
     </div>
     <a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
     @include('dashboard/shard.scripts')
+    @stack('scripts')
 </body>
 
 </html>

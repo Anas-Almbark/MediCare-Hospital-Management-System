@@ -36,17 +36,18 @@
             </li>
             <li class="side-item side-item-category"> Authorization </li>
             <li class="slide">
-                <a class="side-menu__item" href="icons.html"><svg xmlns="http://www.w3.org/2000/svg"
-                        class="side-menu__icon" viewBox="0 0 24 24">
+                <a class="side-menu__item" href="{{ route('user.index') }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
                         <path d="M0 0h24v24H0V0z" fill="none" />
                         <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z" opacity=".3" />
                         <path
                             d="M12 14c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm-6 4c.22-.72 3.31-2 6-2 2.7 0 5.8 1.29 6 2H6zm6-6c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z" />
-                    </svg><span class="side-menu__label">Users</span><span
-                        class="badge badge-danger side-badge">New</span></a>
+                    </svg>
+                    <span class="side-menu__label">Users</span>
+                </a>
             </li>
             <li class="slide">
-                <a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg"
+                <a class="side-menu__item" href="{{ route('role.index') }}"><svg xmlns="http://www.w3.org/2000/svg"
                         class="side-menu__icon" viewBox="0 0 24 24">
                         <path d="M0 0h24v24H0V0z" fill="none" />
                         <path
@@ -57,8 +58,8 @@
                     </svg><span class="side-menu__label">Roles</span></a>
             </li>
             <li class="slide">
-                <a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg"
-                        class="side-menu__icon" viewBox="0 0 24 24">
+                <a class="side-menu__item" href="{{ route('permission.index') }}"><svg
+                        xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
                         <path d="M0 0h24v24H0V0z" fill="none" />
                         <path d="M12 4c-1.7 0-3 1.3-3 3v2h6V7c0-1.7-1.3-3-3-3zm5 6H7v8h10V10z" opacity=".3" />
                         <path
