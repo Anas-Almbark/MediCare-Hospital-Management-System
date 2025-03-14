@@ -31,7 +31,7 @@
                                 <tr>
                                     <th scope="row">{{ $user->id }}</th>
                                     <td><strong>{{ $user->name }}</strong></td>
-                                    <td><span class="py-1 px-2 rounded bg-info text-sm">{{ $user->role }}</span></td>
+                                    <td><span class="py-1 px-2 rounded bg-info text-sm">    {{ $user->roles->first()->name ?? 'No role assigned' }}</span></td>
                                     <td>{{ $user->created_at->diffForHumans() }}</td>
                                     <td>
                                         <div class="d-flex">
