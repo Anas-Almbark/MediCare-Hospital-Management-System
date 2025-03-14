@@ -9,9 +9,9 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    public function  index()
+    public function index()
     {
-        $users = User::all();
+        $users = User::with('roles')->get();
         return view('dashboard.employees.users', compact('users'));
     }
 
@@ -33,7 +33,6 @@ class UserController extends Controller
             'name' => $validation['name'],
             'email' => $validation['email'],
             'password' => Hash::make($validation['password']),
-            'role' => $validation['role']
         ]);
 
         $user->assignRole($validation['role']);
@@ -52,10 +51,11 @@ class UserController extends Controller
             'name' => 'required',
             'role' => 'required',
         ]);
+        
         $user->update([
             'name' => $validation['name'],
-            'role' => $validation['role']
         ]);
+        
         $user->syncRoles($validation['role']);
         return redirect()->route('user.index')->with('success', 'User updated successfully');
     }
