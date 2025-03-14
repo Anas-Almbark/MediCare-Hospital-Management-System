@@ -12,7 +12,7 @@ class UserSeeder extends Seeder
     {
         // Create Super Admin
         $superAdmin = User::firstOrCreate(
-            ['email' => 'superadmin@gamil.com'],
+            ['email' => 'superadmin@gmail.com'],
             [
                 'name' => 'Super Admin',
                 'password' => Hash::make('12345678'),
@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
 
         // Create Admin
         $admin = User::firstOrCreate(
-            ['email' => 'admin@gamil.com'],
+            ['email' => 'admin@gmail.com'],
             [
                 'name' => 'Admin',
                 'password' => Hash::make('12345678'),
@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
 
         // Create Doctor
         $doctor = User::firstOrCreate(
-            ['email' => 'doctor@gamil.com'],
+            ['email' => 'doctor@gmail.com'],
             [
                 'name' => 'Doctor',
                 'password' => Hash::make('12345678'),
@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
 
         // Create Patient
         $patient = User::firstOrCreate(
-            ['email' => 'patient@gamil.com'],
+            ['email' => 'patient@gmail.com'],
             [
                 'name' => 'Patient',
                 'password' => Hash::make('12345678'),
@@ -51,7 +51,7 @@ class UserSeeder extends Seeder
         $patient->assignRole('patient');
 
         $nurse = User::firstOrCreate(
-            ['email' => 'nurse@gamil.com'],
+            ['email' => 'nurse@gmail.com'],
             [
                 'name' => 'Nurse',
                 'password' => Hash::make('12345678'),
