@@ -373,9 +373,7 @@
                 </div>
             </div>
         </div>
-        <!-- row close -->
 
-        <!-- row opened -->
         <div class="row row-sm row-deck">
             <div class="col-md-12 col-lg-4 col-xl-4">
                 <div class="card card-dashboard-eight pb-2">
@@ -466,6 +464,5 @@
                 </div>
             </div>
         </div>
-        <!-- /row -->
     </div>
 @endsection
