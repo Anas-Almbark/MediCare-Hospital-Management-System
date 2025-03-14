@@ -6,6 +6,35 @@
         <button type="submit" class="btn btn-success ml-3 my-3"> Add new user </button>
     </form>
     <div class="col-xl-12">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="input-group mb-3">
+                <form action="{{ route('user.search') }}" class="w-50 d-flex" method="GET">
+                    @csrf
+                    <input type="search" value="{{ request('name') }}" class="form-control py-1 px-3" name="search"
+                        placeholder="Search..." aria-label="Search">
+                    <button class="btn btn-secondary" type="submit">
+                        <i class="fas fa-search text-sm"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="filter mb-3 ms-3">
+                <form action="{{ route('user.filter') }}" method="GET" class="d-inline">
+                    @csrf
+                    <select
+                        class="form-select btn text-left py-3 px-3 border rounded-lg shadow-sm hover:border-blue-500 focus:border-blue-500 focus:ring focus:ring-blue-200 transition-all duration-200"
+                        id="roleFilter" name="role" style="min-width: 200px; background-color: #fff;"
+                        onchange="this.form.submit()">
+                        <option value="" class="py-1">All Roles</option>
+                        @foreach ($roles as $role)
+                            <option value="{{ $role->name }}" {{ request('role') == $role->name ? 'selected' : '' }}
+                                class="py-1">
+                                {{ $role->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </form>
+            </div>
+        </div>
         <div class="card">
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex justify-content-between">
@@ -31,7 +60,8 @@
                                 <tr>
                                     <th scope="row">{{ $user->id }}</th>
                                     <td><strong>{{ $user->name }}</strong></td>
-                                    <td><span class="py-1 px-2 rounded bg-info text-sm">    {{ $user->roles->first()->name ?? 'No role assigned' }}</span></td>
+                                    <td><span class="py-1 px-2 rounded bg-info text-sm">
+                                            {{ $user->roles->first()->name ?? 'No role assigned' }}</span></td>
                                     <td>{{ $user->created_at->diffForHumans() }}</td>
                                     <td>
                                         <div class="d-flex">
