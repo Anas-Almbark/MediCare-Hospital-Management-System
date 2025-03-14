@@ -41,6 +41,8 @@ Route::middleware('auth')->group(function () {
     Route::get("/edit/user/{user}", [UserController::class, "edit"])->name("user.edit");
     Route::put("/update/user/{user}", [UserController::class, "update"])->name("user.update");
     Route::delete("/delete/user/{user}", [UserController::class, "destroy"])->name("user.destroy");
+    Route::get("/search", [UserController::class, "searchByName"])->name('user.search');
+    Route::get("/filter", [UserController::class, "filterByRole"])->name('user.filter');
 });
 
 require __DIR__ . '/auth.php';

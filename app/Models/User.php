@@ -47,4 +47,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function scopeSearch($query, $request = '')
+    {
+        $query->where("name", "like", "%" . $request . "%");
+    }
+    public function scopeFilterByRole($query, $request = '')
+    {
+        return (!$request) ? $query :
+            $query->whereHas('roles', function ($q) use ($request) {
+                $q->where('name', $request);
+            });
+    }
 }

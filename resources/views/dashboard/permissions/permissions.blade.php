@@ -6,60 +6,71 @@
         <button type="submit" class="btn btn-success ml-3 my-3"> Add new permission </button>
     </form>
     <div class="col-xl-12">
-        <div class="card">
-            <div class="card-header pb-0 mb-2">
-                <div class="d-flex justify-content-between ">
-                    <h4 class="card-title mg-b-0">All Permissions</h4>
-                    <i class="mdi mdi-dots-horizontal text-gray"></i>
+        @if ($permissions->count() > 0)
+            <div class="card">
+                <div class="card-header pb-0 mb-2">
+                    <div class="d-flex justify-content-between ">
+                        <h4 class="card-title mg-b-0">All Permissions</h4>
+                        <i class="mdi mdi-dots-horizontal text-gray"></i>
+                    </div>
+                    <p class="tx-12 tx-gray-500 mb-2">List of all system permissions</p>
                 </div>
-                <p class="tx-12 tx-gray-500 mb-2">List of all system permissions</p>
-            </div>
-            <div class="text-nowrap px-2 pt-1">
-                <table class="table mg-b-0 text-md-nowrap">
-                    <thead>
-                        <tr>
-                            <th>name permission</th>
-                            <th>create at</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-border-bottom-0">
-                        @forelse ($permissions as $permission)
+                <div class="text-nowrap px-2 pt-1">
+                    <table class="table mg-b-0 text-md-nowrap">
+                        <thead>
                             <tr>
-                                <td>
-                                    <strong class="ml-3"> {{ $permission->name }}</strong>
-                                </td>
-                                <td> {{ $permission->created_at->diffForHumans() }} </td>
-                                <td>
-                                    <div class="d-flex">
-                                        <div class="d-flex">
-                                            <form action="{{ route('permission.edit', $permission->id) }}" method="GET">
-                                                @csrf
-                                                <button type="submit"
-                                                    class="btn bg-warning text-white badge p-2 dropdown-item"
-                                                    href="javascript:void(0);"><i class="bx bx-edit-alt me-2"></i>
-                                                    Edit</button>
-                                            </form>
-                                            <form action="{{ route('permission.destroy', $permission->id) }}" class="ml-3"
-                                                method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                    class="btn bg-danger text-white badge p-2 dropdown-item"
-                                                    href="javascript:void(0);"><i class="bx bx-trash me-2"></i>
-                                                    Delete</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </td>
+                                <th>name permission</th>
+                                <th>create at</th>
+                                <th>Actions</th>
                             </tr>
-                        @empty
-                            <p> no data </p>
-                        @endforelse
-
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="table-border-bottom-0">
+                            @foreach ($permissions as $permission)
+                                <tr>
+                                    <td>
+                                        <strong class="ml-3"> {{ $permission->name }}</strong>
+                                    </td>
+                                    <td> {{ $permission->created_at->diffForHumans() }} </td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <div class="d-flex">
+                                                <form action="{{ route('permission.edit', $permission->id) }}"
+                                                    method="GET">
+                                                    @csrf
+                                                    <button type="submit"
+                                                        class="btn bg-warning text-white badge p-2 dropdown-item"
+                                                        href="javascript:void(0);"><i class="bx bx-edit-alt me-2"></i>
+                                                        Edit</button>
+                                                </form>
+                                                <form action="{{ route('permission.destroy', $permission->id) }}"
+                                                    class="ml-3" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="btn bg-danger text-white badge p-2 dropdown-item"
+                                                        href="javascript:void(0);"><i class="bx bx-trash me-2"></i>
+                                                        Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        @else
+            <div class="d-flex align-items-center justify-content-center min-vh-100">
+                <div class="text-center p-5">
+                    <div class="mb-4">
+                        <i class="fas fa-key fa-4x text-muted"></i>
+                    </div>
+                    <h4 class="text-muted">No Permissions Found</h4>
+                    <p class="text-gray-500">There are currently no permissions defined in the system.</p>
+                    <p class="text-gray-500">Click the "Add new permission" button above to create first permission.</p>
+                </div>
+            </div>
+        @endif
     </div>
 @endsection
