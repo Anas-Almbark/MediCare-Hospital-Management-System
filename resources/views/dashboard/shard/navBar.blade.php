@@ -290,12 +290,12 @@
                 </div>
                 <div class="dropdown main-profile-menu nav nav-item nav-link">
                     <a class="profile-user d-flex" href=""><img alt=""
-                            src="../../assets/img/faces/6.jpg"></a>
+                            src="{{ asset('assets/img/def.png') }}"></a>
                     <div class="dropdown-menu">
                         <div class="main-header-profile bg-primary p-3">
                             <div class="d-flex wd-100p">
-                                <div class="main-img-user"><img alt="" src="../../assets/img/faces/6.jpg"
-                                        class=""></div>
+                                <div class="main-img-user"><img alt=""
+                                        src="{{ asset('assets/img/def.png') }}" class=""></div>
                                 <div class="ml-3 my-auto">
                                     <h6>Petey Cruiser</h6><span>Premium Member</span>
                                 </div>

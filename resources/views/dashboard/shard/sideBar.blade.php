@@ -1,6 +1,6 @@
 <aside class="app-sidebar sidebar-scroll">
     <div class="main-sidebar-header active">
-        <a class="desktop-logo logo-light active" href="index.html"><img src="../../assets/img/brand/logo.png"
+        <a class="desktop-logo logo-light active" href="index.html"><img src="{{ asset('assets/img/logo-v.png') }}"
                 class="main-logo" alt="logo"></a>
         <a class="desktop-logo logo-dark active" href="index.html"><img src="../../assets/img/brand/logo-white.png"
                 class="main-logo dark-theme" alt="logo"></a>
@@ -13,12 +13,12 @@
         <div class="app-sidebar__user clearfix">
             <div class="dropdown user-pro-body">
                 <div class="">
-                    <img alt="user-img" class="avatar avatar-xl brround" src="../../assets/img/faces/6.jpg"><span
+                    <img alt="user-img" class="avatar avatar-xl brround" src="{{ asset('assets/img/def.png') }}"><span
                         class="avatar-status profile-status bg-green"></span>
                 </div>
                 <div class="user-info">
-                    <h4 class="font-weight-semibold mt-3 mb-0">Petey Cruiser</h4>
-                    <span class="mb-0 text-muted">Premium Member</span>
+                    <h4 class="font-weight-semibold mt-3 mb-0">{{ auth()->user()->name }}</h4>
+                    <span class="mb-0 text-muted">{{ auth()->user()->role }}</span>
                 </div>
             </div>
         </div>
