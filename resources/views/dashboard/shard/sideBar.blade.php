@@ -17,8 +17,8 @@
                         class="avatar-status profile-status bg-green"></span>
                 </div>
                 <div class="user-info">
-                    <h4 class="font-weight-semibold mt-3 mb-0">{{ auth()->user()->name }}</h4>
-                    <span class="mb-0 text-muted">{{ auth()->user()->role }}</span>
+                    <h4 class="font-weight-semibold mt-3 mb-0">{{ auth()->user()->name }}</h4> 
+                    <span class="mb-0 text-muted">    {{ auth()->user()->roles->first()->name }}</span>
                 </div>
             </div>
         </div>
