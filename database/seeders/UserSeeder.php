@@ -58,5 +58,17 @@ class UserSeeder extends Seeder
             ]
         );
         $nurse->assignRole('nurse');
+
+        // Create additional patients
+        for ($i = 1; $i <= 5; $i++) {
+            $additionalPatient = User::firstOrCreate(
+                ['email' => "patient{$i}@gmail.com"],
+                [
+                    'name' => "Patient {$i}",
+                    'password' => Hash::make('12345678'),
+                ]
+            );
+            $additionalPatient->assignRole('patient');
+        }
     }
 }
