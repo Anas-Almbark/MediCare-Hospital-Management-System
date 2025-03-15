@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
             $table->foreignId('doctor')->constrained("users")->cascadeOnDelete();
+            $table->unsignedBigInteger('specialization_id');
             $table->string('license_number')->unique();
             $table->integer('experience_years')->nullable();
             $table->timestamps();
