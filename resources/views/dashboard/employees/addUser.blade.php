@@ -1,6 +1,6 @@
 @extends('dashboard')
 @section('content')
-    <div class="col-lg-6 col-xl-6 col-md-12 col-sm-12">
+    <div class="col-lg-6 col-xl-6 col-md-12 col-sm-12 mx-auto mt-5">
         <div class="card box-shadow-0">
             <div class="card-header">
                 <h4 class="card-title mb-1">New User</h4>
@@ -10,24 +10,125 @@
                 <form class="form-horizontal" action="{{ route('user.store') }}" method="POST">
                     @csrf
                     <div class="form-group">
-                        <input type="text" name="name" class="form-control" id="inputName" placeholder="Name"
-                            required />
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                            id="name" placeholder="Name" value="{{ old('name') }}" required />
+                        @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form-group">
-                        <input type="email" name="email" class="form-control" id="inputEmail3" placeholder="Email"
-                            required />
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+                            id="email" placeholder="Email" value="{{ old('email') }}" required />
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form-group">
-                        <input type="password" name="password" class="form-control" id="inputPassword3"
-                            placeholder="Password" required />
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
+                            id="password" placeholder="Password" required />
+                        @error('password')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form-group">
-                        <select class="form-control" name="role" id="role">
+                        <label for="role" class="form-label">User Role</label>
+                        <select class="form-control @error('role') is-invalid @enderror" name="role" id="role">
                             <option selected disabled>Select Role</option>
                             @foreach ($roles as $role)
-                                <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                <option value="{{ $role->name }}" {{ old('role') == $role->name ? 'selected' : '' }}>
+                                    {{ $role->name }}</option>
                             @endforeach
                         </select>
+                        @error('role')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="dp1742037476809" class="form-label">Date of Birth</label>
+                        <div class="input-group w-100">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                                </div>
+                            </div>
+                            <input
+                                class="form-control fc-datepicker hasDatepicker @error('birth_date') is-invalid @enderror"
+                                name="birth_date" placeholder="MM/DD/YYYY" type="date" id="dp1742037476809"
+                                value="{{ old('birth_date') }}">
+                        </div>
+                        @error('birth_date')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Gender</label>
+                        <div class="d-flex">
+                            <div class="form-check mr-3">
+                                <input class="form-check-input @error('gender') is-invalid @enderror" type="radio"
+                                    name="gender" id="male" value="male"
+                                    {{ old('gender') == 'male' ? 'checked' : '' }}>
+                                <label class="form-check-label" for="male">Male</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input @error('gender') is-invalid @enderror" type="radio"
+                                    name="gender" id="female" value="female"
+                                    {{ old('gender') == 'female' ? 'checked' : '' }}>
+                                <label class="form-check-label" for="female">Female</label>
+                            </div>
+                        </div>
+                        @error('gender')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="blood_type" class="form-label">Blood Type</label>
+                        <select class="form-control @error('blood_type') is-invalid @enderror" name="blood_type"
+                            id="blood_type">
+                            <option selected disabled>Select Blood Type</option>
+                            @foreach (['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'] as $type)
+                                <option value="{{ $type }}" {{ old('blood_type') == $type ? 'selected' : '' }}>
+                                    {{ $type }}</option>
+                            @endforeach
+                        </select>
+                        @error('blood_type')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="form-label">Address</label>
+                        <input type="text" name="address" class="form-control @error('address') is-invalid @enderror"
+                            id="address" placeholder="Address" value="{{ old('address') }}" required />
+                        @error('address')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneMask" class="form-label">Phone Number</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    Phone:
+                                </div>
+                            </div>
+                            <input class="form-control @error('phone') is-invalid @enderror" name="phone"
+                                id="phone" placeholder="(000) 000-0000" type="text" value="{{ old('phone') }}">
+                        </div>
+                        @error('phone')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="identity_no" class="form-label">National ID Number</label>
+                        <input type="text" name="identity_number"
+                            class="form-control @error('identity_number') is-invalid @enderror" id="identity_no"
+                            placeholder="Identity Document" value="{{ old('identity_number') }}" required />
+                        @error('identity_number')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form-group mb-0 mt-3 justify-content-end">
                         <div>
@@ -40,3 +141,18 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        window.addEventListener('load', function() {
+            if ($.fn.select2) {
+                $('#role').select2({
+                    placeholder: 'Select role',
+                    allowClear: true,
+                    width: '100%'
+                });
+            } else {
+                console.error('Select2 is not loaded');
+            }
+        });
+    </script>
+@endpush

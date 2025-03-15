@@ -24,16 +24,28 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validation = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8',
-            'role' => 'required',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users|max:255',
+            'password' => 'required|string|min:8',
+            'role' => 'required|exists:roles,name',
+            'birth_date' => 'required|date|before:today',
+            'gender' => 'required|in:male,female',
+            'blood_type' => 'nullable|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
+            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:7|max:18',
+            'address' => 'required|string|max:255',
+            'identity_number' => 'required|string|unique:users|min:6|max:30',
         ]);
 
         $user = User::create([
             'name' => $validation['name'],
             'email' => $validation['email'],
             'password' => Hash::make($validation['password']),
+            'birth_date' => $validation['birth_date'],
+            'gender' => $validation['gender'],
+            'blood_type' => $validation['blood_type'],
+            'phone_number' => $validation['phone'],
+            'address' => $validation['address'],
+            'identity_number' => $validation['identity_number'],
         ]);
 
         $user->assignRole($validation['role']);
@@ -49,12 +61,20 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $validation = $request->validate([
-            'name' => 'required',
-            'role' => 'required',
+            'name' => 'nullable|max:255',
+            'role' => 'nullable|exists:roles,name',
+            'birth_date' => 'nullable|date|before:today',
+            'blood_type' => 'nullable|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
+            'phone' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:7|max:18',
+            'address' => 'nullable|max:255',
         ]);
 
         $user->update([
             'name' => $validation['name'],
+            'birth_date' => $validation['birth_date'],
+            'blood_type' => $validation['blood_type'],
+            'phone_number' => $validation['phone'],
+            'address' => $validation['address'],
         ]);
 
         $user->syncRoles($validation['role']);
