@@ -5,6 +5,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DoctorController;
+
 
 Route::get('{path?}', function () {
     return view('dashboard.main');
@@ -43,6 +45,17 @@ Route::middleware('auth')->group(function () {
     Route::delete("/delete/user/{user}", [UserController::class, "destroy"])->name("user.destroy");
     Route::get("/search", [UserController::class, "searchByName"])->name('user.search');
     Route::get("/filter", [UserController::class, "filterByRole"])->name('user.filter');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get("/doctors", [DoctorController::class, "index"])->name("doctor.index");
+    Route::get("/new/doctor", [DoctorController::class, "create"])->name("doctor.create");
+    Route::post("/add/doctor", [DoctorController::class, "store"])->name("doctor.store");
+    Route::get("/edit/doctor/{doctor}", [DoctorController::class, "edit"])->name("doctor.edit");
+    Route::put("/update/doctor/{doctor}", [DoctorController::class, "update"])->name("doctor.update");
+    Route::delete("/delete/doctor/{doctor}", [DoctorController::class, "destroy"])->name("doctor.destroy");
+    Route::get("/doctor/search", [DoctorController::class, "searchByName"])->name('doctor.search');
+    Route::get("/doctor/filter", [DoctorController::class, "filterByRole"])->name('doctor.filter');
 });
 
 require __DIR__ . '/auth.php';

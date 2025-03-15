@@ -18,7 +18,7 @@
                 </div>
                 <div class="user-info">
                     <h4 class="font-weight-semibold mt-3 mb-0">{{ auth()->user()->name }}</h4> 
-                    <span class="mb-0 text-muted">    {{ auth()->user()->roles->first()->name }}</span>
+                    {{-- <span class="mb-0 text-muted">    {{ auth()->user()->roles->first()->name }}</span> --}}
                 </div>
             </div>
         </div>
@@ -44,6 +44,17 @@
                             d="M12 14c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm-6 4c.22-.72 3.31-2 6-2 2.7 0 5.8 1.29 6 2H6zm6-6c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z" />
                     </svg>
                     <span class="side-menu__label">Users</span>
+                </a>
+            </li>
+            <!-- Add Doctors Menu Item -->
+            <li class="slide">
+                <a class="side-menu__item" href="{{ route('doctor.index') }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0V0z" fill="none"/>
+                        <path d="M19 8h-1V3H6v5H5c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-9c0-1.1-.9-2-2-2zm-1 11H6V5h12v14z" opacity=".3"/>
+                        <path d="M19 8h-1V3H6v5H5c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-9c0-1.1-.9-2-2-2zm-1 11H6V5h12v14zm-6-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0 4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-7-4h3v2H5v-2zm0 4h3v2H5v-2z"/>
+                    </svg>
+                    <span class="side-menu__label">Doctors</span>
                 </a>
             </li>
             <li class="slide">
