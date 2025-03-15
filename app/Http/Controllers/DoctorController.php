@@ -6,26 +6,22 @@ use App\Models\Doctor;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
-
+use App\Models\User;
 class DoctorController extends Controller
 {
     public function index()
     {
-        $doctors = Doctor::all();
-        $roles = Role::all();
+        $doctors = User::role('doctor')->get();
         $specialties = [
             'Cardiology',
-            'Dermatology',
             'Neurology',
-            'Orthopedics',
             'Pediatrics',
-            'Psychiatry',
-            'Oncology',
-            'General Medicine',
-            'Surgery',
-            'Gynecology'
+            'Orthopedics',
+            'Dermatology',
+            'General Medicine'
         ];
-        return view('dashboard.doctors.index', compact('doctors', 'roles', 'specialties'));
+        
+        return view('dashboard.doctors.index', compact('doctors', 'specialties'));
     }
 
     public function create()
@@ -57,21 +53,34 @@ class DoctorController extends Controller
         return redirect()->route('doctor.index')->with('success', 'Doctor created successfully');
     }
 
-    public function edit(Doctor $doctor)
+    public function edit($id)
     {
+        $doctor = User::role('doctor')->findOrFail($id);
         $roles = Role::all();
         return view('dashboard.doctors.edit', compact('doctor', 'roles'));
     }
 
-    public function update(Request $request, Doctor $doctor)
+    public function update(Request $request, $id)
     {
-        $doctor->update($request->all());
+        $doctor = User::role('doctor')->findOrFail($id);
+        
+        $validated = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'specialty' => 'required',
+            'phone' => 'required',
+        ]);
+    
+        $doctor->update($validated);
+        
         return redirect()->route('doctor.index')->with('success', 'Doctor updated successfully');
     }
 
-    public function destroy(Doctor $doctor)
+    public function destroy($id)
     {
+        $doctor = User::role('doctor')->findOrFail($id);
         $doctor->delete();
+        
         return redirect()->route('doctor.index')->with('success', 'Doctor deleted successfully');
     }
 
