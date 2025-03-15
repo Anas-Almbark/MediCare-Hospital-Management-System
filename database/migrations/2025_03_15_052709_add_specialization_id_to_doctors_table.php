@@ -6,15 +6,10 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up()
     {
         Schema::table('doctors', function (Blueprint $table) {
-            $table->unsignedBigInteger('specialization_id')->after('doctor')->nullable();
-    
-            // إضافة مفتاح أجنبي
+            // Add foreign key constraint only
             $table->foreign('specialization_id')->references('id')->on('specializations')->onDelete('cascade');
         });
     }
@@ -23,7 +18,6 @@ return new class extends Migration
     {
         Schema::table('doctors', function (Blueprint $table) {
             $table->dropForeign(['specialization_id']);
-            $table->dropColumn('specialization_id');
         });
     }
 };
