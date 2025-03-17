@@ -68,25 +68,32 @@ class User extends Authenticatable
     {
         return $this->hasMany(Notification::class);
     }
-    public function bills(){
+    public function bills()
+    {
         return $this->hasMany(Bill::class);
     }
-    public function medicalRecords(){
+    public function medicalRecords()
+    {
         return $this->hasMany(MedicalRecord::class);
     }
-    public function appointments(){
+    public function appointments()
+    {
         return $this->hasMany(Appointment::class);
     }
-    public function labTests(){
+    public function labTests()
+    {
         return $this->hasMany(LabTest::class);
     }
-    public function doctor(){
+    public function doctor()
+    {
         return $this->belongsTo(Doctor::class);
     }
-    public function salaries(){
+    public function salaries()
+    {
         return $this->hasMany(Salary::class);
     }
-public function supports(){
-    return $this->hasMany(Support::class);
-}
+    public function supports()
+    {
+        return $this->hasMany(Support::class);
+    }
 }
