@@ -6,6 +6,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\BillController;
 
 
 Route::get('{path?}', function () {
@@ -18,7 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth', 'role:super-admin'])->group(function () {
+Route::middleware(['auth','role:super-admin'])->group(function () {
     Route::get("/roles", [RoleController::class, "index"])->name("role.index");
     Route::get("/new/role", [RoleController::class, "create"])->name("role.create");
     Route::post("/add/role", [RoleController::class, "store"])->name("role.store");
@@ -56,6 +57,16 @@ Route::middleware('auth')->group(function () {
     Route::delete("/delete/doctor/{doctor}", [DoctorController::class, "destroy"])->name("doctor.destroy");
     Route::get("/doctor/search", [DoctorController::class, "searchByName"])->name('doctor.search');
     Route::get("/doctor/filter", [DoctorController::class, "filterByRole"])->name('doctor.filter');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get("/bills", [BillController::class, "index"])->name("bill.index");
+    Route::get("/new/bill", [BillController::class, "create"])->name("bill.create");
+    Route::post("/add/bill", [BillController::class, "store"])->name("bill.store");
+    Route::get("/edit/bill/{user}", [BillController::class, "edit"])->name("bill.edit");
+    Route::put("/update/bill/{user}", [BillController::class, "update"])->name("bill.update");
+    Route::delete("/delete/bill/{user}", [BillController::class, "destroy"])->name('bill.destroy');
+    Route::get("/filter", [BillController::class, "filterByRole"])->name('bill.filter');
 });
 
 require __DIR__ . '/auth.php';
