@@ -19,7 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth', 'role:super-admin'])->group(function () {
+Route::middleware(['auth','role:super-admin'])->group(function () {
     Route::get("/roles", [RoleController::class, "index"])->name("role.index");
     Route::get("/new/role", [RoleController::class, "create"])->name("role.create");
     Route::post("/add/role", [RoleController::class, "store"])->name("role.store");
