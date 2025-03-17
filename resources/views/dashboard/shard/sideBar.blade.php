@@ -18,7 +18,7 @@
                 </div>
                 <div class="user-info">
                     <h4 class="font-weight-semibold mt-3 mb-0">{{ auth()->user()->name }}</h4>
-                    <span class="mb-0 text-muted"> {{ auth()->user()->roles->first()->name }}</span>
+                    <span class="mb-0 text-muted"> {{ auth()->user()->roles->first()->name ?? 'anything'}}</span>
                 </div>
             </div>
         </div>
