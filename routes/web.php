@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -67,6 +68,16 @@ Route::middleware('auth')->group(function () {
     Route::put("/update/bill/{user}", [BillController::class, "update"])->name("bill.update");
     Route::delete("/delete/bill/{user}", [BillController::class, "destroy"])->name('bill.destroy');
     Route::get("/filter", [BillController::class, "filterByRole"])->name('bill.filter');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get("/appointments", [AppointmentController::class, "index"])->name("appointment.index");
+    Route::get("/new/appointment", [AppointmentController::class, "create"])->name("appointment.create");
+    Route::post("/add/appointment", [AppointmentController::class, "store"])->name("appointment.store");
+    Route::get("/edit/appointment/{user}", [AppointmentController::class, "edit"])->name("appointment.edit");
+    Route::put("/update/appointment/{user}", [AppointmentController::class, "update"])->name("appointment.update");
+    Route::delete("/delete/appointment/{user}", [AppointmentController::class, "destroy"])->name('appointment.destroy');
+    Route::get("/filter", [AppointmentController::class, "filterByRole"])->name('appointment.filter');
 });
 
 require __DIR__ . '/auth.php';

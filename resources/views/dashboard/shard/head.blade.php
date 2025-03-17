@@ -18,3 +18,33 @@
 <link href="{{ asset('assets/css/skin-modes.css') }}" rel="stylesheet" />
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+        <!-- Favicon -->
+        <link rel="icon" href="{{ asset('assets/img/brand/favicon.png') }}" type="image/x-icon"/>
+
+        <!-- Icons css -->
+        <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet">
+
+        <!-- Internal fullcalendar Css-->
+        <link href="{{ asset('assets/plugins/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet">
+
+        <!--  Right-sidemenu css -->
+        <link href="{{ asset('assets/plugins/sidebar/sidebar.css') }}" rel="stylesheet">
+
+        <!--  Custom Scroll bar-->
+        <link href="{{ asset('assets/plugins/mscrollbar/jquery.mCustomScrollbar.css') }}" rel="stylesheet"/>
+
+        <!--  Left-Sidebar css -->
+        <link rel="stylesheet" href="{{ asset('assets/css/sidemenu.css') }}">
+
+        <!--- Style css --->
+        <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+
+        <!--- Dark-mode css --->
+        <link href="{{ asset('assets/css/style-dark.css') }}" rel="stylesheet">
+
+        <!---Skinmodes css-->
+        <link href="{{ asset('assets/css/skin-modes.css') }}" rel="stylesheet" />
+
+        <!--- Animations css-->
+        <link href="{{ asset('assets/css/animate.css') }}" rel="stylesheet">

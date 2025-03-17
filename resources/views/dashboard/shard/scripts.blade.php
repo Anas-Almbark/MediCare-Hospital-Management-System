@@ -31,3 +31,60 @@
 <script src="{{ asset('assets/js/jquery.vmap.sampledata.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
+
+        <!-- JQuery min js -->
+        <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
+
+        <!-- moomet min js -->
+        <script src="{{ asset('assets/plugins/moment/min/moment.min.js') }}"></script>
+
+        <!--Internal  Date picker js -->
+        <script src="{{ asset('assets/plugins/jquery-ui/ui/widgets/datepicker.js') }}"></script>
+
+        <!-- Bootstrap Bundle js -->
+        <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+        <!-- Ionicons js -->
+        <script src="{{ asset('assets/plugins/ionicons/ionicons.js') }}"></script>
+
+        <!-- Moment js -->
+        <script src="{{ asset('assets/plugins/moment/moment.js') }}"></script>
+
+        <!--Internal  Fullcalendar js -->
+        <script src="{{ asset('assets/plugins/fullcalendar/fullcalendar.min.js') }}"></script>
+
+        <!-- Internal Select2.full.min js -->
+        <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
+
+        <!--Internal App calendar js -->
+        <script src="{{ asset('assets/js/app-calendar-events.js') }}"></script>
+        <script src="{{ asset('assets/js/app-calendar.js') }}"></script>
+
+        <!-- Eva-icons js -->
+        <script src="{{ asset('assets/js/eva-icons.min.js') }}"></script>
+
+        <!-- P-scroll js -->
+        <script src="{{ asset('assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/perfect-scrollbar/p-scroll.js') }}"></script>
+
+        <!-- Rating js-->
+        <script src="{{ asset('assets/plugins/rating/jquery.rating-stars.js') }}"></script>
+        <script src="{{ asset('assets/plugins/rating/jquery.barrating.js') }}"></script>
+
+        <!-- Custom Scroll bar Js-->
+        <script src="{{ asset('assets/plugins/mscrollbar/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+
+        <!-- Sidebar js -->
+        <script src="{{ asset('assets/plugins/side-menu/sidemenu.js') }}"></script>
+
+        <!-- Right-sidebar js -->
+        <script src="{{ asset('assets/plugins/sidebar/sidebar.js') }}"></script>
+        <script src="{{ asset('assets/plugins/sidebar/sidebar-custom.js') }}"></script>
+
+        <!-- Sticky js -->
+        <script src="{{ asset('assets/js/sticky.js') }}"></script>
+
+        <!-- custom js -->
+        <script src="{{ asset('assets/js/custom.js') }}"></script>

@@ -81,7 +81,7 @@
                     </svg><span class="side-menu__label">Bills</span></a>
             </li>
             <li class="slide">
-                <a class="side-menu__item" href="#"><svg xmlns="http://www.w3.org/2000/svg"
+                <a class="side-menu__item" href="{{ route('appointment.index')}}"><svg xmlns="http://www.w3.org/2000/svg"
                         class="side-menu__icon" viewBox="0 0 24 24">
                         <path d="M0 0h24v24H0z" fill="none" />
                         <path
