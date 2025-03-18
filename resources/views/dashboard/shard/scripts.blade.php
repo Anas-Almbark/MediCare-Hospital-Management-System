@@ -34,7 +34,7 @@
 
 
 
-<!-- JQuery min js -->
+{{-- <!-- JQuery min js -->
 <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
 
 <!-- moomet min js -->
@@ -94,4 +94,4 @@
 <!-- Ionicons js -->
 <script src="{{ asset('assets/plugins/jquery-simple-datetimepicker/jquery.simple-dtpicker.js') }}"></script>
 		<!-- Internal form-elements js -->
-<script src="{{ asset('assets/js/form-elements.js') }}"></script>
+<script src="{{ asset('assets/js/form-elements.js') }}"></script> --}}

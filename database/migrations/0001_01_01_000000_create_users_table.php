@@ -23,6 +23,10 @@ return new class extends Migration
             $table->string('blood_type')->nullable();
             $table->string('address')->nullable();
             $table->string('identity_number')->nullable();
+            $table->string('provider_id')->nullable();
+            $table->string('provider_name')->nullable();
+            $table->string('token')->nullable();
+            $table->string('refresh_token')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

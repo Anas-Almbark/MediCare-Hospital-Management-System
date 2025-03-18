@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Laravel\Socialite\Facades\Socialite;
 
 class RegisteredUserController extends Controller
 {
@@ -46,5 +47,74 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return redirect(route('dashboard', absolute: false));
+    }
+
+    public function redirectToGithub()
+    {
+        return Socialite::driver('github')->redirect();
+    }
+
+    public function handleGithubCallback()
+    {
+        try {
+            $user = Socialite::driver('github')->stateless()->user();
+            $existingUser = User::where('email', $user->email)->first();
+            
+            if ($existingUser) {
+                Auth::login($existingUser);
+                return redirect()->route('dashboard');
+            }
+
+            $newUser = User::create([
+                'name' => $user->name,
+                'email' => $user->email,
+                'password' => Hash::make(12345678),
+                'provider_id' => $user->id,
+                'provider_name' => 'github',
+                'token' => $user->token,
+                'refresh_token' => $user->refreshToken,
+            ]);
+
+            Auth::login($newUser);
+            return redirect()->route('dashboard');
+
+        } catch (\Exception $e) {
+            return redirect()->route('login')->with('error', 'GitHub authentication failed.');
+        }
+    }
+
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+        try {
+            $user = Socialite::driver('google')->user();
+            
+            $existingUser = User::where('email', $user->email)->first();
+            
+            if ($existingUser) {
+                Auth::login($existingUser);
+                return redirect()->route('dashboard');
+            }
+
+            $newUser = User::create([
+                'name' => $user->name,
+                'email' => $user->email,
+                'password' => Hash::make(12345678),
+                'provider_id' => $user->id,
+                'provider_name' => 'google',
+                'token' => $user->token,
+                'refresh_token' => $user->refreshToken,
+            ]);
+
+            Auth::login($newUser);
+            return redirect()->route('dashboard');
+
+        } catch (\Exception $e) {
+            return redirect()->route('login')->with('error', 'Google authentication failed.');
+        }
     }
 }

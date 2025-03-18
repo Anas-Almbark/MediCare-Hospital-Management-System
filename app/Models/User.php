@@ -29,6 +29,10 @@ class User extends Authenticatable
         'blood_type',
         'address',
         'identity_number',
+        'provider_id',
+        'provider_name',
+        'token',
+        'refresh_token',
     ];
 
     /**
