@@ -21,15 +21,14 @@ class AppointmentController extends Controller
 
     public function store(Request $request)
     {
+        
         $request->validate([
-            'doctor_id' => 'required|exists:users,id',
-            'patient_id' => 'required|exists:users,id',
-            'appointment_date' => 'required|date',
-            'appointment_time' => 'required',
-            'status' => 'required|in:scheduled,completed,cancelled',
+            'doctor' => 'required|exists:users,id',
+            'patient' => 'required|exists:users,id',
+            'date' => 'required|date',
+            'status' => 'required|in:pending,confirmed,cancelled',
             'notes' => 'nullable|string'
         ]);
-
         \App\Models\Appointment::create($request->all());
         return redirect()->route('appointment.index')->with('success', 'Appointment created successfully');
     }

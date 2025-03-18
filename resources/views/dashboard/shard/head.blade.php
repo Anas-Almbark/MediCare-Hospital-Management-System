@@ -48,3 +48,9 @@
 
         <!--- Animations css-->
         <link href="{{ asset('assets/css/animate.css') }}" rel="stylesheet">
+
+
+        <!--Internal  Datetimepicker-slider css -->
+        <link href="{{ asset('assets/plugins/amazeui-datetimepicker/css/amazeui.datetimepicker.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/plugins/jquery-simple-datetimepicker/jquery.simple-dtpicker.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/plugins/pickerjs/picker.min.css') }}" rel="stylesheet">
