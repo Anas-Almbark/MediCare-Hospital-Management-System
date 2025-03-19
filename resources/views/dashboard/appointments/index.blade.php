@@ -68,308 +68,50 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($appointments as $appointment)
                                 <tr>
                                     <td>
-                                        <img alt="avatar" class="rounded-circle avatar-md mr-2" src="../../assets/img/faces/1.jpg">
+                                        <img alt="avatar" class="rounded-circle avatar-md mr-2" src="{{ asset('assets/img/faces/1.jpg') }}">
                                     </td>
-                                    <td>Megan Peters</td>
+                                    <td>{{ $appointment->patient()->first()->name }}</td>
                                     <td>
-                                        08/06/2020
+                                        {{ $appointment->date }}
                                     </td>
                                     <td class="text-center">
-                                        <span class="label text-muted d-flex"><div class="dot-label bg-gray-300 mr-1"></div>Inactive</span>
+                                        <span class="label text-muted d-flex">
+                                            <div class="dot-label {{ $appointment->status == 'pending' ? 'bg-warning' : ($appointment->status == 'confirmed' ? 'bg-success' : 'bg-danger') }} mr-1"></div>
+                                            {{ ucfirst($appointment->status) }}
+                                        </span>
                                     </td>
                                     <td>
-                                        <a href="#">mila@kunis.com</a>
+                                        <a href="#">{{ $appointment->patient()->first()->email }}</a>
                                     </td>
                                     <td>
-                                        <a href="#" class="btn btn-sm btn-primary">
+                                        <a href="{{ route('appointment.show', $appointment->id) }}" class="btn btn-sm btn-primary">
                                             <i class="las la-search"></i>
                                         </a>
-                                        <a href="#" class="btn btn-sm btn-info">
+                                        <a href="{{ route('appointment.edit', $appointment->id) }}" class="btn btn-sm btn-info">
                                             <i class="las la-pen"></i>
                                         </a>
-                                        <a href="#" class="btn btn-sm btn-danger">
-                                            <i class="las la-trash"></i>
-                                        </a>
+                                        <form action="{{ route('appointment.destroy', $appointment->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="las la-trash"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <img alt="avatar" class="rounded-circle avatar-md mr-2" src="../../assets/img/faces/2.jpg">
-                                    </td>
-                                    <td>George Clooney</td>
-                                    <td>
-                                        12/06/2020
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="label text-success d-flex"><div class="dot-label bg-success mr-1"></div>Active</span>
-                                    </td>
-                                    <td>
-                                        <a href="#">marlon@brando.com</a>
-                                    </td>
-                                    <td>
-                                        <a href="#" class="btn btn-sm btn-primary">
-                                            <i class="las la-search"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-info">
-                                            <i class="las la-pen"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-danger">
-                                            <i class="las la-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img alt="avatar" class="rounded-circle avatar-md mr-2" src="../../assets/img/faces/13.jpg">
-                                    </td>
-                                    <td>Ryan Gossling</td>
-                                    <td>
-                                        14/06/2020
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="label text-danger d-flex"><div class="dot-label bg-danger mr-1"></div> Banned</span>
-                                    </td>
-                                    <td>
-                                        <a href="#">jack@nicholson</a>
-                                    </td>
-                                    <td>
-                                        <a href="#" class="btn btn-sm btn-primary">
-                                            <i class="las la-search"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-info">
-                                            <i class="las la-pen"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-danger">
-                                            <i class="las la-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img alt="avatar" class="rounded-circle avatar-md mr-2" src="../../assets/img/faces/1.jpg">
-                                    </td>
-                                    <td> Emma Watson</td>
-                                    <td>
-                                        16/06/2020
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="label text-warning d-flex"><div class="dot-label bg-warning mr-1"></div>Pending</span>
-                                    </td>
-                                    <td>
-                                        <a href="#">jack@nicholsonm</a>
-                                    </td>
-                                    <td>
-                                        <a href="#" class="btn btn-sm btn-primary">
-                                            <i class="las la-search"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-info">
-                                            <i class="las la-pen"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-danger">
-                                            <i class="las la-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img alt="avatar" class="rounded-circle avatar-md mr-2" src="../../assets/img/faces/12.jpg">
-                                    </td>
-                                    <td>Mila Kunis</td>
-                                    <td>
-                                        18/06/2020
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="label text-muted d-flex"><div class="dot-label bg-gray-300 mr-1"></div>Inactive</span>
-                                    </td>
-                                    <td>
-                                        <a href="#">mila@kunis.com</a>
-                                    </td>
-                                    <td>
-                                        <a href="#" class="btn btn-sm btn-primary">
-                                            <i class="las la-search"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-info">
-                                            <i class="las la-pen"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-danger">
-                                            <i class="las la-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img alt="avatar" class="rounded-circle avatar-md mr-2" src="../../assets/img/faces/4.jpg">
-                                    </td>
-                                    <td>Phil Watson</td>
-                                    <td>
-                                        23/06/2020
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="label text-success d-flex"><div class="dot-label bg-success mr-1"></div>active</span>
-                                    </td>
-                                    <td>
-                                        <a href="#">phil@watson.com</a>
-                                    </td>
-                                    <td>
-                                        <a href="#" class="btn btn-sm btn-primary">
-                                            <i class="las la-search"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-info">
-                                            <i class="las la-pen"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-danger">
-                                            <i class="las la-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img alt="avatar" class="rounded-circle avatar-md mr-2" src="../../assets/img/faces/5.jpg">
-                                    </td>
-                                    <td>Sonia Robertson</td>
-                                    <td>
-                                        25/06/2020
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="label text-success d-flex"><div class="dot-label bg-success mr-1"></div>active</span>
-                                    </td>
-                                    <td>
-                                        <a href="#">robertson@sonia.com</a>
-                                    </td>
-                                    <td>
-                                        <a href="#" class="btn btn-sm btn-primary">
-                                            <i class="las la-search"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-info">
-                                            <i class="las la-pen"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-danger">
-                                            <i class="las la-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img alt="avatar" class="rounded-circle avatar-md mr-2" src="../../assets/img/faces/7.jpg">
-                                    </td>
-                                    <td>Adam Hamilton</td>
-                                    <td>
-                                        31/06/2020
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="label text-danger d-flex"><div class="dot-label bg-danger mr-1"></div>Banned</span>
-                                    </td>
-                                    <td>
-                                        <a href="#">mila@kunis.com</a>
-                                    </td>
-                                    <td>
-                                        <a href="#" class="btn btn-sm btn-primary">
-                                            <i class="las la-search"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-info">
-                                            <i class="las la-pen"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-danger">
-                                            <i class="las la-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img alt="avatar" class="rounded-circle avatar-md mr-2" src="../../assets/img/faces/9.jpg">
-                                    </td>
-                                    <td>Leah Morgan</td>
-                                    <td>
-                                        02/07/2020
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="label text-warning d-flex"><div class="dot-label bg-warning mr-1"></div>pending</span>
-                                    </td>
-                                    <td>
-                                        <a href="#">morganleah@.com</a>
-                                    </td>
-                                    <td>
-                                        <a href="#" class="btn btn-sm btn-primary">
-                                            <i class="las la-search"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-info">
-                                            <i class="las la-pen"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-danger">
-                                            <i class="las la-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img alt="avatar" class="rounded-circle avatar-md mr-2" src="../../assets/img/faces/11.jpg">
-                                    </td>
-                                    <td>Amelia McDonald</td>
-                                    <td>
-                                        08/07/2020
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="label text-success d-flex"><div class="dot-label bg-success mr-1"></div>active</span>
-                                    </td>
-                                    <td>
-                                        <a href="#">amelia23@kunis.com</a>
-                                    </td>
-                                    <td>
-                                        <a href="#" class="btn btn-sm btn-primary">
-                                            <i class="las la-search"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-info">
-                                            <i class="las la-pen"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-danger">
-                                            <i class="las la-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img alt="avatar" class="rounded-circle avatar-md mr-2" src="../../assets/img/faces/17.jpg">
-                                    </td>
-                                    <td>Paul Molive</td>
-                                    <td>
-                                        12/07/2020
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="label text-success d-flex"><div class="dot-label bg-success mr-1"></div>active</span>
-                                    </td>
-                                    <td>
-                                        <a href="#">paul45@kunis.com</a>
-                                    </td>
-                                    <td>
-                                        <a href="#" class="btn btn-sm btn-primary">
-                                            <i class="las la-search"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-info">
-                                            <i class="las la-pen"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-danger">
-                                            <i class="las la-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                @endforeach
+                              
                             </tbody>
                         </table>
                     </div>
-                    <ul class="pagination mt-4 mb-0 float-right">
-                        <li class="page-item page-prev disabled">
-                            <a class="page-link" href="#" tabindex="-1">Prev</a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                        <li class="page-item"><a class="page-link" href="#">5</a></li>
-                        <li class="page-item page-next">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
+                    <div class="mt-4 mb-2">
+                        <div class="d-flex align-items-center justify-content-end">
+                            {{ $appointments->onEachSide(1)->links('pagination::bootstrap-4') }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div><!-- COL END -->
@@ -382,3 +124,25 @@
 
 
 @endsection
+@push('styles')
+<style>
+    .pagination {
+        margin: 0;
+    }
+    .page-link {
+        padding: 0.375rem 0.75rem;
+        color: #0162e8;
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+    }
+    .page-item.active .page-link {
+        background-color: #0162e8;
+        border-color: #0162e8;
+    }
+    .page-link:hover {
+        color: #0056b3;
+        background-color: #e9ecef;
+        border-color: #dee2e6;
+    }
+</style>
+@endpush

@@ -4,17 +4,20 @@
     <div class="col-lg-6 col-xl-6 col-md-12 col-sm-12">
         <div class="card box-shadow-0">
             <div class="card-header">
-                <h4 class="card-title mb-1">New appointment</h4>
-                <p class="mb-2">Create a new appointment.</p>
+                <h4 class="card-title mb-1">Edit Appointment</h4>
+                <p class="mb-2">Update appointment details.</p>
             </div>
             <div class="card-body pt-0">
-                <form class="form-horizontal" action="{{ route('appointment.store') }}" method="POST">
+                <form class="form-horizontal" action="{{ route('appointment.update', $appointment->id) }}" method="POST">
                     @csrf
+                    @method('PUT')
                     <div class="form-group">
                         <select name="doctor" class="form-control" id="inputDoctor" required>
                             <option value="">Select Doctor</option>
                             @foreach($doctors as $doctor)
-                                <option value="{{ $doctor->id }}">{{ $doctor->name }}</option>
+                                <option value="{{ $doctor->id }}" {{ $appointment->doctor == $doctor->id ? 'selected' : '' }}>
+                                    {{ $doctor->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -22,7 +25,9 @@
                         <select name="patient" class="form-control" id="inputPatient" required>
                             <option value="">Select Patient</option>
                             @foreach($patients as $patient)
-                                <option value="{{ $patient->id }}">{{ $patient->name }}</option>
+                                <option value="{{ $patient->id }}" {{ $appointment->patient== $patient->id ? 'selected' : '' }}>
+                                    {{ $patient->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -33,25 +38,27 @@
                                     <div class="input-group-text">
                                         <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                                     </div>
-                                </div><input name="date" class="form-control" id="datetimepicker" type="text" value="{{ now() }}">
+                                </div>
+                                <input name="date" class="form-control" id="datetimepicker" type="text" 
+                                    value="{{ $appointment->date }}">
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <select name="status" class="form-control" id="inputPatient" required>
-                            <option value="pending">pending</option>
-                            <option value="confirmed">confirmed</option>
-                            <option value="cancelled">cancelled</option>
+                        <select name="status" class="form-control" id="inputStatus" required>
+                            <option value="pending" {{ $appointment->status == 'pending' ? 'selected' : '' }}>pending</option>
+                            <option value="confirmed" {{ $appointment->status == 'confirmed' ? 'selected' : '' }}>confirmed</option>
+                            <option value="cancelled" {{ $appointment->status == 'cancelled' ? 'selected' : '' }}>cancelled</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <textarea name="notes" class="form-control" id="inputDetails" 
-                            placeholder="Appointment Details" rows="3" required></textarea>
+                            placeholder="Appointment Details" rows="3" required>{{ $appointment->notes }}</textarea>
                     </div>
                     <div class="form-group mb-0 mt-3 justify-content-end">
                         <div>
-                            <button type="submit" class="btn btn-primary">Create appointment</button>
+                            <button type="submit" class="btn btn-primary">Update Appointment</button>
                             <a href="{{ route('appointment.index') }}" class="btn btn-secondary">Cancel</a>
                         </div>
                     </div>

@@ -8,7 +8,7 @@ class AppointmentController extends Controller
 {
     public function index()
     {
-        $appointments = \App\Models\Appointment::with(['doctor', 'patient'])->get();
+        $appointments = \App\Models\Appointment::with(['doctor', 'patient'])->paginate(5);
         return view('dashboard.appointments.index', compact('appointments'));
     }
 
@@ -35,7 +35,15 @@ class AppointmentController extends Controller
 
     public function show($id)
     {
-        $appointment = \App\Models\Appointment::with(['doctor', 'patient'])->findOrFail($id);
+        $appointment = \App\Models\Appointment::with([
+            'doctor' => function($query) {
+                $query->select('id', 'name', 'email');
+            },
+            'patient' => function($query) {
+                $query->select('id', 'name', 'email');
+            }
+        ])->findOrFail($id);
+        
         return view('dashboard.appointments.show', compact('appointment'));
     }
 
@@ -60,7 +68,7 @@ class AppointmentController extends Controller
 
         $appointment = \App\Models\Appointment::findOrFail($id);
         $appointment->update($request->all());
-        return redirect()->route('appointment.index')->with('success', 'Appointment updated successfully');
+        return redirect()->route('appointments.index')->with('success', 'Appointment updated successfully');
     }
 
     public function destroy($id)

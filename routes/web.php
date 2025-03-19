@@ -62,6 +62,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get("/bills", [BillController::class, "index"])->name("bill.index");
+    Route::get("/bill/{id}", [BillController::class, "show"])->name("bill.show");
     Route::get("/new/bill", [BillController::class, "create"])->name("bill.create");
     Route::post("/add/bill", [BillController::class, "store"])->name("bill.store");
     Route::get("/edit/bill/{user}", [BillController::class, "edit"])->name("bill.edit");
@@ -72,6 +73,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get("/appointments", [AppointmentController::class, "index"])->name("appointment.index");
+    Route::get("/appointment/{id}", [AppointmentController::class, "show"])->name("appointment.show");
     Route::get("/new/appointment", [AppointmentController::class, "create"])->name("appointment.create");
     Route::post("/add/appointment", [AppointmentController::class, "store"])->name("appointment.store");
     Route::get("/edit/appointment/{user}", [AppointmentController::class, "edit"])->name("appointment.edit");

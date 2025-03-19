@@ -9,7 +9,7 @@ class BillController extends Controller
 {
     public function index()
     {
-        $bills = \App\Models\Bill::with(['doctor', 'patient'])->get();
+        $bills = \App\Models\Bill::with(['doctor', 'patient'])->paginate(10);
         return view("dashboard.bills.index", compact("bills"));
     }
     public function create()
@@ -37,8 +37,8 @@ $bill = \App\Models\Bill::create([
     }
     public function show($id)
     {
-        $bill = \App\Models\Bill::find($id);
-        return view("dashboard.bills.show",compact("bill"));
+        $bill = \App\Models\Bill::with(['doctor', 'patient'])->findOrFail($id);
+        return view("dashboard.bills.show", compact("bill"));
     }
     public function edit($id)
     {
