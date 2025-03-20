@@ -26,12 +26,25 @@ class PrescriptionController extends Controller
         $request->validate([
             'doctor' => 'required|exists:users,id',
             'patient' => 'required|exists:users,id',
-            'description' => 'required|string',
+            'description' => 'required|string|max:255',
 
         ]);
-
+       
         Prescription::create($request->all());
         return redirect()->route('prescription.index')->with('success', 'Prescription created successfully');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'doctor' => 'required|exists:users,id',
+            'patient' => 'required|exists:users,id',
+            'description' => 'required|string|max:255',
+        ]);
+
+        $prescription = Prescription::findOrFail($id);
+        $prescription->update($request->all());
+        return redirect()->route('prescription.index')->with('success', 'Prescription updated successfully');
     }
 
     public function show($id)
@@ -48,18 +61,7 @@ class PrescriptionController extends Controller
         return view('dashboard.prescriptions.edit', compact('prescription', 'doctors', 'patients'));
     }
 
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'doctor' => 'required|exists:users,id',
-            'patient' => 'required|exists:users,id',
-            'description' => 'required|string',
-        ]);
 
-        $prescription = Prescription::findOrFail($id);
-        $prescription->update($request->all());
-        return redirect()->route('prescription.index')->with('success', 'Prescription updated successfully');
-    }
 
     public function destroy($id)
     {
