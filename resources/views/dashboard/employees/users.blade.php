@@ -18,7 +18,7 @@
                 </form>
             </div>
             <div class="filter mb-3 ms-3">
-                <form action="{{ route('user.filter') }}" method="GET" class="d-inline">
+                <form action="{{ 'route(user.filter) '}}" method="GET" class="d-inline">
                     @csrf
                     <select
                         class="form-select btn text-left py-3 px-3 border rounded-lg shadow-sm hover:border-blue-500 focus:border-blue-500 focus:ring focus:ring-blue-200 transition-all duration-200"

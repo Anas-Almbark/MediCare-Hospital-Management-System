@@ -61,18 +61,6 @@ Route::middleware('auth')->group(function () {
 });
 
 
-
-
-// Route::get('/auth/redirect', function () {
-//     return Socialite::driver('github')->redirect();
-// })->name('github.login');
-
-// Route::get('/auth/callback', [RegisteredUserController::class, 'storeWithGithub']);
-
-
-
-
-
 Route::get('/auth/github', [RegisteredUserController::class, 'redirectToGithub'])
     ->name('auth.github');
 Route::get('/auth/github/callback', [RegisteredUserController::class, 'handleGithubCallback']);
@@ -82,26 +70,4 @@ Route::get('/auth/google', [RegisteredUserController::class, 'redirectToGoogle']
 Route::get('/auth/google/callback', [RegisteredUserController::class, 'handleGoogleCallback']);
 
 
-// Route::get('/auth/google/callback', function () {
-//     try {
-//         $googleUser = Socialite::driver('google')->user();
 
-//         $user = \App\Models\User::updateOrCreate(
-//             ['email' => $googleUser->getEmail()],
-//             [
-//                 'name' => $googleUser->getName(),
-//                 'password' => Hash::make(12345678),
-//                 'provider_name' => 'google',
-//                 'token' => $googleUser->token,  
-//                 'provider_id' => $googleUser->getId(),
-//             ]
-//         );
-
-
-//         Auth::login($user);
-
-//         return redirect()->route('dashboard'); 
-//     } catch (Exception $e) {
-//         return redirect('/')->with('error', 'فشل تسجيل الدخول باستخدام Google');
-//     }
-// });
