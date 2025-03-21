@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     @include('dashboard/shard.head')
@@ -19,21 +19,20 @@
         <div class="sidebar sidebar-right sidebar-animate">
             <div class="panel panel-primary card mb-0 box-shadow">
                 <div class="tab-menu-heading border-0 p-3">
-                    <div class="card-title mb-0">Notifications</div>
+                    <div class="card-title mb-0">{{ __('Notifications') }}</div>
                     <div class="card-options ml-auto">
                         <a href="#" class="sidebar-remove"><i class="fe fe-x"></i></a>
                     </div>
                 </div>
                 <div class="panel-body tabs-menu-body latest-tasks p-0 border-0">
-                    <div class="tabs-menu ">
-                        <!-- Tabs -->
+                    <div class="tabs-menu">
                         <ul class="nav panel-tabs">
                             <li class=""><a href="#side1" class="active" data-toggle="tab"><i
-                                        class="ion ion-md-chatboxes tx-18 mr-2"></i> Chat</a></li>
+                                        class="ion ion-md-chatboxes tx-18 mr-2"></i> {{ __('Chat') }}</a></li>
                             <li><a href="#side2" data-toggle="tab"><i class="ion ion-md-notifications tx-18  mr-2"></i>
-                                    Notifications</a></li>
+                                    {{ __('Notifications') }}</a></li>
                             <li><a href="#side3" data-toggle="tab"><i class="ion ion-md-contacts tx-18 mr-2"></i>
-                                    Friends</a></li>
+                                    {{ __('Friends') }}</a></li>
                         </ul>
                     </div>
                     <div class="tab-content">
@@ -61,7 +60,7 @@
                             @empty
                                 <div class="list d-flex align-items-center border-bottom p-3">
                                     <div class="text-center w-100">
-                                        <p class="mb-0">not users</p>
+                                        <p class="mb-0">{{ __('not users') }}</p>
                                     </div>
                                 </div>
                             @endforelse

@@ -13,6 +13,7 @@ use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\LabTestController;
 use Chatify\Http\Controllers\MessagesController;
 use App\Http\Controllers\SalaryController;
+use App\Http\Controllers\LanguageController;
 
 // Route::get('/dashboard', [UserController::class, 'idFetch'])
 //     ->middleware(['auth', 'verified'])
@@ -137,5 +138,7 @@ Route::get("/lab-tests", [LabTestController::class, "index"])->name("lab-test.in
     Route::delete("/delete/lab-test/{id}", [LabTestController::class, "destroy"])->name('lab-test.destroy');
 });
 Route::get('/chat/{id?}', [MessagesController::class, 'index'])->name('chatify');
+
+Route::get('change/language/{locale}', [LanguageController::class, 'changeLanguage'])->name('change.language');
 
 require __DIR__ . '/auth.php';

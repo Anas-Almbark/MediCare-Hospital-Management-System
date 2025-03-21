@@ -14,28 +14,54 @@
                 <a class="close-toggle" href="#"><i class="header-icons fe fe-x"></i></a>
             </div>
             <div class="main-header-center ml-3 d-sm-none d-md-none d-lg-block">
-                <input class="form-control" placeholder="Search for anything..." type="search"> <button
-                    class="btn"><i class="fas fa-search d-none d-md-block"></i></button>
+                <input class="form-control" placeholder="{{ __('Search for anything...') }}" type="search">
+                <button class="btn"><i class="fas fa-search d-none d-md-block"></i></button>
             </div>
         </div>
         <div class="main-header-right">
             <ul class="nav">
                 <li class="">
                     <div class="dropdown  nav-itemd-none d-md-flex">
-                        <a href="#" class="d-flex  nav-item nav-link pr-0 country-flag1" data-toggle="dropdown"
+                        <a href="#" class="d-flex nav-item nav-link pr-0 country-flag1" data-toggle="dropdown"
                             aria-expanded="false">
-                            <span class="avatar country-Flag mr-0 align-self-center bg-transparent"><img
-                                    src="../../assets/img/flags/us_flag.jpg" alt="img"></span>
+                            <span class="avatar country-Flag mr-0 align-self-center bg-transparent">
+                                @if(app()->getLocale() == 'ar')
+                                <img src="../../assets/img/flags/syria.png" alt="arabic">
+                            @elseif(app()->getLocale() == 'tr')
+                                <img src="../../assets/img/flags/turkey.png" alt="turkish">
+                            @else
+                                <img src="../../assets/img/flags/us_flag.jpg" alt="english">
+                            @endif
+                            </span>
                             <div class="my-auto">
-                                <strong class="mr-2 ml-2 my-auto">English</strong>
+                                <strong class="mr-2 ml-2 my-auto">
+                                    {{ app()->getLocale() == 'ar' ? 'العربية' : 'English' }}
+                                </strong>
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow" x-placement="bottom-end">
-                            <a href="#" class="dropdown-item d-flex ">
-                                <span class="avatar  mr-3 align-self-center bg-transparent"><img
-                                        src="../../assets/img/flags/french_flag.jpg" alt="img"></span>
+                            <a href="{{ route('change.language', 'en') }}" class="dropdown-item d-flex">
+                                <span class="avatar mr-3 align-self-center bg-transparent">
+                                    <img src="../../assets/img/flags/us_flag.jpg" alt="english">
+                                </span>
                                 <div class="d-flex">
-                                    <span class="mt-2">French</span>
+                                    <span class="mt-2">English</span>
+                                </div>
+                            </a>
+                            <a href="{{ route('change.language', 'ar') }}" class="dropdown-item d-flex">
+                                <span class="avatar mr-3 align-self-center bg-transparent">
+                                    <img src="../../assets/img/flags/syria.png" alt="arabic">
+                                </span>
+                                <div class="d-flex">
+                                    <span class="mt-2">العربية</span>
+                                </div>
+                            </a>
+                            <a href="{{ route('change.language', 'tr') }}" class="dropdown-item d-flex">
+                                <span class="avatar mr-3 align-self-center bg-transparent">
+                                    <img src="../../assets/img/flags/turkey.png" alt="turkish">
+                                </span>
+                                <div class="d-flex">
+                                    <span class="mt-2">Türkçe</span>
                                 </div>
                             </a>
                             <a href="#" class="dropdown-item d-flex">
@@ -45,27 +71,7 @@
                                     <span class="mt-2">Germany</span>
                                 </div>
                             </a>
-                            <a href="#" class="dropdown-item d-flex">
-                                <span class="avatar mr-3 align-self-center bg-transparent"><img
-                                        src="../../assets/img/flags/italy_flag.jpg" alt="img"></span>
-                                <div class="d-flex">
-                                    <span class="mt-2">Italy</span>
-                                </div>
-                            </a>
-                            <a href="#" class="dropdown-item d-flex">
-                                <span class="avatar mr-3 align-self-center bg-transparent"><img
-                                        src="../../assets/img/flags/russia_flag.jpg" alt="img"></span>
-                                <div class="d-flex">
-                                    <span class="mt-2">Russia</span>
-                                </div>
-                            </a>
-                            <a href="#" class="dropdown-item d-flex">
-                                <span class="avatar  mr-3 align-self-center bg-transparent"><img
-                                        src="../../assets/img/flags/spain_flag.jpg" alt="img"></span>
-                                <div class="d-flex">
-                                    <span class="mt-2">spain</span>
-                                </div>
-                            </a>
+                            
                         </div>
                     </div>
                 </li>
@@ -206,7 +212,7 @@
                                 </div>
                                 <div class="ml-3">
                                     <h5 class="notification-label mb-1">New files available</h5>
-                                    <div class="notification-subtext">10 hour ago</div>
+                                    <div class="notification-subtext">{{ __('10 hour ago') }}</div>
                                 </div>
                                 <div class="ml-auto">
                                     <i class="las la-angle-right text-right text-muted"></i>
@@ -218,7 +224,7 @@
                                 </div>
                                 <div class="ml-3">
                                     <h5 class="notification-label mb-1">Updates Available</h5>
-                                    <div class="notification-subtext">2 days ago</div>
+                                    <div class="notification-subtext">{{ __('2 days ago') }}</div>
                                 </div>
                                 <div class="ml-auto">
                                     <i class="las la-angle-right text-right text-muted"></i>
@@ -230,7 +236,7 @@
                                 </div>
                                 <div class="ml-3">
                                     <h5 class="notification-label mb-1">New Order Received</h5>
-                                    <div class="notification-subtext">1 hour ago</div>
+                                    <div class="notification-subtext">{{ __('1 hour ago') }}</div>
                                 </div>
                                 <div class="ml-auto">
                                     <i class="las la-angle-right text-right text-muted"></i>
@@ -242,7 +248,7 @@
                                 </div>
                                 <div class="ml-3">
                                     <h5 class="notification-label mb-1">New review received</h5>
-                                    <div class="notification-subtext">1 day ago</div>
+                                    <div class="notification-subtext">{{ __('1 day ago') }}</div>
                                 </div>
                                 <div class="ml-auto">
                                     <i class="las la-angle-right text-right text-muted"></i>
@@ -254,7 +260,7 @@
                                 </div>
                                 <div class="ml-3">
                                     <h5 class="notification-label mb-1">22 verified registrations</h5>
-                                    <div class="notification-subtext">2 hour ago</div>
+                                    <div class="notification-subtext">{{ __('2 hour ago') }}</div>
                                 </div>
                                 <div class="ml-auto">
                                     <i class="las la-angle-right text-right text-muted"></i>
@@ -266,7 +272,7 @@
                                 </div>
                                 <div class="ml-3">
                                     <h5 class="notification-label mb-1">Project has been approved</h5>
-                                    <div class="notification-subtext">4 hour ago</div>
+                                    <div class="notification-subtext">{{ __('4 hour ago') }}</div>
                                 </div>
                                 <div class="ml-auto">
                                     <i class="las la-angle-right text-right text-muted"></i>
@@ -274,7 +280,7 @@
                             </a>
                         </div>
                         <div class="dropdown-footer">
-                            <a href="">VIEW ALL</a>
+                            <a href="">{{ __('VIEW ALL') }}</a>
                         </div>
                     </div>
                 </div>
@@ -301,13 +307,10 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="dropdown-item" href=""><i class="bx bx-user-circle"></i>Profile</a>
-                        <a class="dropdown-item" href=""><i class="bx bx-cog"></i> Edit
-                            Profile</a>
-                        <a class="dropdown-item" href=""><i class="bx bxs-inbox"></i>Inbox</a>
-                        <a class="dropdown-item" href="{{ route('chatify') }}"><i class="bx bx-envelope"></i>Messages</a>
-                        <a class="dropdown-item" href=""><i class="bx bx-slider-alt"></i> Account
-                            Settings</a>
+                        <a class="dropdown-item" href=""><i class="bx bx-user-circle"></i>{{ __('Profile') }}</a>
+                        <a class="dropdown-item" href=""><i class="bx bx-cog"></i>{{ __('Edit Profile') }}</a>
+                        <a class="dropdown-item" href=""><i class="bx bxs-inbox"></i>{{ __('Inbox') }}</a>
+                        <a class="dropdown-item" href=""><i class="bx bx-slider-alt"></i>{{ __('Account Settings') }}</a>
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <button class="dropdown-item btn">

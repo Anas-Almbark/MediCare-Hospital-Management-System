@@ -4,13 +4,13 @@
         <div class="breadcrumb-header justify-content-between">
             <div class="left-content">
                 <div>
-                    <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">Hi, welcome back!</h2>
-                    <p class="mg-b-0">Sales monitoring dashboard template.</p>
+                    <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">{{ __('Hi, welcome back!') }}</h2>
+                    <p class="mg-b-0">{{ __('Sales monitoring dashboard template.') }}</p>
                 </div>
             </div>
             <div class="main-dashboard-header-right">
                 <div>
-                    <label class="tx-13">Customer Ratings</label>
+                    <label class="tx-13">{{ __('Customer Ratings') }}</label>
                     <div class="main-star">
                         <i class="typcn typcn-star active"></i> <i class="typcn typcn-star active"></i> <i
                             class="typcn typcn-star active"></i> <i class="typcn typcn-star active"></i> <i
@@ -18,11 +18,11 @@
                     </div>
                 </div>
                 <div>
-                    <label class="tx-13">Online Sales</label>
+                    <label class="tx-13">{{ __('Online Sales') }}</label>
                     <h5>563,275</h5>
                 </div>
                 <div>
-                    <label class="tx-13">Offline Sales</label>
+                    <label class="tx-13">{{ __('Offline Sales') }}</label>
                     <h5>783,675</h5>
                 </div>
             </div>
@@ -35,17 +35,17 @@
                 <div class="card overflow-hidden sales-card bg-primary-gradient">
                     <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
                         <div class="">
-                            <h6 class="mb-3 tx-12 text-white">TODAY ORDERS</h6>
+                            <h6 class="mb-3 tx-12 text-white">{{ __('TODAY ORDERS') }}</h6>
                         </div>
                         <div class="pb-0 mt-0">
                             <div class="d-flex">
                                 <div class="">
-                                    <h4 class="tx-20 font-weight-bold mb-1 text-white">$5,74.12</h4>
-                                    <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                                    <h4 class="tx-20 font-weight-bold mb-1 text-white">${{ __('5,74.12') }}</h4>
+                                    <p class="mb-0 tx-12 text-white op-7">{{ __('Compared to last week') }}</p>
                                 </div>
                                 <span class="float-right my-auto ml-auto">
                                     <i class="fas fa-arrow-circle-up text-white"></i>
-                                    <span class="text-white op-7"> +427</span>
+                                    <span class="text-white op-7"> {{ __('+427') }}</span>
                                 </span>
                             </div>
                         </div>
@@ -57,17 +57,17 @@
                 <div class="card overflow-hidden sales-card bg-danger-gradient">
                     <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
                         <div class="">
-                            <h6 class="mb-3 tx-12 text-white">TODAY EARNINGS</h6>
+                            <h6 class="mb-3 tx-12 text-white">{{ __('TODAY EARNINGS') }}</h6>
                         </div>
                         <div class="pb-0 mt-0">
                             <div class="d-flex">
                                 <div class="">
                                     <h4 class="tx-20 font-weight-bold mb-1 text-white">$1,230.17</h4>
-                                    <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                                    <p class="mb-0 tx-12 text-white op-7">{{ __('Compared to last week') }}</p>
                                 </div>
                                 <span class="float-right my-auto ml-auto">
                                     <i class="fas fa-arrow-circle-down text-white"></i>
-                                    <span class="text-white op-7"> -23.09%</span>
+                                    <span class="text-white op-7"> {{ __('-23.09%') }}</span>
                                 </span>
                             </div>
                         </div>
@@ -79,13 +79,13 @@
                 <div class="card overflow-hidden sales-card bg-success-gradient">
                     <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
                         <div class="">
-                            <h6 class="mb-3 tx-12 text-white">TOTAL EARNINGS</h6>
+                            <h6 class="mb-3 tx-12 text-white">{{ __('TOTAL EARNINGS') }}</h6>
                         </div>
                         <div class="pb-0 mt-0">
                             <div class="d-flex">
                                 <div class="">
                                     <h4 class="tx-20 font-weight-bold mb-1 text-white">$7,125.70</h4>
-                                    <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                                    <p class="mb-0 tx-12 text-white op-7">{{ __('Compared to last week') }}</p>
                                 </div>
                                 <span class="float-right my-auto ml-auto">
                                     <i class="fas fa-arrow-circle-up text-white"></i>
@@ -101,13 +101,13 @@
                 <div class="card overflow-hidden sales-card bg-warning-gradient">
                     <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
                         <div class="">
-                            <h6 class="mb-3 tx-12 text-white">PRODUCT SOLD</h6>
+                            <h6 class="mb-3 tx-12 text-white">{{ __('PRODUCT SOLD') }}</h6>
                         </div>
                         <div class="pb-0 mt-0">
                             <div class="d-flex">
                                 <div class="">
                                     <h4 class="tx-20 font-weight-bold mb-1 text-white">$4,820.50</h4>
-                                    <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                                    <p class="mb-0 tx-12 text-white op-7">{{ __('Compared to last week') }}</p>
                                 </div>
                                 <span class="float-right my-auto ml-auto">
                                     <i class="fas fa-arrow-circle-down text-white"></i>
@@ -128,11 +128,10 @@
                 <div class="card">
                     <div class="card-header bg-transparent pd-b-0 pd-t-20 bd-b-0">
                         <div class="d-flex justify-content-between">
-                            <h4 class="card-title mb-0">Order status</h4>
+                            <h4 class="card-title mb-0">{{ __('Order status') }}</h4>
                             <i class="mdi mdi-dots-horizontal text-gray"></i>
                         </div>
-                        <p class="tx-12 text-muted mb-0">Order Status and Tracking. Track your order from ship
-                            date to arrival. To begin, enter your order number.</p>
+                        <p class="tx-12 text-muted mb-0">{{ __('Order Status and Tracking. Track your order from ship date to arrival. To begin, enter your order number.') }}</p>
                     </div>
                     <div class="card-body">
                         <div class="total-revenue">
@@ -155,9 +154,8 @@
             </div>
             <div class="col-lg-12 col-xl-5">
                 <div class="card card-dashboard-map-one">
-                    <label class="main-content-label">Sales Revenue by Customers in USA</label>
-                    <span class="d-block mg-b-20 text-muted tx-12">Sales Performance of all states in the
-                        United States</span>
+                    <label class="main-content-label">{{ __('Sales Revenue by Customers in USA') }}</label>
+                    <span class="d-block mg-b-20 text-muted tx-12">{{ __('Sales Performance of all states in the United States') }}</span>
                     <div class="">
                         <div class="vmap-wrapper ht-180" id="vmap2"></div>
                     </div>
@@ -171,22 +169,21 @@
             <div class="col-xl-4 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="card-header pb-1">
-                        <h3 class="card-title mb-2">Recent Customers</h3>
-                        <p class="tx-12 mb-0 text-muted">A customer is an individual or business that purchases
-                            the goods service has evolved to include real-time</p>
+                        <h3 class="card-title mb-2">{{ __('Recent Customers') }}</h3>
+                        <p class="tx-12 mb-0 text-muted">{{ __('A customer is an individual or business that purchases the goods service has evolved to include real-time') }}</p>
                     </div>
                     <div class="card-body p-0 customers mt-1">
                         <div class="list-group list-lg-group list-group-flush">
                             <div class="list-group-item list-group-item-action" href="#">
                                 <div class="media mt-0">
                                     <img class="avatar-lg rounded-circle mr-3 my-auto" src="../../assets/img/faces/3.jpg"
-                                        alt="Image description">
+                                        alt="{{ __('Image description') }}">
                                     <div class="media-body">
                                         <div class="d-flex align-items-center">
                                             <div class="mt-0">
-                                                <h5 class="mb-1 tx-15">Samantha Melon</h5>
-                                                <p class="mb-0 tx-13 text-muted">User ID: #1234 <span
-                                                        class="text-success ml-2">Paid</span></p>
+                                                <h5 class="mb-1 tx-15">{{ __('Samantha Melon') }}</h5>
+                                                <p class="mb-0 tx-13 text-muted">{{ __('User ID:') }} #1234 <span
+                                                        class="text-success ml-2">{{ __('Paid') }}</span></p>
                                             </div>
                                             <span class="ml-auto wd-45p fs-16 mt-2">
                                                 <div id="spark1" class="wd-100p"></div>
