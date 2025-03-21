@@ -37,143 +37,34 @@
                         </ul>
                     </div>
                     <div class="tab-content">
-                        <div class="tab-pane active " id="side1">
-                            <div class="list d-flex align-items-center border-bottom p-3">
-                                <div class="">
-                                    <span class="avatar bg-primary brround avatar-md">CH</span>
-                                </div>
-                                <a class="wrapper w-100 ml-3" href="#">
-                                    <p class="mb-0 d-flex ">
-                                        <b>New Websites is Created</b>
-                                    </p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="d-flex align-items-center">
-                                            <i class="mdi mdi-clock text-muted mr-1"></i>
-                                            <small class="text-muted ml-auto">30 mins ago</small>
-                                            <p class="mb-0"></p>
-                                        </div>
+                        
+                        <div class="tab-pane active" id="side1">
+                            @forelse($users as $user)
+                            
+                                <div class="list d-flex align-items-center border-bottom p-3">
+                                    <div class="">
+                                        <span class="avatar bg-primary brround avatar-md">
+                                            @if($user->profile_photo_url)
+                                                <img src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}">
+                                            @else
+                                                {{ strtoupper(substr($user->name, 0, 2)) }}
+                                            @endif
+                                        </span>
                                     </div>
-                                </a>
-                            </div>
-                            <div class="list d-flex align-items-center border-bottom p-3">
-                                <div class="">
-                                    <span class="avatar bg-danger brround avatar-md">N</span>
+                                    <a class="wrapper w-100 ml-3" href="{{ route('chatify', ['id' => $user->id]) }}">
+                                        <p class="mb-0 d-flex">
+                                            <b>{{ $user->name }}</b>
+                                        </p>
+                                        
+                                    </a>
                                 </div>
-                                <a class="wrapper w-100 ml-3" href="#">
-                                    <p class="mb-0 d-flex ">
-                                        <b>Prepare For the Next Project</b>
-                                    </p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="d-flex align-items-center">
-                                            <i class="mdi mdi-clock text-muted mr-1"></i>
-                                            <small class="text-muted ml-auto">2 hours ago</small>
-                                            <p class="mb-0"></p>
-                                        </div>
+                            @empty
+                                <div class="list d-flex align-items-center border-bottom p-3">
+                                    <div class="text-center w-100">
+                                        <p class="mb-0">not users</p>
                                     </div>
-                                </a>
-                            </div>
-                            <div class="list d-flex align-items-center border-bottom p-3">
-                                <div class="">
-                                    <span class="avatar bg-info brround avatar-md">S</span>
                                 </div>
-                                <a class="wrapper w-100 ml-3" href="#">
-                                    <p class="mb-0 d-flex ">
-                                        <b>Decide the live Discussion</b>
-                                    </p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="d-flex align-items-center">
-                                            <i class="mdi mdi-clock text-muted mr-1"></i>
-                                            <small class="text-muted ml-auto">3 hours ago</small>
-                                            <p class="mb-0"></p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="list d-flex align-items-center border-bottom p-3">
-                                <div class="">
-                                    <span class="avatar bg-warning brround avatar-md">K</span>
-                                </div>
-                                <a class="wrapper w-100 ml-3" href="#">
-                                    <p class="mb-0 d-flex ">
-                                        <b>Meeting at 3:00 pm</b>
-                                    </p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="d-flex align-items-center">
-                                            <i class="mdi mdi-clock text-muted mr-1"></i>
-                                            <small class="text-muted ml-auto">4 hours ago</small>
-                                            <p class="mb-0"></p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="list d-flex align-items-center border-bottom p-3">
-                                <div class="">
-                                    <span class="avatar bg-success brround avatar-md">R</span>
-                                </div>
-                                <a class="wrapper w-100 ml-3" href="#">
-                                    <p class="mb-0 d-flex ">
-                                        <b>Prepare for Presentation</b>
-                                    </p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="d-flex align-items-center">
-                                            <i class="mdi mdi-clock text-muted mr-1"></i>
-                                            <small class="text-muted ml-auto">1 days ago</small>
-                                            <p class="mb-0"></p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="list d-flex align-items-center border-bottom p-3">
-                                <div class="">
-                                    <span class="avatar bg-pink brround avatar-md">MS</span>
-                                </div>
-                                <a class="wrapper w-100 ml-3" href="#">
-                                    <p class="mb-0 d-flex ">
-                                        <b>Prepare for Presentation</b>
-                                    </p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="d-flex align-items-center">
-                                            <i class="mdi mdi-clock text-muted mr-1"></i>
-                                            <small class="text-muted ml-auto">1 days ago</small>
-                                            <p class="mb-0"></p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="list d-flex align-items-center border-bottom p-3">
-                                <div class="">
-                                    <span class="avatar bg-purple brround avatar-md">L</span>
-                                </div>
-                                <a class="wrapper w-100 ml-3" href="#">
-                                    <p class="mb-0 d-flex ">
-                                        <b>Prepare for Presentation</b>
-                                    </p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="d-flex align-items-center">
-                                            <i class="mdi mdi-clock text-muted mr-1"></i>
-                                            <small class="text-muted ml-auto">45 mintues ago</small>
-                                            <p class="mb-0"></p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="list d-flex align-items-center p-3">
-                                <div class="">
-                                    <span class="avatar bg-blue brround avatar-md">U</span>
-                                </div>
-                                <a class="wrapper w-100 ml-3" href="#">
-                                    <p class="mb-0 d-flex ">
-                                        <b>Prepare for Presentation</b>
-                                    </p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="d-flex align-items-center">
-                                            <i class="mdi mdi-clock text-muted mr-1"></i>
-                                            <small class="text-muted ml-auto">2 days ago</small>
-                                            <p class="mb-0"></p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
+                            @endforelse
                         </div>
                         <div class="tab-pane  " id="side2">
                             <div class="list-group list-group-flush ">
@@ -268,210 +159,32 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane  " id="side3">
-                            <div class="list-group list-group-flush ">
-                                <div class="list-group-item d-flex  align-items-center">
-                                    <div class="mr-2">
-                                        <span class="avatar avatar-md brround cover-image"
-                                            data-image-src="../../assets/img/faces/9.jpg"><span
-                                                class="avatar-status bg-success"></span></span>
+                        <div class="tab-pane" id="side3">
+                            <div class="list-group list-group-flush">
+                                @forelse($users as $user)
+                                    <div class="list-group-item d-flex align-items-center">
+                                        <div class="mr-2">
+                                            <span class="avatar avatar-md brround cover-image" 
+                                                  data-image-src="{{ $user->profile_photo_url ?? asset('assets/img/faces/default.jpg') }}">
+                                                @if($user->is_online)
+                                                    <span class="avatar-status bg-success"></span>
+                                                @endif
+                                            </span>
+                                        </div>
+                                        <div class="">
+                                            <div class="font-weight-semibold">{{ $user->name }}</div>
+                                        </div>
+                                        <div class="ml-auto">
+                                            <a href="{{ route('chatify', ['id' => $user->id]) }}" class="btn btn-sm btn-light">
+                                                <i class="fab fa-facebook-messenger"></i>
+                                            </a>
+                                        </div>
                                     </div>
-                                    <div class="">
-                                        <div class="font-weight-semibold" data-toggle="modal"
-                                            data-target="#chatmodel">Mozelle Belt</div>
+                                @empty
+                                    <div class="list-group-item text-center">
+                                        <p>not users</p>
                                     </div>
-                                    <div class="ml-auto">
-                                        <a href="#" class="btn btn-sm btn-light" data-toggle="modal"
-                                            data-target="#chatmodel"><i class="fab fa-facebook-messenger"></i></a>
-                                    </div>
-                                </div>
-                                <div class="list-group-item d-flex  align-items-center">
-                                    <div class="mr-2">
-                                        <span class="avatar avatar-md brround cover-image"
-                                            data-image-src="../../assets/img/faces/11.jpg"></span>
-                                    </div>
-                                    <div class="">
-                                        <div class="font-weight-semibold" data-toggle="modal"
-                                            data-target="#chatmodel">Florinda Carasco</div>
-                                    </div>
-                                    <div class="ml-auto">
-                                        <a href="#" class="btn btn-sm btn-light" data-toggle="modal"
-                                            data-target="#chatmodel"><i class="fab fa-facebook-messenger"></i></a>
-                                    </div>
-                                </div>
-                                <div class="list-group-item d-flex  align-items-center">
-                                    <div class="mr-2">
-                                        <span class="avatar avatar-md brround cover-image"
-                                            data-image-src="../../assets/img/faces/10.jpg"><span
-                                                class="avatar-status bg-success"></span></span>
-                                    </div>
-                                    <div class="">
-                                        <div class="font-weight-semibold" data-toggle="modal"
-                                            data-target="#chatmodel">Alina Bernier</div>
-                                    </div>
-                                    <div class="ml-auto">
-                                        <a href="#" class="btn btn-sm btn-light" data-toggle="modal"
-                                            data-target="#chatmodel"><i class="fab fa-facebook-messenger"></i></a>
-                                    </div>
-                                </div>
-                                <div class="list-group-item d-flex  align-items-center">
-                                    <div class="mr-2">
-                                        <span class="avatar avatar-md brround cover-image"
-                                            data-image-src="../../assets/img/faces/2.jpg"><span
-                                                class="avatar-status bg-success"></span></span>
-                                    </div>
-                                    <div class="">
-                                        <div class="font-weight-semibold" data-toggle="modal"
-                                            data-target="#chatmodel">Zula Mclaughin</div>
-                                    </div>
-                                    <div class="ml-auto">
-                                        <a href="#" class="btn btn-sm btn-light" data-toggle="modal"
-                                            data-target="#chatmodel"><i class="fab fa-facebook-messenger"></i></a>
-                                    </div>
-                                </div>
-                                <div class="list-group-item d-flex  align-items-center">
-                                    <div class="mr-2">
-                                        <span class="avatar avatar-md brround cover-image"
-                                            data-image-src="../../assets/img/faces/13.jpg"></span>
-                                    </div>
-                                    <div class="">
-                                        <div class="font-weight-semibold" data-toggle="modal"
-                                            data-target="#chatmodel">Isidro Heide</div>
-                                    </div>
-                                    <div class="ml-auto">
-                                        <a href="#" class="btn btn-sm btn-light" data-toggle="modal"
-                                            data-target="#chatmodel"><i class="fab fa-facebook-messenger"></i></a>
-                                    </div>
-                                </div>
-                                <div class="list-group-item d-flex  align-items-center">
-                                    <div class="mr-2">
-                                        <span class="avatar avatar-md brround cover-image"
-                                            data-image-src="../../assets/img/faces/12.jpg"><span
-                                                class="avatar-status bg-success"></span></span>
-                                    </div>
-                                    <div class="">
-                                        <div class="font-weight-semibold" data-toggle="modal"
-                                            data-target="#chatmodel">Mozelle Belt</div>
-                                    </div>
-                                    <div class="ml-auto">
-                                        <a href="#" class="btn btn-sm btn-light"><i
-                                                class="fab fa-facebook-messenger"></i></a>
-                                    </div>
-                                </div>
-                                <div class="list-group-item d-flex  align-items-center">
-                                    <div class="mr-2">
-                                        <span class="avatar avatar-md brround cover-image"
-                                            data-image-src="../../assets/img/faces/4.jpg"></span>
-                                    </div>
-                                    <div class="">
-                                        <div class="font-weight-semibold" data-toggle="modal"
-                                            data-target="#chatmodel">Florinda Carasco</div>
-                                    </div>
-                                    <div class="ml-auto">
-                                        <a href="#" class="btn btn-sm btn-light" data-toggle="modal"
-                                            data-target="#chatmodel"><i class="fab fa-facebook-messenger"></i></a>
-                                    </div>
-                                </div>
-                                <div class="list-group-item d-flex  align-items-center">
-                                    <div class="mr-2">
-                                        <span class="avatar avatar-md brround cover-image"
-                                            data-image-src="../../assets/img/faces/7.jpg"></span>
-                                    </div>
-                                    <div class="">
-                                        <div class="font-weight-semibold" data-toggle="modal"
-                                            data-target="#chatmodel">Alina Bernier</div>
-                                    </div>
-                                    <div class="ml-auto">
-                                        <a href="#" class="btn btn-sm btn-light"><i
-                                                class="fab fa-facebook-messenger"></i></a>
-                                    </div>
-                                </div>
-                                <div class="list-group-item d-flex  align-items-center">
-                                    <div class="mr-2">
-                                        <span class="avatar avatar-md brround cover-image"
-                                            data-image-src="../../assets/img/faces/2.jpg"></span>
-                                    </div>
-                                    <div class="">
-                                        <div class="font-weight-semibold" data-toggle="modal"
-                                            data-target="#chatmodel">Zula Mclaughin</div>
-                                    </div>
-                                    <div class="ml-auto">
-                                        <a href="#" class="btn btn-sm btn-light" data-toggle="modal"
-                                            data-target="#chatmodel"><i class="fab fa-facebook-messenger"></i></a>
-                                    </div>
-                                </div>
-                                <div class="list-group-item d-flex  align-items-center">
-                                    <div class="mr-2">
-                                        <span class="avatar avatar-md brround cover-image"
-                                            data-image-src="../../assets/img/faces/14.jpg"><span
-                                                class="avatar-status bg-success"></span></span>
-                                    </div>
-                                    <div class="">
-                                        <div class="font-weight-semibold" data-toggle="modal"
-                                            data-target="#chatmodel">Isidro Heide</div>
-                                    </div>
-                                    <div class="ml-auto">
-                                        <a href="#" class="btn btn-sm btn-light"><i
-                                                class="fab fa-facebook-messenger"></i></a>
-                                    </div>
-                                </div>
-                                <div class="list-group-item d-flex  align-items-center">
-                                    <div class="mr-2">
-                                        <span class="avatar avatar-md brround cover-image"
-                                            data-image-src="../../assets/img/faces/11.jpg"></span>
-                                    </div>
-                                    <div class="">
-                                        <div class="font-weight-semibold" data-toggle="modal"
-                                            data-target="#chatmodel">Florinda Carasco</div>
-                                    </div>
-                                    <div class="ml-auto">
-                                        <a href="#" class="btn btn-sm btn-light" data-toggle="modal"
-                                            data-target="#chatmodel"><i class="fab fa-facebook-messenger"></i></a>
-                                    </div>
-                                </div>
-                                <div class="list-group-item d-flex  align-items-center">
-                                    <div class="mr-2">
-                                        <span class="avatar avatar-md brround cover-image"
-                                            data-image-src="../../assets/img/faces/9.jpg"></span>
-                                    </div>
-                                    <div class="">
-                                        <div class="font-weight-semibold" data-toggle="modal"
-                                            data-target="#chatmodel">Alina Bernier</div>
-                                    </div>
-                                    <div class="ml-auto">
-                                        <a href="#" class="btn btn-sm btn-light" data-toggle="modal"
-                                            data-target="#chatmodel"><i class="fab fa-facebook-messenger"></i></a>
-                                    </div>
-                                </div>
-                                <div class="list-group-item d-flex  align-items-center">
-                                    <div class="mr-2">
-                                        <span class="avatar avatar-md brround cover-image"
-                                            data-image-src="../../assets/img/faces/15.jpg"><span
-                                                class="avatar-status bg-success"></span></span>
-                                    </div>
-                                    <div class="">
-                                        <div class="font-weight-semibold" data-toggle="modal"
-                                            data-target="#chatmodel">Zula Mclaughin</div>
-                                    </div>
-                                    <div class="ml-auto">
-                                        <a href="#" class="btn btn-sm btn-light" data-toggle="modal"
-                                            data-target="#chatmodel"><i class="fab fa-facebook-messenger"></i></a>
-                                    </div>
-                                </div>
-                                <div class="list-group-item d-flex  align-items-center">
-                                    <div class="mr-2">
-                                        <span class="avatar avatar-md brround cover-image"
-                                            data-image-src="../../assets/img/faces/4.jpg"></span>
-                                    </div>
-                                    <div class="">
-                                        <div class="font-weight-semibold" data-toggle="modal"
-                                            data-target="#chatmodel">Isidro Heide</div>
-                                    </div>
-                                    <div class="ml-auto">
-                                        <a href="#" class="btn btn-sm btn-light" data-toggle="modal"
-                                            data-target="#chatmodel"><i class="fab fa-facebook-messenger"></i></a>
-                                    </div>
-                                </div>
+                                @endforelse
                             </div>
                         </div>
                     </div>
@@ -486,3 +199,4 @@
 </body>
 
 </html>
+

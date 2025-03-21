@@ -11,11 +11,19 @@ use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\LabTestController;
+use App\Http\Controllers\DashboardController;
+use Chatify\Http\Controllers\MessagesController;
 
+
+Route::get('/dashboard', [UserController::class, 'idFetch'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::get('{path?}', function () {
     return view('dashboard.main');
 })->where('path', '|dashboard')->middleware(['auth', 'verified'])->name('dashboard');
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -119,4 +127,6 @@ Route::get("/lab-tests", [LabTestController::class, "index"])->name("lab-test.in
     Route::put("/update/lab-test/{id}", [LabTestController::class, "update"])->name("lab-test.update");
     Route::delete("/delete/lab-test/{id}", [LabTestController::class, "destroy"])->name('lab-test.destroy');
 });
+Route::get('/chat/{id?}', [MessagesController::class, 'index'])->name('chatify');
+
 require __DIR__ . '/auth.php';

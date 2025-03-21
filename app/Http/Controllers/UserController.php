@@ -99,4 +99,12 @@ class UserController extends Controller
         $roles = Role::all();
         return view('dashboard.employees.users', compact('users', 'roles'));
     }
+    public function idFetch()
+    {
+        $users = User::where('id', '!=', auth()->id())
+                 ->latest()
+                 ->get();
+                 
+        return view('dashboard', compact('users'));  
+    }
 }
