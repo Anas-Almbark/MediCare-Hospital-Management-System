@@ -90,10 +90,22 @@ class User extends Authenticatable
     }
     public function salaries()
     {
-        return $this->hasMany(Salary::class);
+        return $this->hasMany(Salary::class, 'employee');
     }
     public function supports()
     {
         return $this->hasMany(Support::class);
+    }
+    public static function employees()
+    {
+        return self::whereDoesntHave('roles', function ($query) {
+            $query->whereIn('name', ['admin', 'super-admin']);
+        })->get();
+    }
+    public static function notHaveSalaryThisMonth()
+    {
+        return self::whereDoesntHave('salaries', function ($query) {
+            $query->whereMonth('payment_date', now()->month);
+        })->whereIn('id', self::employees()->pluck('id'))->get();
     }
 }

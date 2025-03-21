@@ -14,9 +14,7 @@ return new class extends Migration
             $table->decimal('base_salary', 10, 2);
             $table->decimal('bonus', 10, 2)->nullable();
             $table->decimal('deductions', 10, 2)->nullable();
-            $table->decimal('net_salary', 10, 2);
             $table->date('payment_date');
-            $table->enum('status', ['pending', 'paid']);
             $table->timestamps();
         });
     }
