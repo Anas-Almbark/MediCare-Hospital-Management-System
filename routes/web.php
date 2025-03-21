@@ -11,13 +11,12 @@ use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\LabTestController;
-use App\Http\Controllers\DashboardController;
 use Chatify\Http\Controllers\MessagesController;
+use App\Http\Controllers\SalaryController;
 
-
-Route::get('/dashboard', [UserController::class, 'idFetch'])
-    ->middleware(['auth', 'verified'])
-ma    ->name('dashboard');
+// Route::get('/dashboard', [UserController::class, 'idFetch'])
+//     ->middleware(['auth', 'verified'])
+//     ->name('dashboard');
 
 Route::get('{path?}', function () {
     return view('dashboard.main');

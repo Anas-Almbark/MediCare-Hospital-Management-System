@@ -38,7 +38,7 @@
                     </div>
                     <div class="tab-content">
                         
-                        <div class="tab-pane active" id="side1">
+                        {{-- <div class="tab-pane active" id="side1">
                             @forelse($users as $user)
                             
                                 <div class="list d-flex align-items-center border-bottom p-3">
@@ -65,7 +65,7 @@
                                     </div>
                                 </div>
                             @endforelse
-                        </div>
+                        </div> --}}
                         <div class="tab-pane  " id="side2">
                             <div class="list-group list-group-flush ">
                                 <div class="list-group-item d-flex  align-items-center">
@@ -160,7 +160,7 @@
                             </div>
                         </div>
                         <div class="tab-pane" id="side3">
-                            <div class="list-group list-group-flush">
+                            {{-- <div class="list-group list-group-flush">
                                 @forelse($users as $user)
                                     <div class="list-group-item d-flex align-items-center">
                                         <div class="mr-2">
@@ -185,7 +185,7 @@
                                         <p>not users</p>
                                     </div>
                                 @endforelse
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
