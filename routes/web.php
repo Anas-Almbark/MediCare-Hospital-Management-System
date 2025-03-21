@@ -17,7 +17,7 @@ use Chatify\Http\Controllers\MessagesController;
 
 Route::get('/dashboard', [UserController::class, 'idFetch'])
     ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+ma    ->name('dashboard');
 
 Route::get('{path?}', function () {
     return view('dashboard.main');
@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth','role:super-admin'])->group(function () {
     Route::get("/roles", [RoleController::class, "index"])->name("role.index");
     Route::get("/new/role", [RoleController::class, "create"])->name("role.create");
     Route::post("/add/role", [RoleController::class, "store"])->name("role.store");
@@ -58,6 +58,16 @@ Route::middleware(['auth'])->group(function () {
     Route::delete("/delete/user/{user}", [UserController::class, "destroy"])->name("user.destroy");
     Route::get("/search", [UserController::class, "searchByName"])->name('user.search');
     Route::get("/filter", [UserController::class, "filterByRole"])->name('user.filter');
+});
+
+
+Route::middleware(['auth', 'role:super-admin'])->group(function () {
+    Route::get("/salaries", [SalaryController::class, "index"])->name("salaries.index");
+    Route::get("/new/salary", [SalaryController::class, "create"])->name("salaries.create");
+    Route::post("/add/salary", [SalaryController::class, "store"])->name("salaries.store");
+    Route::delete("/delete/salary/{id}", [SalaryController::class, "destroy"])->name("salaries.destroy");
+    Route::get("/edit/salary/{salary}", [SalaryController::class, "edit"])->name("salaries.edit");
+    Route::put("/update/salary/{salary}", [SalaryController::class, "update"])->name("salaries.update");
 });
 
 Route::middleware('auth')->group(function () {

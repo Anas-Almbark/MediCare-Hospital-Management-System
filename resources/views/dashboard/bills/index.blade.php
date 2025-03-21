@@ -1,14 +1,14 @@
 @extends('dashboard')
 @section('content')
     @include('dashboard.shard.successMsg')
-    <form action="{{ route("bill.create") }}" method="get">
+    <form action="{{ route('bill.create') }}" method="get">
         @csrf
         <button type="submit" class="btn btn-success ml-3 my-3"> Add new bill </button>
     </form>
     <div class="col-xl-12">
         <div class="d-flex align-items-center justify-content-between">
             <div class="input-group mb-3">
-                <form action="{{"#"}}" class="w-50 d-flex" method="GET">
+                <form action="{{ '#' }}" class="w-50 d-flex" method="GET">
                     @csrf
                     <input type="search" value="" class="form-control py-1 px-3" name="search"
                         placeholder="Search bills..." aria-label="Search">
@@ -50,19 +50,26 @@
                                 <td>{{ Str::limit($bill->created_at, 30) }}</td>
                                 <td>{{ $bill->created_at->diffForHumans() }}</td>
                                 <td>
-                                    <a href="{{ route('bill.show', $bill->id) }}" class="btn btn-sm btn-primary">
-                                        <i class="las la-search"></i>
-                                    </a>
-                                    <a href="{{ route('bill.edit', $bill->id) }}" class="btn btn-sm btn-info">
-                                        <i class="las la-pen"></i>
-                                    </a>
-                                    <form action="{{ route('bill.destroy', $bill->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this bill?')">
-                                            <i class="las la-trash"></i>
-                                        </button>
-                                    </form>
+                                    <div class="d-flex">
+                                        <form action="{{ route('bill.edit', $bill->id) }}"
+                                            method="GET">
+                                            @csrf
+                                            <button type="submit"
+                                                class="btn bg-warning text-white badge p-2 dropdown-item">
+                                                <i class="bx bx-edit-alt me-2"></i> Edit
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('bill.destroy', $bill->id) }}"
+                                            class="ml-3" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="btn bg-danger text-white badge p-2 dropdown-item"
+                                                onclick="return confirm('Are you sure you want to delete this bill?')">
+                                                <i class="bx bx-trash me-2"></i> Delete
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
