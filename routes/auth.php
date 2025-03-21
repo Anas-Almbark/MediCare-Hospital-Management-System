@@ -10,7 +10,9 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
-
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
@@ -57,3 +59,15 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 });
+
+
+Route::get('/auth/github', [RegisteredUserController::class, 'redirectToGithub'])
+    ->name('auth.github');
+Route::get('/auth/github/callback', [RegisteredUserController::class, 'handleGithubCallback']);
+
+Route::get('/auth/google', [RegisteredUserController::class, 'redirectToGoogle'])
+    ->name('auth.google');
+Route::get('/auth/google/callback', [RegisteredUserController::class, 'handleGoogleCallback']);
+
+
+

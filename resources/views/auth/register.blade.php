@@ -75,6 +75,21 @@
                                                         {{ __('Register') }}
                                                     </x-primary-button>
                                                 </div>
+                                                
+                                                <div class="mt-4">
+                                                    <div class="row">
+                                                        <div class="col-md-6 mb-2">
+                                                            <a href="{{ route('auth.google') }}" class="btn btn-danger btn-block">
+                                                                <i class="fab fa-google me-2"></i> Google
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <a href="{{ route('auth.github') }}" class="btn btn-dark btn-block">
+                                                                <i class="fab fa-github me-2"></i> GitHub
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </form>
                                             <div class="main-signup-footer mt-3">
                                                 <p>Already have an account? <a href="{{ route('login') }}">Sign In</a>

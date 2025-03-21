@@ -95,7 +95,7 @@
                     </svg><span class="side-menu__label">Bills</span></a>
             </li>
             <li class="slide">
-                <a class="side-menu__item" href="#"><svg xmlns="http://www.w3.org/2000/svg"
+                <a class="side-menu__item" href="{{ route('appointment.index')}}"><svg xmlns="http://www.w3.org/2000/svg"
                         class="side-menu__icon" viewBox="0 0 24 24">
                         <path d="M0 0h24v24H0z" fill="none" />
                         <path
@@ -106,7 +106,7 @@
                     </svg><span class="side-menu__label">Appointments</span></a>
             </li>
             <li class="slide">
-                <a class="side-menu__item" href="#"><svg xmlns="http://www.w3.org/2000/svg"
+                <a class="side-menu__item" href="{{ route('prescription.index') }}"><svg xmlns="http://www.w3.org/2000/svg"
                         class="side-menu__icon" viewBox="0 0 24 24">
                         <path d="M0 0h24v24H0z" fill="none" />
                         <path d="M4 19h16v-7H4v7zM9 10h6v2H9z" opacity=".3" />
@@ -115,7 +115,7 @@
                     </svg><span class="side-menu__label">Prescriptions</span></a>
             </li>
             <li class="slide">
-                <a class="side-menu__item" href="#"><svg xmlns="http://www.w3.org/2000/svg"
+                <a class="side-menu__item" href="{{ route('medical-record.index') }}"><svg xmlns="http://www.w3.org/2000/svg"
                         class="side-menu__icon" viewBox="0 0 24 24">
                         <path d="M0 0h24v24H0z" fill="none" />
                         <path
@@ -126,7 +126,7 @@
                     </svg><span class="side-menu__label">Medical Records</span></a>
             </li>
             <li class="slide">
-                <a class="side-menu__item" href="#"><svg xmlns="http://www.w3.org/2000/svg"
+                <a class="side-menu__item" href="{{ route('lab-test.index') }}"><svg xmlns="http://www.w3.org/2000/svg"
                         class="side-menu__icon" viewBox="0 0 24 24">
                         <path d="M0 0h24v24H0z" fill="none" />
                         <path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3" />
