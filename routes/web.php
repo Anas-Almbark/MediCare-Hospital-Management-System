@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\BillController;
+use App\Http\Controllers\SupportController;
 
 
 Route::get('{path?}', function () {
@@ -84,51 +85,17 @@ Route::middleware('auth')->group(function () {
     Route::get("/filter", [BillController::class, "filterByRole"])->name('bill.filter');
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get("/appointments", [AppointmentController::class, "index"])->name("appointment.index");
-    Route::get("/appointment/{id}", [AppointmentController::class, "show"])->name("appointment.show");
-    Route::get("/new/appointment", [AppointmentController::class, "create"])->name("appointment.create");
-    Route::post("/add/appointment", [AppointmentController::class, "store"])->name("appointment.store");
-    Route::get("/edit/appointment/{user}", [AppointmentController::class, "edit"])->name("appointment.edit");
-    Route::put("/update/appointment/{user}", [AppointmentController::class, "update"])->name("appointment.update");
-    Route::delete("/delete/appointment/{user}", [AppointmentController::class, "destroy"])->name('appointment.destroy');
-    Route::get("/filter", [AppointmentController::class, "filterByRole"])->name('appointment.filter');
-});
 
-Route::middleware('auth')->group(function () {
-    Route::get("/prescriptions", [PrescriptionController::class, "index"])->name("prescription.index");
-    Route::get("/prescription/{id}", [PrescriptionController::class, "show"])->name("prescription.show");
-    Route::get("/new/prescription", [PrescriptionController::class, "create"])->name("prescription.create");
-    Route::post("/add/prescription", [PrescriptionController::class, "store"])->name("prescription.store");
-    Route::get("/edit/prescription/{id}", [PrescriptionController::class, "edit"])->name("prescription.edit");
-    Route::put("/update/prescription/{id}", [PrescriptionController::class, "update"])->name("prescription.update");
-    Route::delete("/delete/prescription/{id}", [PrescriptionController::class, "destroy"])->name('prescription.destroy');
-});
+Route::get('/user/home', function () {
+    return view('userTemplate.shard.home');
+})->middleware(['auth', 'verified'])->name('user.home');
+
+
+Route::resource('supports', SupportController::class);
+Route::get('/supports/create', [SupportController::class, 'create'])->name('supports.create');
+Route::get('/user/messages', [SupportController::class, 'usermessages'])->name('supports.usermessages');
 
 
 
-Route::middleware('auth')->group(function () {
-    Route::get("/medical-records", [MedicalRecordController::class, "index"])->name("medical-record.index");
-    Route::get("/medical-record/{id}", [MedicalRecordController::class, "show"])->name("medical-record.show");
-    Route::get("/new/medical-record", [MedicalRecordController::class, "create"])->name("medical-record.create");
-    Route::post("/add/medical-record", [MedicalRecordController::class, "store"])->name("medical-record.store");
-    Route::get("/edit/medical-record/{id}", [MedicalRecordController::class, "edit"])->name("medical-record.edit");
-    Route::put("/update/medical-record/{id}", [MedicalRecordController::class, "update"])->name("medical-record.update");
-    Route::delete("/delete/medical-record/{id}", [MedicalRecordController::class, "destroy"])->name('medical-record.destroy');
-    Route::delete("/medical-record/attachment/{id}", [MedicalRecordController::class, "deleteAttachment"])->name('medical-record.delete-attachment');
-});
-
-Route::middleware('auth')->group(function () {
-    Route::get("/lab-tests", [LabTestController::class, "index"])->name("lab-test.index");
-    Route::get("/lab-test/{id}", [LabTestController::class, "show"])->name("lab-test.show");
-    Route::get("/new/lab-test", [LabTestController::class, "create"])->name("lab-test.create");
-    Route::post("/add/lab-test", [LabTestController::class, "store"])->name("lab-test.store");
-    Route::get("/edit/lab-test/{id}", [LabTestController::class, "edit"])->name("lab-test.edit");
-    Route::put("/update/lab-test/{id}", [LabTestController::class, "update"])->name("lab-test.update");
-    Route::delete("/delete/lab-test/{id}", [LabTestController::class, "destroy"])->name('lab-test.destroy');
-});
-Route::get('/chat/{id?}', [MessagesController::class, 'index'])->name('chatify');
-
-Route::get('change/language/{locale}', [LanguageController::class, 'changeLanguage'])->name('change.language');
 
 require __DIR__ . '/auth.php';
