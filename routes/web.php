@@ -9,13 +9,13 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\BillController;
-use App\Http\Controllers\LabTestController;
-use App\Http\Controllers\PrescriptionController;
-use App\Http\Controllers\SalaryController;
+
 
 Route::get('{path?}', function () {
     return view('dashboard.main');
 })->where('path', '|dashboard')->middleware(['auth', 'verified'])->name('dashboard');
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -49,7 +49,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put("/update/user/{user}", [UserController::class, "update"])->name("user.update");
     Route::delete("/delete/user/{user}", [UserController::class, "destroy"])->name("user.destroy");
     Route::get("/search", [UserController::class, "searchByName"])->name('user.search');
-    Route::post("/filter", [UserController::class, "filterByRole"])->name('user.filter');
+    Route::get("/filter", [UserController::class, "filterByRole"])->name('user.filter');
 });
 
 
@@ -127,4 +127,8 @@ Route::middleware('auth')->group(function () {
     Route::put("/update/lab-test/{id}", [LabTestController::class, "update"])->name("lab-test.update");
     Route::delete("/delete/lab-test/{id}", [LabTestController::class, "destroy"])->name('lab-test.destroy');
 });
+Route::get('/chat/{id?}', [MessagesController::class, 'index'])->name('chatify');
+
+Route::get('change/language/{locale}', [LanguageController::class, 'changeLanguage'])->name('change.language');
+
 require __DIR__ . '/auth.php';
