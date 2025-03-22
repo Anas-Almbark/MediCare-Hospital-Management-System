@@ -25,7 +25,6 @@ Route::get('{path?}', function () {
 })->where('path', '|dashboard')->middleware(['auth', 'verified'])->name('dashboard');
 
 
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -58,7 +57,7 @@ Route::middleware(['auth', 'role:super-admin'])->group(function () {
     Route::put("/update/user/{user}", [UserController::class, "update"])->name("user.update");
     Route::delete("/delete/user/{user}", [UserController::class, "destroy"])->name("user.destroy");
     Route::get("/search", [UserController::class, "searchByName"])->name('user.search');
-    Route::get("/user/filter", [UserController::class, "filterByRole"])->name('user.filter'); // تم تعديل المسار
+    Route::post("/user/filter", [UserController::class, "filterByRole"])->name('user.filter'); // تم تعديل المسار
 });
 
 

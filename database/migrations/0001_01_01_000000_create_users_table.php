@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('provider_name')->nullable();
             $table->string('token')->nullable();
             $table->string('refresh_token')->nullable();
+            $table->string('status_account')->default('active');
             $table->rememberToken();
             $table->timestamps();
         });
