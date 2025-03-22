@@ -14,6 +14,7 @@ use App\Http\Controllers\LabTestController;
 use Chatify\Http\Controllers\MessagesController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\SupportController;
 
 // Route::get('/dashboard', [UserController::class, 'idFetch'])
 //     ->middleware(['auth', 'verified'])
@@ -31,7 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth','role:super-admin'])->group(function () {
+Route::middleware(['auth', 'role:super-admin'])->group(function () {
     Route::get("/roles", [RoleController::class, "index"])->name("role.index");
     Route::get("/new/role", [RoleController::class, "create"])->name("role.create");
     Route::post("/add/role", [RoleController::class, "store"])->name("role.store");
@@ -106,16 +107,12 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get("/prescriptions", [PrescriptionController::class, "index"])->name("prescription.index");
     Route::get("/prescription/{id}", [PrescriptionController::class, "show"])->name("prescription.show");
-Route::get("/new/prescription", [PrescriptionController::class, "create"])->name("prescription.create");
+    Route::get("/new/prescription", [PrescriptionController::class, "create"])->name("prescription.create");
     Route::post("/add/prescription", [PrescriptionController::class, "store"])->name("prescription.store");
     Route::get("/edit/prescription/{id}", [PrescriptionController::class, "edit"])->name("prescription.edit");
     Route::put("/update/prescription/{id}", [PrescriptionController::class, "update"])->name("prescription.update");
     Route::delete("/delete/prescription/{id}", [PrescriptionController::class, "destroy"])->name('prescription.destroy');
-
-
 });
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get("/medical-records", [MedicalRecordController::class, "index"])->name("medical-record.index");
@@ -129,7 +126,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-Route::get("/lab-tests", [LabTestController::class, "index"])->name("lab-test.index");
+    Route::get("/lab-tests", [LabTestController::class, "index"])->name("lab-test.index");
     Route::get("/lab-test/{id}", [LabTestController::class, "show"])->name("lab-test.show");
     Route::get("/new/lab-test", [LabTestController::class, "create"])->name("lab-test.create");
     Route::post("/add/lab-test", [LabTestController::class, "store"])->name("lab-test.store");
@@ -138,7 +135,16 @@ Route::get("/lab-tests", [LabTestController::class, "index"])->name("lab-test.in
     Route::delete("/delete/lab-test/{id}", [LabTestController::class, "destroy"])->name('lab-test.destroy');
 });
 Route::get('/chat/{id?}', [MessagesController::class, 'index'])->name('chatify');
-
 Route::get('change/language/{locale}', [LanguageController::class, 'changeLanguage'])->name('change.language');
+
+
+Route::get('/user/home', function () {
+    return view('userTemplate.shard.home');
+})->middleware(['auth', 'verified'])->name('user.home');
+
+
+Route::resource('supports', SupportController::class);
+Route::get('/supports/create', [SupportController::class, 'create'])->name('supports.create');
+Route::get('/user/messages', [SupportController::class, 'usermessages'])->name('supports.usermessages');
 
 require __DIR__ . '/auth.php';
