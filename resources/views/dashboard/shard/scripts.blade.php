@@ -29,11 +29,6 @@
 <script src="{{ asset('assets/plugins/sidebar/sidebar-custom.js') }}"></script>
 <script src="{{ asset('assets/plugins/side-menu/sidemenu.js') }}"></script>
 
-<!-- Maps -->
-<script src="{{ asset('assets/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
-<script src="{{ asset('assets/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
-<script src="{{ asset('assets/js/jquery.vmap.sampledata.js') }}"></script>
-
 <!-- DataTables -->
 <script src="{{ asset('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/datatable/js/dataTables.dataTables.min.js') }}"></script>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserNotificationEvent;
 use App\Http\Requests\SalaryRequest;
 use App\Http\Requests\UpdateSalaryRequest;
 use App\Models\Salary;
@@ -26,6 +27,7 @@ class SalaryController extends Controller
     {
         $validation = $request->validated();
         Salary::create($validation);
+        broadcast(new UserNotificationEvent($validation['employee'], 'Salary created successfully'));
         return redirect()->route('salaries.index')->with('success', 'Salary created successfully');
     }
     public function edit(Salary $salary)

@@ -9,7 +9,9 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\BillController;
-
+use App\Http\Controllers\LabTestController;
+use App\Http\Controllers\PrescriptionController;
+use App\Http\Controllers\SalaryController;
 
 Route::get('{path?}', function () {
     return view('dashboard.main');
@@ -21,7 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth','role:super-admin'])->group(function () {
+Route::middleware(['auth', 'role:super-admin'])->group(function () {
     Route::get("/roles", [RoleController::class, "index"])->name("role.index");
     Route::get("/new/role", [RoleController::class, "create"])->name("role.create");
     Route::post("/add/role", [RoleController::class, "store"])->name("role.store");
@@ -47,11 +49,11 @@ Route::middleware(['auth'])->group(function () {
     Route::put("/update/user/{user}", [UserController::class, "update"])->name("user.update");
     Route::delete("/delete/user/{user}", [UserController::class, "destroy"])->name("user.destroy");
     Route::get("/search", [UserController::class, "searchByName"])->name('user.search');
-    Route::get("/filter", [UserController::class, "filterByRole"])->name('user.filter');
+    Route::post("/filter", [UserController::class, "filterByRole"])->name('user.filter');
 });
 
 
-Route::middleware(['auth', 'role:super-admin'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get("/salaries", [SalaryController::class, "index"])->name("salaries.index");
     Route::get("/new/salary", [SalaryController::class, "create"])->name("salaries.create");
     Route::post("/add/salary", [SalaryController::class, "store"])->name("salaries.store");
@@ -96,13 +98,11 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get("/prescriptions", [PrescriptionController::class, "index"])->name("prescription.index");
     Route::get("/prescription/{id}", [PrescriptionController::class, "show"])->name("prescription.show");
-Route::get("/new/prescription", [PrescriptionController::class, "create"])->name("prescription.create");
+    Route::get("/new/prescription", [PrescriptionController::class, "create"])->name("prescription.create");
     Route::post("/add/prescription", [PrescriptionController::class, "store"])->name("prescription.store");
     Route::get("/edit/prescription/{id}", [PrescriptionController::class, "edit"])->name("prescription.edit");
     Route::put("/update/prescription/{id}", [PrescriptionController::class, "update"])->name("prescription.update");
     Route::delete("/delete/prescription/{id}", [PrescriptionController::class, "destroy"])->name('prescription.destroy');
-
-
 });
 
 
@@ -119,7 +119,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-Route::get("/lab-tests", [LabTestController::class, "index"])->name("lab-test.index");
+    Route::get("/lab-tests", [LabTestController::class, "index"])->name("lab-test.index");
     Route::get("/lab-test/{id}", [LabTestController::class, "show"])->name("lab-test.show");
     Route::get("/new/lab-test", [LabTestController::class, "create"])->name("lab-test.create");
     Route::post("/add/lab-test", [LabTestController::class, "store"])->name("lab-test.store");

@@ -124,7 +124,7 @@
 
         <!-- row opened -->
         <div class="row row-sm">
-            <div class="col-md-12 col-lg-12 col-xl-7">
+            <div class="w-100">
                 <div class="card">
                     <div class="card-header bg-transparent pd-b-0 pd-t-20 bd-b-0">
                         <div class="d-flex justify-content-between">
@@ -150,16 +150,6 @@
                             </div>
                         </div>
                         <div id="bar" class="sales-bar mt-4"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-12 col-xl-5">
-                <div class="card card-dashboard-map-one">
-                    <label class="main-content-label">Sales Revenue by Customers in USA</label>
-                    <span class="d-block mg-b-20 text-muted tx-12">Sales Performance of all states in the
-                        United States</span>
-                    <div class="">
-                        <div class="vmap-wrapper ht-180" id="vmap2"></div>
                     </div>
                 </div>
             </div>
