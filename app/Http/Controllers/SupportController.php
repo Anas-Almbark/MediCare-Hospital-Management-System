@@ -62,4 +62,5 @@ class SupportController extends Controller
         $support->delete();
         return redirect()->route('supports.index')->with("success","Message deleted successfully");
     }
+       
 }
