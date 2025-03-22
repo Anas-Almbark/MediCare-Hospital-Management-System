@@ -9,7 +9,10 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\BillController;
-
+use App\Http\Controllers\LabTestController;
+use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\PrescriptionController;
+use App\Http\Controllers\SalaryController;
 
 Route::get('{path?}', function () {
     return view('dashboard.main');
@@ -32,7 +35,7 @@ Route::middleware(['auth', 'role:super-admin'])->group(function () {
     Route::delete("/delete/role/{role}", [RoleController::class, "destroy"])->name("role.destroy");
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:super-admin'])->group(function () {
     Route::get("/permission", [PermissionController::class, "index"])->name("permission.index");
     Route::get("/new/permission", [PermissionController::class, "create"])->name("permission.create");
     Route::post("/add/permission", [PermissionController::class, "store"])->name("permission.store");
@@ -41,7 +44,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete("/delete/permission/{permission}", [PermissionController::class, "destroy"])->name("permission.destroy");
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:super-admin'])->group(function () {
     Route::get("/users", [UserController::class, "index"])->name("user.index");
     Route::get("/new/user", [UserController::class, "create"])->name("user.create");
     Route::post("/add/user", [UserController::class, "store"])->name("user.store");
@@ -49,11 +52,11 @@ Route::middleware(['auth'])->group(function () {
     Route::put("/update/user/{user}", [UserController::class, "update"])->name("user.update");
     Route::delete("/delete/user/{user}", [UserController::class, "destroy"])->name("user.destroy");
     Route::get("/search", [UserController::class, "searchByName"])->name('user.search');
-    Route::get("/filter", [UserController::class, "filterByRole"])->name('user.filter');
+    Route::post("/filter", [UserController::class, "filterByRole"])->name('user.filter');
 });
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:super-admin'])->group(function () {
     Route::get("/salaries", [SalaryController::class, "index"])->name("salaries.index");
     Route::get("/new/salary", [SalaryController::class, "create"])->name("salaries.create");
     Route::post("/add/salary", [SalaryController::class, "store"])->name("salaries.store");

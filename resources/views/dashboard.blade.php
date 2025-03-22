@@ -19,7 +19,6 @@
 
         var userId = 11;
         var channel = pusher.subscribe("private-user-" + userId);
-        alert("Connected to Pusher!");
         channel.bind("user-notification", function(data) {
             alert("new notify: " + data.message);
         });
@@ -57,14 +56,14 @@
                         </ul>
                     </div>
                     <div class="tab-content">
-                        
+
                         {{-- <div class="tab-pane active" id="side1">
                             @forelse($users as $user)
-                            
+
                                 <div class="list d-flex align-items-center border-bottom p-3">
                                     <div class="">
                                         <span class="avatar bg-primary brround avatar-md">
-                                            @if($user->profile_photo_url)
+                                            @if ($user->profile_photo_url)
                                                 <img src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}">
                                             @else
                                                 {{ strtoupper(substr($user->name, 0, 2)) }}
@@ -75,7 +74,7 @@
                                         <p class="mb-0 d-flex">
                                             <b>{{ $user->name }}</b>
                                         </p>
-                                        
+
                                     </a>
                                 </div>
                             @empty
@@ -184,9 +183,9 @@
                                 @forelse($users as $user)
                                     <div class="list-group-item d-flex align-items-center">
                                         <div class="mr-2">
-                                            <span class="avatar avatar-md brround cover-image" 
+                                            <span class="avatar avatar-md brround cover-image"
                                                   data-image-src="{{ $user->profile_photo_url ?? asset('assets/img/faces/default.jpg') }}">
-                                                @if($user->is_online)
+                                                @if ($user->is_online)
                                                     <span class="avatar-status bg-success"></span>
                                                 @endif
                                             </span>
@@ -219,4 +218,3 @@
 </body>
 
 </html>
-
