@@ -12,7 +12,6 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->web([\App\Http\Middleware\Language::class]);
-        // $middleware->alias([]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

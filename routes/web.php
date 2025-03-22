@@ -41,7 +41,7 @@ Route::middleware(['auth', 'role:super-admin'])->group(function () {
     Route::delete("/delete/role/{role}", [RoleController::class, "destroy"])->name("role.destroy");
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:super-admin'])->group(function () {
     Route::get("/permission", [PermissionController::class, "index"])->name("permission.index");
     Route::get("/new/permission", [PermissionController::class, "create"])->name("permission.create");
     Route::post("/add/permission", [PermissionController::class, "store"])->name("permission.store");
@@ -50,7 +50,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete("/delete/permission/{permission}", [PermissionController::class, "destroy"])->name("permission.destroy");
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:super-admin'])->group(function () {
     Route::get("/users", [UserController::class, "index"])->name("user.index");
     Route::get("/new/user", [UserController::class, "create"])->name("user.create");
     Route::post("/add/user", [UserController::class, "store"])->name("user.store");
