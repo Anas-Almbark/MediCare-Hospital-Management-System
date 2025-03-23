@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
@@ -68,6 +69,3 @@ Route::get('/auth/github/callback', [RegisteredUserController::class, 'handleGit
 Route::get('/auth/google', [RegisteredUserController::class, 'redirectToGoogle'])
     ->name('auth.google');
 Route::get('/auth/google/callback', [RegisteredUserController::class, 'handleGoogleCallback']);
-
-
-

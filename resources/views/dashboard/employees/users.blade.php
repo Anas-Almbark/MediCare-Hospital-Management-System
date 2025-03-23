@@ -45,56 +45,69 @@
             </div>
             <div class="px-3 pt-2 pb-1">
                 <div class="table-responsive">
-                    <table class="table mg-b-0 text-md-nowrap">
-                        <thead>
-                            <tr>
-                                <th>{{ __('ID') }}</th>
-                                <th>{{ __('Name') }}</th>
-                                <th>{{ __('Role') }}</th>
-                                <th>{{ __('Created At') }}</th>
-                                <th>{{ __('Actions') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($users as $user)
+                    <div class="table-responsive border-top userlist-table">
+                        <table class="table card-table table-striped table-vcenter text-nowrap mb-0">
+                            <thead>
                                 <tr>
-                                    <th scope="row">{{ $user->id }}</th>
-                                    <td><strong>{{ $user->name }}</strong></td>
-                                    <td><span class="py-1 px-2 rounded bg-info text-sm">
-                                            {{ __($user->roles->first()->name ?? 'No role assigned') }}</span></td>
-                                    <td>{{ $user->created_at->diffForHumans() }}</td>
-                                    <td>
-                                        <div class="d-flex">
+                                    <th class="wd-lg-8p" colspan="2"><span>{{ __('User') }}</span></th>
+                                    <th class="wd-lg-20p"><span>{{ __('Created') }}</span></th>
+                                    <th class="wd-lg-20p"><span>{{ __('Role') }}</span></th>
+                                    <th class="wd-lg-20p"><span>{{ __('status') }}</span></th>
+                                    <th class="wd-lg-20p"><span>{{ __('Email') }}</span></th>
+                                    <th class="wd-lg-20p">{{ __('Action') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($users as $user)
+                                    <tr>
+                                        <td>
+                                            <img alt="avatar" class="rounded-circle avatar-md"
+                                                src="../../assets/img/faces/1.jpg">
+                                        </td>
+                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->created_at->format('d/m/Y') }}</td>
+                                        <td>
+                                            <span class="block p-2 rounded text-sm bg-info w-fit">
+                                                {{ __($user->roles->first()->name ?? 'No role assigned') }}
+                                            </span>
+                                        </td>
+                                        <td>
                                             <div class="d-flex">
-                                                <form action="{{ route('user.edit', $user->id) }}" method="GET">
-                                                    @csrf
-                                                    <button type="submit"
-                                                        class="btn bg-warning mx-2 text-white badge p-2 dropdown-item"
-                                                        href="javascript:void(0);">
-                                                        <i class="bx bx-edit-alt me-2"></i>{{ __('Edit') }}
-                                                    </button>
-                                                </form>
-                                                <form action="{{ route('user.destroy', $user->id) }}" class="ml-3"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="btn bg-danger text-white badge p-2 dropdown-item"
-                                                        href="javascript:void(0);">
-                                                        <i class="bx bx-trash me-2"></i>{{ __('Delete') }}
-                                                    </button>
-                                                </form>
+                                                <div
+                                                    class="dot-label {{ $user->status_account === 'active' ? 'bg-success' : ($user->status_account === 'not-active' ? 'bg-warning' : 'bg-danger') }} mr-1">
+                                                </div>
+                                                <span class="label"> {{ $user->status_account }} </span>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="5" class="text-center">{{ __('No users found') }}</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                                        </td>
+                                        <td>
+                                            <a href="#">{{ $user->email }}</a>
+                                        </td>
+                                        <td>
+                                            <form action="{{ route('user.edit', $user->id) }}" method="GET"
+                                                class="d-inline">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-info">
+                                                    <i class="las la-pen"></i>
+                                                </button>
+                                            </form>
+                                            <form action="{{ route('user.destroy', $user->id) }}" method="POST"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger">
+                                                    <i class="las la-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center">{{ __('No users found') }}</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
