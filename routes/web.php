@@ -15,13 +15,10 @@ use Chatify\Http\Controllers\MessagesController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\LanguageController;
 
-// Route::get('/dashboard', [UserController::class, 'idFetch'])
-//     ->middleware(['auth', 'verified'])
-//     ->name('dashboard');
+Route::get('{path?}', [UserController::class, 'idFetch'])->where('path', '|dashboard')
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
-Route::get('{path?}', function () {
-    return view('dashboard.main');
-})->where('path', '|dashboard')->middleware(['auth', 'verified'])->name('dashboard');
 
 
 

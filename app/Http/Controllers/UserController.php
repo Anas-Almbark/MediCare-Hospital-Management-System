@@ -105,6 +105,6 @@ class UserController extends Controller
                  ->latest()
                  ->get();
                  
-        return view('dashboard', compact('users'));  
+        return view('dashboard.main', compact('users'));  
     }
 }
