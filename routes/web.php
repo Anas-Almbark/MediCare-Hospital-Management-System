@@ -11,6 +11,7 @@ use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\BillController;
 
 
+
 Route::get('{path?}', function () {
     return view('dashboard.main');
 })->where('path', '|dashboard')->middleware(['auth', 'verified'])->name('dashboard');
