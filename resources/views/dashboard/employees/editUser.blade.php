@@ -37,7 +37,8 @@
                             id="bloodType">
                             <option value="">{{ __('Select Blood Type') }}</option>
                             @foreach (['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'] as $type)
-                                <option value="{{ $type }}" {{ old('blood_type', $user->blood_type) == $type ? 'selected' : '' }}>
+                                <option value="{{ $type }}"
+                                    {{ old('blood_type', $user->blood_type) == $type ? 'selected' : '' }}>
                                     {{ $type }}
                                 </option>
                             @endforeach
@@ -86,6 +87,26 @@
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
+                    </div>
+                    <div class="form-group">
+                        {{--  is work (work , not work , banded)  --}}
+                        <label for="status">{{ __('Status') }} ({{ __('Optional') }})</label>
+                        <select class="form-control @error('status') is-invalid @enderror" name="status_account"
+                            id="status">
+                            <option value="">{{ __('Select Status') }}</option>
+                            <option value="active"
+                                {{ old('status', $user->status_account) == 'active' ? 'selected' : '' }}>
+                                {{ __('Active') }}
+                            </option>
+                            <option value="not-active"
+                                {{ old('status', $user->status_account) == 'not active' ? 'selected' : '' }}>
+                                {{ __('Not active') }}
+                            </option>
+                            <option value="banded"
+                                {{ old('status', $user->status_account) == 'banded' ? 'selected' : '' }}>
+                                {{ __('Banded') }}
+                            </option>
+                        </select>
                     </div>
                     <div class="form-group mb-0 mt-3 justify-content-end">
                         <div>

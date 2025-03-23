@@ -12,7 +12,12 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->web([\App\Http\Middleware\Language::class]);
-        // $middleware->alias([]);
+        $middleware->alias([
+            'status_account' => \App\Http\Middleware\StatusAccount::class,
+        ]);
+        $middleware->group('auth', [
+            'status_account',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
