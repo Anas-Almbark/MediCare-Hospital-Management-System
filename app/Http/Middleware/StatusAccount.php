@@ -12,7 +12,10 @@ class StatusAccount
     public function handle(Request $request, Closure $next): Response
     {
         $user = Auth::user();
-        if (($user->status_account == 'banded' || $user->status_account == 'not-active')) {
+        if ($user == null) {
+            return redirect()->route('login');
+        }
+        if ($user->status_account == 'banded' || $user->status_account == 'not-active') {
             Auth::guard('web')->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
