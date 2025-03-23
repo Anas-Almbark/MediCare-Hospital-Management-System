@@ -15,11 +15,15 @@ use Chatify\Http\Controllers\MessagesController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\SupportController;
+use App\Http\Controllers\PatientController;
 
-Route::get('{path?}', [UserController::class, 'idFetch'])->where('path', '|dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+// Route::get('{path?}', [UserController::class, 'idFetch'])->where('path', '|dashboard')
+//     ->middleware(['auth', 'verified'])
+//     ->name('dashboard');
 
+Route::get('/', function () {
+    return view('welcome');
+})->middleware(['auth', 'verified'])->name('welcome');
 
 
 Route::middleware('auth')->group(function () {
@@ -130,17 +134,18 @@ Route::middleware('auth')->group(function () {
     Route::put("/update/lab-test/{id}", [LabTestController::class, "update"])->name("lab-test.update");
     Route::delete("/delete/lab-test/{id}", [LabTestController::class, "destroy"])->name('lab-test.destroy');
 });
+
 Route::get('/chat/{id?}', [MessagesController::class, 'index'])->name('chatify');
 Route::get('change/language/{locale}', [LanguageController::class, 'changeLanguage'])->name('change.language');
 
-
-Route::get('/user/home', function () {
-    return view('userTemplate.shard.home');
-})->middleware(['auth', 'verified'])->name('user.home');
 
 
 Route::resource('supports', SupportController::class);
 Route::get('/supports/create', [SupportController::class, 'create'])->name('supports.create');
 Route::get('/user/messages', [SupportController::class, 'usermessages'])->name('supports.usermessages');
 
+Route::get('/about', [PatientController::class, 'about'])->name('about');
+Route::get('/about-services', [PatientController::class, 'services'])->name('services');
+Route::get('/doctors', [PatientController::class, 'doctors'])->name('doctors');
+Route::get('/doctors-detail', [PatientController::class, 'doctorsDetail'])->name('doctors-detail');
 require __DIR__ . '/auth.php';

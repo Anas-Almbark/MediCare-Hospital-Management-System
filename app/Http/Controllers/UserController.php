@@ -104,16 +104,10 @@ class UserController extends Controller
     public function idFetch()
     {
         $users = User::where('id', '!=', auth()->id())
-<<<<<<< HEAD
                  ->latest()
                  ->get();
                  
-        return view('dashboard.main', compact('users'));  
-=======
-            ->latest()
-            ->get();
+  return view('dashboard.main', compact('users'));  
 
-        return view('dashboard', compact('users'));
->>>>>>> ae698452e79d094c4b50c29106207a8cfdf59db5
     }
 }
