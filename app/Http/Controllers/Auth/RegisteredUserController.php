@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use Laravel\Socialite\Facades\Socialite;
+use Spatie\Permission\Models\Role;
 
 class RegisteredUserController extends Controller
 {
@@ -32,7 +33,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -42,10 +43,15 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        Role::firstOrCreate(['name' => 'patient']);
+        $user->assignRole('patient');
         event(new Registered($user));
 
         Auth::login($user);
 
+        if ($user && $user->hasRole('patient')) {
+            return redirect()->route('welcome');
+        }
         return redirect(route('dashboard', absolute: false));
     }
 
@@ -59,7 +65,7 @@ class RegisteredUserController extends Controller
         try {
             $user = Socialite::driver('github')->stateless()->user();
             $existingUser = User::where('email', $user->email)->first();
-            
+
             if ($existingUser) {
                 Auth::login($existingUser);
                 return redirect()->route('dashboard');
@@ -77,7 +83,6 @@ class RegisteredUserController extends Controller
 
             Auth::login($newUser);
             return redirect()->route('dashboard');
-
         } catch (\Exception $e) {
             return redirect()->route('login')->with('error', 'GitHub authentication failed.');
         }
@@ -92,9 +97,9 @@ class RegisteredUserController extends Controller
     {
         try {
             $user = Socialite::driver('google')->user();
-            
+
             $existingUser = User::where('email', $user->email)->first();
-            
+
             if ($existingUser) {
                 Auth::login($existingUser);
                 return redirect()->route('dashboard');
@@ -112,7 +117,6 @@ class RegisteredUserController extends Controller
 
             Auth::login($newUser);
             return redirect()->route('dashboard');
-
         } catch (\Exception $e) {
             return redirect()->route('login')->with('error', 'Google authentication failed.');
         }

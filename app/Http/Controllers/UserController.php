@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
@@ -11,7 +12,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('roles')->get();
+        $users = User::paginate(10);
         $roles = Role::all();
         return view('dashboard.employees.users', compact('users', 'roles'));
     }
@@ -67,6 +68,7 @@ class UserController extends Controller
             'blood_type' => 'nullable|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
             'phone' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:7|max:18',
             'address' => 'nullable|max:255',
+            "status_account" => "nullable|in:active,not-active,banded",
         ]);
 
         $user->update([
@@ -75,6 +77,7 @@ class UserController extends Controller
             'blood_type' => $validation['blood_type'],
             'phone_number' => $validation['phone'],
             'address' => $validation['address'],
+            "status_account" => $validation['status_account'],
         ]);
 
         $user->syncRoles($validation['role']);
@@ -89,22 +92,22 @@ class UserController extends Controller
 
     public function searchByName()
     {
-        $users = User::search(request()->input('search'))->get();
+        $users = User::search(request()->input('search'))->paginate(10);
         $roles = Role::all();
         return view('dashboard.employees.users', compact('users', 'roles'));
     }
     public function filterByRole()
     {
-        $users = User::filterByRole(request()->input('role'))->get();
+        $users = User::filterByRole(request()->input('role'))->paginate(10);
         $roles = Role::all();
         return view('dashboard.employees.users', compact('users', 'roles'));
     }
     public function idFetch()
     {
-        $users = User::where('id', '!=', auth()->id())
-                 ->latest()
-                 ->get();
-                 
-        return view('dashboard', compact('users'));  
+        $users = User::where('id', '!=', Auth::id())
+            ->latest()
+            ->get();
+
+        return view('dashboard.main', compact('users'));
     }
 }
