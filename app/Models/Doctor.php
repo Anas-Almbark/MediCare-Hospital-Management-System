@@ -20,5 +20,9 @@ class Doctor extends Model
         'license_number',
         'experience_years',
     ];
+    public function schedules()
+{
+    return $this->hasMany(DoctorSchedule::class);
+}
     
 }

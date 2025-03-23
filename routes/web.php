@@ -15,6 +15,7 @@ use Chatify\Http\Controllers\MessagesController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\SupportController;
+use App\Http\Controllers\DoctorScheduleController;
 
 // Route::get('/dashboard', [UserController::class, 'idFetch'])
 //     ->middleware(['auth', 'verified'])
@@ -32,7 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth', 'role:super-admin'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get("/roles", [RoleController::class, "index"])->name("role.index");
     Route::get("/new/role", [RoleController::class, "create"])->name("role.create");
     Route::post("/add/role", [RoleController::class, "store"])->name("role.store");
@@ -41,7 +42,7 @@ Route::middleware(['auth', 'role:super-admin'])->group(function () {
     Route::delete("/delete/role/{role}", [RoleController::class, "destroy"])->name("role.destroy");
 });
 
-Route::middleware(['auth', 'role:super-admin'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get("/permission", [PermissionController::class, "index"])->name("permission.index");
     Route::get("/new/permission", [PermissionController::class, "create"])->name("permission.create");
     Route::post("/add/permission", [PermissionController::class, "store"])->name("permission.store");
@@ -50,7 +51,7 @@ Route::middleware(['auth', 'role:super-admin'])->group(function () {
     Route::delete("/delete/permission/{permission}", [PermissionController::class, "destroy"])->name("permission.destroy");
 });
 
-Route::middleware(['auth', 'role:super-admin'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get("/users", [UserController::class, "index"])->name("user.index");
     Route::get("/new/user", [UserController::class, "create"])->name("user.create");
     Route::post("/add/user", [UserController::class, "store"])->name("user.store");
@@ -62,7 +63,7 @@ Route::middleware(['auth', 'role:super-admin'])->group(function () {
 });
 
 
-Route::middleware(['auth', 'role:super-admin'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get("/salaries", [SalaryController::class, "index"])->name("salaries.index");
     Route::get("/new/salary", [SalaryController::class, "create"])->name("salaries.create");
     Route::post("/add/salary", [SalaryController::class, "store"])->name("salaries.store");
@@ -147,4 +148,25 @@ Route::resource('supports', SupportController::class);
 Route::get('/supports/create', [SupportController::class, 'create'])->name('supports.create');
 Route::get('/user/messages', [SupportController::class, 'usermessages'])->name('supports.usermessages');
 
+Route::resource('doctor-schedules', DoctorScheduleController::class);
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/doctor/appointments', [AppointmentController::class, 'doctorAppointments'])->name('doctor.appointments');
+});
+Route::get('appointments/{appointment}/book', [AppointmentController::class, 'book'])
+    ->name('appointment.book')
+    ->middleware(['auth']);
+Route::patch('/appointments/{appointment}/cancel', [AppointmentController::class, 'cancelAppointment'])
+    ->name('appointment.cancel')
+    ->middleware('auth');
+Route::get('/appointments/pending', [AppointmentController::class, 'pendingAppointments'])->name('appointment.pending');
+Route::patch('/appointments/{appointment}/update-status', [AppointmentController::class, 'updateStatus'])
+    ->name('appointment.update-status')
+    ->middleware('auth');
+Route::patch('appointments/{appointment}/note', [AppointmentController::class, 'updateNote'])
+    ->name('appointment.update-note')
+    ->middleware(['auth']);
+Route::get('/my-appointments', [AppointmentController::class, 'myAppointments'])
+    ->name('appointments.my')
+    ->middleware(['auth']);
 require __DIR__ . '/auth.php';

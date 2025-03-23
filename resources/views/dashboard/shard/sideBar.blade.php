@@ -90,24 +90,56 @@
                         class="side-menu__icon" viewBox="0 0 24 24">
                         <path d="M0 0h24v24H0z" fill="none" />
                         <path
-                            d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"
+                            d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2 2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"
                             opacity=".3" />
                         <path
-                            d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
+                            d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2 2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
                     </svg><span class="side-menu__label">{{ __('Bills') }}</span></a>
             </li>
             <li class="slide">
-                <a class="side-menu__item" href="{{ route('appointment.index') }}">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="side-menu__icon" viewBox="0 0 24 24">
+                <a class="side-menu__item" data-toggle="slide" href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
                         <path d="M0 0h24v24H0z" fill="none" />
-                        <path
-                            d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zM5 7V5h14v2H5zm2 4h10v2H7zm0 4h7v2H7z"
-                            opacity=".3" />
-                        <path
-                            d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zM5 7V5h14v2H5zm2 4h10v2H7zm0 4h7v2H7z" />
-                    </svg><span class="side-menu__label">{{ __('Appointments') }}</span></a>
+                        <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zM5 7V5h14v2H5zm2 4h10v2H7zm0 4h7v2H7z" opacity=".3" />
+                        <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zM5 7V5h14v2H5zm2 4h10v2H7zm0 4h7v2H7z" />
+                    </svg>
+                    <span class="side-menu__label">{{ __('Appointments') }}</span>
+                    <i class="angle fe fe-chevron-down"></i>
+                </a>
+                <ul class="slide-menu">
+                    @hasrole('patient')
+                    <li><a class="slide-item" href="{{ route('appointment.index') }}">{{ __('All Appointments') }}</a></li>
+                    <li><a class="slide-item" href="{{ route('appointments.my') }}">{{ __('My Appointments') }}</a></li>
+                    @endhasrole
+                    @hasrole('doctor')
+                    <li><a class="slide-item" href="{{ route('doctor.appointments') }}">{{ __('My Appointments') }}</a></li>
+                    <li><a class="slide-item" href="{{ route('appointment.pending') }}">
+                        <span class="badge bg-warning rounded-pill float-end">
+                            {{ \App\Models\Appointment::where('doctor_id', auth()->id())->where('status', 'pending')->count() }}
+                        </span>
+                        {{ __('Pending Requests') }}
+                    </a></li>
+                    @endhasrole
+                </ul>
             </li>
+
+            @hasrole('doctor')
+            <li class="slide">
+                <a class="side-menu__item" data-toggle="slide" href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>
+                        <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                    </svg>
+                    <span class="side-menu__label">{{ __('Working Hours') }}</span>
+                    <i class="angle fe fe-chevron-down"></i>
+                </a>
+                <ul class="slide-menu">
+                    <li><a class="slide-item" href="{{ route('doctor-schedules.index') }}">{{ __('View Schedule') }}</a></li>
+                    <li><a class="slide-item" href="{{ route('doctor-schedules.create') }}">{{ __('Set Schedule') }}</a></li>
+                </ul>
+            </li>
+            @endhasrole
             <li class="slide">
                 <a class="side-menu__item" href="{{ route('prescription.index') }}">
                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -143,3 +175,6 @@
         </ul>
     </div>
 </aside>
+
+
+

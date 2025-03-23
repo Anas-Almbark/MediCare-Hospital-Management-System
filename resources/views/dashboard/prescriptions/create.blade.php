@@ -1,58 +1,83 @@
 @extends('dashboard')
 @section('content')
-    <div class="col-lg-6 col-xl-6 col-md-12 col-sm-12">
-        <div class="card box-shadow-0">
+    <div class="container-fluid py-4">
+        <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-1">New Prescription</h4>
-                <p class="mb-2">Create a new prescription for patient.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="card-title mb-1">{{ __('New Prescription') }}</h5>
+                        <p class="text-muted mb-0">{{ __('Create a new prescription for patient') }}</p>
+                    </div>
+                    <a href="{{ route('prescription.index') }}" class="btn btn-secondary btn-sm">
+                        <i class="fas fa-arrow-left"></i> {{ __('Back') }}
+                    </a>
+                </div>
             </div>
-            <div class="card-body pt-0">
-                <form class="form-horizontal" action="{{ route('prescription.store') }}" method="POST">
+            <div class="card-body">
+                <form action="{{ route('prescription.store') }}" method="POST">
                     @csrf
-                    <div class="form-group">
-                        <select name="doctor" class="form-control" id="inputDoctor" required>
-                            <option value="">Select Doctor</option>
-                            @foreach($doctors as $doctor)
-                                <option value="{{ $doctor->id }}">{{ $doctor->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <select name="patient" class="form-control" id="inputPatient" required>
-                            <option value="">Select Patient</option>
-                            @foreach($patients as $patient)
-                                <option value="{{ $patient->id }}">{{ $patient->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                  
-                    <div class="form-group">
-                        <textarea name="description" class="form-control" id="inputNotes" 
-                            placeholder="description" rows="3"></textarea>
-                    </div>
-                    <div class="form-group mb-0 mt-3 justify-content-end">
-                        <div>
-                            <button type="submit" class="btn btn-primary">Create Prescription</button>
-                            <a href="{{ route('prescription.index') }}" class="btn btn-secondary">Cancel</a>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="form-label">{{ __('Doctor') }}</label>
+                                <select name="doctor" class="form-select" id="inputDoctor" required>
+                                    <option value="">-- {{ __('Select Doctor') }} --</option>
+                                    @foreach($doctors as $doctor)
+                                        <option value="{{ $doctor->id }}">Dr. {{ $doctor->name }} - {{ $doctor->specialization }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label class="form-label">{{ __('Patient') }}</label>
+                                <select name="patient" class="form-select" id="inputPatient" required>
+                                    <option value="">-- {{ __('Select Patient') }} --</option>
+                                    @foreach($patients as $patient)
+                                        <option value="{{ $patient->id }}">{{ $patient->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="form-label">{{ __('Prescription Date') }}</label>
+                                <input type="date" name="prescription_date" class="form-control" 
+                                       value="{{ date('Y-m-d') }}" required>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label class="form-label">{{ __('Status') }}</label>
+                                <select name="status" class="form-select" required>
+                                    <option value="active">{{ __('Active') }}</option>
+                                    <option value="completed">{{ __('Completed') }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group mb-3">
+                                <label class="form-label">{{ __('Prescription Details') }}</label>
+                                <textarea name="description" class="form-control" id="inputNotes" 
+                                    rows="4" placeholder="{{ __('Enter prescription details, medications, and instructions...') }}" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-end mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i> {{ __('Create Prescription') }}
+                        </button>
+                        <a href="{{ route('prescription.index') }}" class="btn btn-light">
+                            <i class="fas fa-times me-1"></i> {{ __('Cancel') }}
+                        </a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-@endsection
 
-@push('styles')
-<style>
-    .form-control {
-        margin-bottom: 10px;
-    }
-    .form-control:focus {
-        border-color: #0162e8;
-        box-shadow: 0 0 0 0.2rem rgba(1, 98, 232, 0.25);
-    }
-    select.form-control {
-        height: 40px;
-    }
-</style>
-@endpush
+    @push('styles')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    @endpush
+@endsection

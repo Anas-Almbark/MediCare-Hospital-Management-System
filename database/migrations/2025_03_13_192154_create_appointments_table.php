@@ -13,11 +13,15 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("patient")->constrained("users")->cascadeOnDelete();
-            $table->foreignId("doctor")->constrained("users")->cascadeOnDelete();
-            $table->date("date");
+            $table->foreignId("patient_id")->nullable()->constrained("users")->cascadeOnDelete();
+            $table->foreignId("doctor_id")->constrained("users")->cascadeOnDelete();
+            $table->foreignId("schedule_id")->constrained("doctor_schedules")->cascadeOnDelete();
+            $table->enum('day_of_week', ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']);
+            $table->date('date');
+            $table->time('start_time'); // بداية الدوام
+            $table->time('end_time'); // نهاية الدوام
             $table->text("notes")->nullable();
-            $table->enum("status", ["pending", "confirmed", "cancelled"]);
+            $table->enum("status", ["available", "pending", "confirmed", "cancelled", "rejected"]);
             $table->timestamps();
         });
     }
