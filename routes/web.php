@@ -17,11 +17,11 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\PatientController;
 
-// Route::get('{path?}', [UserController::class, 'idFetch'])->where('path', '|dashboard')
-//     ->middleware(['auth', 'verified'])
-//     ->name('dashboard');
+Route::get('{path?}', [UserController::class, 'idFetch'])->where('path', '|dashboard')
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
-Route::get('/', function () {
+Route::get('/user/home', function () {
     return view('welcome');
 })->middleware(['auth', 'verified'])->name('welcome');
 
@@ -125,7 +125,7 @@ Route::middleware('auth')->group(function () {
     Route::delete("/medical-record/attachment/{id}", [MedicalRecordController::class, "deleteAttachment"])->name('medical-record.delete-attachment');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get("/lab-tests", [LabTestController::class, "index"])->name("lab-test.index");
     Route::get("/lab-test/{id}", [LabTestController::class, "show"])->name("lab-test.show");
     Route::get("/new/lab-test", [LabTestController::class, "create"])->name("lab-test.create");

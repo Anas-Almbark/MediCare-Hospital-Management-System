@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\LabTest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class LabTestController extends Controller
@@ -33,7 +34,7 @@ class LabTestController extends Controller
         ]);
 
         $data = $request->except('report_file');
-        
+
         if ($request->hasFile('report_file')) {
             $path = $request->file('report_file')->store('lab-tests', 'public');
             $data['report_file'] = $path;
@@ -85,12 +86,12 @@ class LabTestController extends Controller
     public function destroy($id)
     {
         $labTest = LabTest::findOrFail($id);
-        
+
         // Delete report file if exists
         if ($labTest->report_file) {
             Storage::disk('public')->delete($labTest->report_file);
         }
-        
+
         $labTest->delete();
         return redirect()->route('lab-test.index')->with('success', 'Lab test deleted successfully');
     }
@@ -98,7 +99,7 @@ class LabTestController extends Controller
     public function downloadReport($id)
     {
         $labTest = LabTest::findOrFail($id);
-        
+
         if (!$labTest->report_file) {
             return back()->with('error', 'No report file available');
         }

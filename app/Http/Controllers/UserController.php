@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
@@ -11,7 +12,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('roles')->get();
+        $users = User::paginate(10);
         $roles = Role::all();
         return view('dashboard.employees.users', compact('users', 'roles'));
     }
@@ -91,23 +92,22 @@ class UserController extends Controller
 
     public function searchByName()
     {
-        $users = User::search(request()->input('search'))->get();
+        $users = User::search(request()->input('search'))->paginate(10);
         $roles = Role::all();
         return view('dashboard.employees.users', compact('users', 'roles'));
     }
     public function filterByRole()
     {
-        $users = User::filterByRole(request()->input('role'))->get();
+        $users = User::filterByRole(request()->input('role'))->paginate(10);
         $roles = Role::all();
         return view('dashboard.employees.users', compact('users', 'roles'));
     }
     public function idFetch()
     {
-        $users = User::where('id', '!=', auth()->id())
-                 ->latest()
-                 ->get();
-                 
-  return view('dashboard.main', compact('users'));  
+        $users = User::where('id', '!=', Auth::id())
+            ->latest()
+            ->get();
 
+        return view('dashboard.main', compact('users'));
     }
 }
