@@ -310,6 +310,7 @@
                         <a class="dropdown-item" href=""><i class="bx bx-user-circle"></i>{{ __('Profile') }}</a>
                         <a class="dropdown-item" href=""><i class="bx bx-cog"></i>{{ __('Edit Profile') }}</a>
                         <a class="dropdown-item" href=""><i class="bx bxs-inbox"></i>{{ __('Inbox') }}</a>
+                        <a class="dropdown-item" href="{{ route('chatify') }}"><i class="bx bx-message"></i>{{ __('Messages') }}</a>
                         <a class="dropdown-item" href=""><i class="bx bx-slider-alt"></i>{{ __('Account Settings') }}</a>
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf

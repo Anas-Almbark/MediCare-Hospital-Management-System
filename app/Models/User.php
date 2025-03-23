@@ -33,6 +33,7 @@ class User extends Authenticatable
         'provider_name',
         'token',
         'refresh_token',
+        'status_account'
     ];
 
     /**

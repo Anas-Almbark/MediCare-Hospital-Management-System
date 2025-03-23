@@ -26,8 +26,7 @@
             <li class="side-item side-item-category">{{ __('Main') }}</li>
             <li class="slide">
                 <a class="side-menu__item" href="{{ route('dashboard') }}">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="side-menu__icon" viewBox="0 0 24 24">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
                         <path d="M0 0h24v24H0V0z" fill="none" />
                         <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" opacity=".3" />
                         <path
@@ -86,8 +85,7 @@
             @endhasrole
             <li class="slide">
                 <a class="side-menu__item" href="{{ route('bill.index') }}">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="side-menu__icon" viewBox="0 0 24 24">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
                         <path d="M0 0h24v24H0z" fill="none" />
                         <path
                             d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2 2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"
@@ -97,7 +95,11 @@
                     </svg><span class="side-menu__label">{{ __('Bills') }}</span></a>
             </li>
             <li class="slide">
+<<<<<<< HEAD
                 <a class="side-menu__item" data-toggle="slide" href="#">
+=======
+                <a class="side-menu__item" href="{{ route('appointment.index') }}">
+>>>>>>> 22d114f93d40661370e00bf90f2d9c1f7baf7f8d
                     <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
                         <path d="M0 0h24v24H0z" fill="none" />
                         <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zM5 7V5h14v2H5zm2 4h10v2H7zm0 4h7v2H7z" opacity=".3" />
@@ -142,8 +144,7 @@
             @endhasrole
             <li class="slide">
                 <a class="side-menu__item" href="{{ route('prescription.index') }}">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="side-menu__icon" viewBox="0 0 24 24">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
                         <path d="M0 0h24v24H0z" fill="none" />
                         <path d="M4 19h16v-7H4v7zM9 10h6v2H9z" opacity=".3" />
                         <path
@@ -152,8 +153,7 @@
             </li>
             <li class="slide">
                 <a class="side-menu__item" href="{{ route('medical-record.index') }}">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="side-menu__icon" viewBox="0 0 24 24">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
                         <path d="M0 0h24v24H0z" fill="none" />
                         <path
                             d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-8-2h4v2h-4V4zm8 14H4V8h16v12z"
@@ -164,8 +164,7 @@
             </li>
             <li class="slide">
                 <a class="side-menu__item" href="{{ route('lab-test.index') }}">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="side-menu__icon" viewBox="0 0 24 24">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
                         <path d="M0 0h24v24H0z" fill="none" />
                         <path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3" />
                         <path

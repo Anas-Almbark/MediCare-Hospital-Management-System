@@ -77,19 +77,26 @@
                                                     <div class="mt-4">
                                                         <div class="row">
                                                             <div class="col-md-6 mb-2">
-                                                                <a href="{{ route('auth.google') }}" class="btn btn-danger btn-block">
+                                                                <a href="{{ route('auth.google') }}"
+                                                                    class="btn btn-danger btn-block">
                                                                     <i class="fab fa-google me-2"></i> Google
                                                                 </a>
                                                             </div>
                                                             <div class="col-md-6">
-                                                                <a href="{{ route('auth.github') }}" class="btn btn-dark btn-block">
+                                                                <a href="{{ route('auth.github') }}"
+                                                                    class="btn btn-dark btn-block">
                                                                     <i class="fab fa-github me-2"></i> GitHub
                                                                 </a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </form>
-                                                <div class="main-signin-footer mt-5">
+                                                @if (session()->has('error'))
+                                                    <div class="alert alert-danger mt-3">
+                                                        {{ session('error') }}
+                                                    </div>
+                                                @endif
+                                                <div class="main-signin-footer mt-4">
                                                     @if (Route::has('password.request'))
                                                         <a class="d-block mb-3 underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                                                             href="{{ route('password.request') }}">

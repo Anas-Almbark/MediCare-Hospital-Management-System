@@ -15,16 +15,14 @@ use Chatify\Http\Controllers\MessagesController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\SupportController;
-use App\Http\Controllers\DoctorScheduleController;
 
 // Route::get('/dashboard', [UserController::class, 'idFetch'])
 //     ->middleware(['auth', 'verified'])
 //     ->name('dashboard');
 
-Route::get('{path?}', function () {
-    return view('dashboard.main');
-})->where('path', '|dashboard')->middleware(['auth', 'verified'])->name('dashboard');
-
+Route::get('/user/home', function () {
+    return view('welcome');
+})->middleware(['auth', 'verified'])->name('welcome');
 
 
 Route::middleware('auth')->group(function () {
@@ -59,7 +57,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put("/update/user/{user}", [UserController::class, "update"])->name("user.update");
     Route::delete("/delete/user/{user}", [UserController::class, "destroy"])->name("user.destroy");
     Route::get("/search", [UserController::class, "searchByName"])->name('user.search');
-    Route::get("/user/filter", [UserController::class, "filterByRole"])->name('user.filter'); // تم تعديل المسار
+    Route::post("/user/filter", [UserController::class, "filterByRole"])->name('user.filter'); // تم تعديل المسار
 });
 
 
@@ -126,7 +124,7 @@ Route::middleware('auth')->group(function () {
     Route::delete("/medical-record/attachment/{id}", [MedicalRecordController::class, "deleteAttachment"])->name('medical-record.delete-attachment');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get("/lab-tests", [LabTestController::class, "index"])->name("lab-test.index");
     Route::get("/lab-test/{id}", [LabTestController::class, "show"])->name("lab-test.show");
     Route::get("/new/lab-test", [LabTestController::class, "create"])->name("lab-test.create");
@@ -135,38 +133,14 @@ Route::middleware('auth')->group(function () {
     Route::put("/update/lab-test/{id}", [LabTestController::class, "update"])->name("lab-test.update");
     Route::delete("/delete/lab-test/{id}", [LabTestController::class, "destroy"])->name('lab-test.destroy');
 });
+
 Route::get('/chat/{id?}', [MessagesController::class, 'index'])->name('chatify');
 Route::get('change/language/{locale}', [LanguageController::class, 'changeLanguage'])->name('change.language');
 
-
-Route::get('/user/home', function () {
-    return view('userTemplate.shard.home');
-})->middleware(['auth', 'verified'])->name('user.home');
 
 
 Route::resource('supports', SupportController::class);
 Route::get('/supports/create', [SupportController::class, 'create'])->name('supports.create');
 Route::get('/user/messages', [SupportController::class, 'usermessages'])->name('supports.usermessages');
 
-Route::resource('doctor-schedules', DoctorScheduleController::class);
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('/doctor/appointments', [AppointmentController::class, 'doctorAppointments'])->name('doctor.appointments');
-});
-Route::get('appointments/{appointment}/book', [AppointmentController::class, 'book'])
-    ->name('appointment.book')
-    ->middleware(['auth']);
-Route::patch('/appointments/{appointment}/cancel', [AppointmentController::class, 'cancelAppointment'])
-    ->name('appointment.cancel')
-    ->middleware('auth');
-Route::get('/appointments/pending', [AppointmentController::class, 'pendingAppointments'])->name('appointment.pending');
-Route::patch('/appointments/{appointment}/update-status', [AppointmentController::class, 'updateStatus'])
-    ->name('appointment.update-status')
-    ->middleware('auth');
-Route::patch('appointments/{appointment}/note', [AppointmentController::class, 'updateNote'])
-    ->name('appointment.update-note')
-    ->middleware(['auth']);
-Route::get('/my-appointments', [AppointmentController::class, 'myAppointments'])
-    ->name('appointments.my')
-    ->middleware(['auth']);
 require __DIR__ . '/auth.php';

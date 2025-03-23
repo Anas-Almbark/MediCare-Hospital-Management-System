@@ -24,7 +24,7 @@ class RoleController extends Controller
     {
         $validation = $request->validate([
             "name" => "required|unique:roles",
-            "permissions" => "required|array",
+            "permissions" => "nullable|array",
             "permissions.*" => "exists:permissions,name"
         ]);
         $role = Role::create(['name' => $validation['name']]);
