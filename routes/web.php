@@ -9,6 +9,14 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\BillController;
+use App\Http\Controllers\LabTestController;
+use App\Http\Controllers\MessagesController;
+use App\Http\Controllers\SalaryController;
+use App\Http\Controllers\PrescriptionController;
+use App\Http\Controllers\SupportController;
+use App\Http\Controllers\LanguageController;
+
+
 
 
 Route::get('{path?}', function () {
