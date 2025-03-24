@@ -35,44 +35,6 @@
                {!! view('Chatify::layouts.listItem', ['get' => 'saved']) !!}
                {{-- Contact --}}
                <p class="messenger-title"><span>All Messages</span></p>
-               @php
-                   $previousChats = \App\Models\ChMessage::select('from_id', 'to_id')
-                       ->where(function($q) {
-                           $q->where('from_id', Auth::id())
-                             ->orWhere('to_id', Auth::id());
-                       })
-                       ->distinct()
-                       ->get();
-                   
-                   $chatUsers = collect();
-                   foreach($previousChats as $chat) {
-                       $userId = $chat->from_id == Auth::id() ? $chat->to_id : $chat->from_id;
-                       $user = \App\Models\User::find($userId);
-                       if($user && !$chatUsers->contains('id', $user->id)) {
-                           $chatUsers->push($user);
-                       }
-                   }
-               @endphp
-               
-               @foreach($chatUsers as $user)
-                   <div class="messenger-list-item" data-contact="{{ $user->id }}" style="cursor: pointer;">
-                       <div class="">
-                           <span class="avatar bg-primary brround avatar-md">
-                               @if($user->profile_photo_url)
-                                   <img src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}">
-                               @else
-                                   {{ strtoupper(substr($user->name, 0, 2)) }}
-                               @endif
-                           </span>
-                       </div>
-                       <div class="wrapper w-100 ml-3">
-                           <p class="mb-0 d-flex">
-                               <b>{{ $user->name }}</b>
-                           </p>
-                       </div>
-                   </div>
-               @endforeach
-               
                <div class="listOfContacts" style="width: 100%;height: calc(100% - 272px);position: relative;"></div>
            </div>
              {{-- ---------------- [ Search Tab ] ---------------- --}}

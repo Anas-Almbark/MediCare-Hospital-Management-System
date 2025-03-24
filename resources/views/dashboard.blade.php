@@ -42,6 +42,8 @@
     <a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
     @include('dashboard/shard.scripts')
     @stack('scripts')
+    <!-- In the head section or before closing body tag -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
