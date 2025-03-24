@@ -10,10 +10,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\LabTestController;
-use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\SupportController;
+use App\Http\Controllers\PatientController;
+use App\Http\Controllers\StaticSalaryController;
+use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\DoctorScheduleController;
+use App\Http\Controllers\MessagesController;
 
 Route::get('{path?}', [UserController::class, 'idFetch'])->where('path', '|dashboard')
     ->middleware(['auth', 'verified'])
@@ -156,6 +160,10 @@ Route::middleware(['auth', 'role:doctor'])->group(function () {
     Route::get('/doctor/appointments', [AppointmentController::class, 'doctorAppointments'])
         ->name('appointments.doctor');
 });
+Route::get('/about', [PatientController::class, 'about'])->name('about');
+Route::get('/about-services', [PatientController::class, 'services'])->name('services');
+Route::get('/doctors', [PatientController::class, 'doctors'])->name('doctors');
+Route::get('/doctors-detail', [PatientController::class, 'doctorsDetail'])->name('doctors-detail');
 
 Route::get('/appointments/pending', [AppointmentController::class, 'pendingAppointments'])
     ->name('appointment.pending')
