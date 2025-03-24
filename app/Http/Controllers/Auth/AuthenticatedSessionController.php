@@ -28,6 +28,13 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        
+
+        $intendedUrl = redirect()->intended()->getTargetUrl();
+        if (Auth::user()->hasRole('patient') && str_contains($intendedUrl, 'dashboard')) {
+            return redirect()->route('welcome');
+        }
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 

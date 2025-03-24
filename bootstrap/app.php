@@ -16,6 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'status_account' => \App\Http\Middleware\StatusAccount::class,
             "role" => \App\Http\Middleware\CheckRole::class,
             "userAccount" => \App\Http\Middleware\UserAccount::class,
+            'prevent.patient.dashboard' => \App\Http\Middleware\PreventPatientDashboardAccess::class
+            
         ]);
         $middleware->group('auth', [
             'status_account',

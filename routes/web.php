@@ -17,15 +17,16 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\StaticSalaryController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\DoctorScheduleController;
-use App\Http\Controllers\MessagesController;
+use Chatify\Http\Controllers\MessagesController;
 
-Route::get('{path?}', [UserController::class, 'idFetch'])->where('path', '|dashboard')
-    ->middleware(['auth', 'verified'])
+Route::get('{path?}', [UserController::class, 'idFetch'])
+    ->where('path', '|dashboard')
+    ->middleware(['auth', 'verified', 'prevent.patient.dashboard'])
     ->name('dashboard');
 
 Route::get('/user/home', function () {
     return view('welcome');
-})->middleware(['auth', 'verified'])->name('welcome');
+})->middleware(['auth', 'verified', 'role:patient'])->name('welcome');
 
 
 Route::middleware('auth')->group(function () {
@@ -169,4 +170,6 @@ Route::get('/appointments/pending', [AppointmentController::class, 'pendingAppoi
     ->name('appointment.pending')
     ->middleware('role:doctor');
 
+ 
 require __DIR__ . '/auth.php';
+
