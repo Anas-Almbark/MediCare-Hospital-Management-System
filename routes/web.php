@@ -15,7 +15,8 @@ use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\SupportController;
+// Remove or comment out this duplicate line
+// use App\Http\Controllers\SupportController;
 
 // Route::get('/dashboard', [UserController::class, 'idFetch'])
 //     ->middleware(['auth', 'verified'])
