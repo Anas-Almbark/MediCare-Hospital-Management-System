@@ -82,6 +82,16 @@
                         </svg>
                         <span class="side-menu__label">{{ __('Salaries') }}</span></a>
                 </li>
+                <li class="slide">
+                    <a class="side-menu__item" href="{{ route('staticSalaries.index') }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 4h16v6H4zm0 9h16v2H4zm0 5h16v2H4z" opacity=".3" />
+                            <path
+                                d="M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 2v6H4V4h16zM4 20v-2h16v2H4zm0-5v-2h16v2H4z" />
+                        </svg>
+                        <span class="side-menu__label">{{ __('Static Salaries') }}</span></a>
+                </li>
             @endhasrole
             <li class="slide">
                 <a class="side-menu__item" href="{{ route('bill.index') }}">

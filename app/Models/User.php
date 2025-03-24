@@ -101,6 +101,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Support::class);
     }
+    public function staticSalary()
+    {
+        return $this->hasOne(StaticSalary::class, 'employee', 'id');
+    }
     public static function employees()
     {
         return self::whereDoesntHave('roles', function ($query) {

@@ -16,6 +16,7 @@ use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\StaticSalaryController;
 
 Route::get('{path?}', [UserController::class, 'idFetch'])->where('path', '|dashboard')
     ->middleware(['auth', 'verified'])
@@ -69,6 +70,15 @@ Route::middleware(['auth', 'role:super-admin'])->group(function () {
     Route::delete("/delete/salary/{id}", [SalaryController::class, "destroy"])->name("salaries.destroy");
     Route::get("/edit/salary/{salary}", [SalaryController::class, "edit"])->name("salaries.edit");
     Route::put("/update/salary/{salary}", [SalaryController::class, "update"])->name("salaries.update");
+});
+
+Route::middleware(['auth', 'role:super-admin'])->group(function () {
+    Route::get("/static_salaries", [StaticSalaryController::class, "index"])->name("staticSalaries.index");
+    Route::get("/new/static_salaries", [StaticSalaryController::class, "create"])->name("staticSalaries.create");
+    Route::post("/add/static_salaries", [StaticSalaryController::class, "store"])->name("staticSalaries.store");
+    Route::delete("/delete/static_salaries/{id}", [StaticSalaryController::class, "destroy"])->name("staticSalaries.destroy");
+    Route::get("/edit/static_salaries/{salary}", [StaticSalaryController::class, "edit"])->name("staticSalaries.edit");
+    Route::put("/update/static_salaries/{salary}", [StaticSalaryController::class, "update"])->name("staticSalaries.update");
 });
 
 Route::middleware('auth')->group(function () {
