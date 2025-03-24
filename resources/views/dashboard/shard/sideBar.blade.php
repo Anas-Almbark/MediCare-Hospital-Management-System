@@ -95,11 +95,8 @@
                     </svg><span class="side-menu__label">{{ __('Bills') }}</span></a>
             </li>
             <li class="slide">
-<<<<<<< HEAD
                 <a class="side-menu__item" data-toggle="slide" href="#">
-=======
                 <a class="side-menu__item" href="{{ route('appointment.index') }}">
->>>>>>> 22d114f93d40661370e00bf90f2d9c1f7baf7f8d
                     <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
                         <path d="M0 0h24v24H0z" fill="none" />
                         <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zM5 7V5h14v2H5zm2 4h10v2H7zm0 4h7v2H7z" opacity=".3" />
@@ -110,17 +107,18 @@
                 </a>
                 <ul class="slide-menu">
                     @hasrole('patient')
-                    <li><a class="slide-item" href="{{ route('appointment.index') }}">{{ __('All Appointments') }}</a></li>
-                    <li><a class="slide-item" href="{{ route('appointments.my') }}">{{ __('My Appointments') }}</a></li>
+                        <li><a class="slide-item" href="{{ route('appointment.index') }}">{{ __('All Appointments') }}</a></li>
+                        <li><a class="slide-item" href="{{ route('appointments.my') }}">{{ __('My Appointments') }}</a></li>
                     @endhasrole
+                    
                     @hasrole('doctor')
-                    <li><a class="slide-item" href="{{ route('doctor.appointments') }}">{{ __('My Appointments') }}</a></li>
-                    <li><a class="slide-item" href="{{ route('appointment.pending') }}">
-                        <span class="badge bg-warning rounded-pill float-end">
-                            {{ \App\Models\Appointment::where('doctor_id', auth()->id())->where('status', 'pending')->count() }}
-                        </span>
-                        {{ __('Pending Requests') }}
-                    </a></li>
+                        <li><a class="slide-item" href="{{ route('appointments.doctor') }}">{{ __('My Appointments') }}</a></li>
+                        <li><a class="slide-item" href="{{ route('appointment.pending') }}">
+                            <span class="badge bg-warning rounded-pill float-end">
+                                {{ \App\Models\Appointment::where('doctor_id', auth()->id())->where('status', 'pending')->count() }}
+                            </span>
+                            {{ __('Pending Requests') }}
+                        </a></li>
                     @endhasrole
                 </ul>
             </li>

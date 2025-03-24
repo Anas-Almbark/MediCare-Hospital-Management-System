@@ -110,7 +110,7 @@
         }
 
         function filterAppointments(filter) {
-            window.location.href = `{{ route('doctor.appointments') }}?filter=${filter}`;
+            window.location.href = `{{ route('appointments.doctor') }}?filter=${filter}`;
         }
     </script>
     @endpush

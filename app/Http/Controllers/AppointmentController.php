@@ -120,10 +120,10 @@ $doctors = User::role('doctor')->get();
 
     public function pendingAppointments()
     {
-        $pendingAppointments = Appointment::with('patient')
+        $pendingAppointments = Appointment::where('doctor_id', auth()->id())
             ->where('status', 'pending')
-            ->orderBy('date')  // Changed from appointment_date to date
-            ->orderBy('start_time')
+            ->with('patient')
+            ->latest()
             ->paginate(10);
     
         return view('dashboard.appointments.pending', compact('pendingAppointments'));

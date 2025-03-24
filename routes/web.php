@@ -15,10 +15,11 @@ use Chatify\Http\Controllers\MessagesController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\SupportController;
+use App\Http\Controllers\DoctorScheduleController;
 
-// Route::get('/dashboard', [UserController::class, 'idFetch'])
-//     ->middleware(['auth', 'verified'])
-//     ->name('dashboard');
+Route::get('/dashboard', [UserController::class, 'idFetch'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::get('/user/home', function () {
     return view('welcome');
@@ -142,5 +143,15 @@ Route::get('change/language/{locale}', [LanguageController::class, 'changeLangua
 Route::resource('supports', SupportController::class);
 Route::get('/supports/create', [SupportController::class, 'create'])->name('supports.create');
 Route::get('/user/messages', [SupportController::class, 'usermessages'])->name('supports.usermessages');
+
+Route::middleware(['auth', 'role:doctor'])->group(function () {
+    Route::resource('doctor-schedules', DoctorScheduleController::class);
+    Route::get('/doctor/appointments', [AppointmentController::class, 'doctorAppointments'])
+        ->name('appointments.doctor');
+});
+
+Route::get('/appointments/pending', [AppointmentController::class, 'pendingAppointments'])
+    ->name('appointment.pending')
+    ->middleware('role:doctor');
 
 require __DIR__ . '/auth.php';
