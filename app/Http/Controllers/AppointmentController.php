@@ -2,27 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Doctor;
 use App\Models\Appointment;
 use App\Models\User;
+use Illuminate\Http\Request;
+
 class AppointmentController extends Controller
 {
     public function index()
     {
-$doctors = User::role('doctor')->get();
-        $appointments = Appointment::with(['doctor', 'patient'])
-            ->when(request('doctor_id'), function($query) {
-                return $query->where('doctor_id', request('doctor_id'));
-            })
-            ->when(request('appointment_date'), function($query) {
-                return $query->whereDate('date', request('appointment_date'));
-            })
-            ->when(request('status'), function($query) {
-                return $query->where('status', request('status'));
-            })
-            ->paginate(10);
-        return view('dashboard.appointments.index', compact('appointments', 'doctors'));
+        $appointments = Appointment::with(['doctor', 'patient'])->paginate(5);
+        return view('dashboard.appointments.index', compact('appointments'));
     }
 
     public function create()
@@ -34,14 +23,14 @@ $doctors = User::role('doctor')->get();
 
     public function store(Request $request)
     {
-        
         $request->validate([
             'doctor' => 'required|exists:users,id',
             'patient' => 'required|exists:users,id',
             'date' => 'required|date',
-            'status' => 'required|in:available,pending,confirmed,cancelled, rejected',
+            'status' => 'required|in:pending,confirmed,cancelled',
             'notes' => 'nullable|string'
         ]);
+        
         Appointment::create($request->all());
         return redirect()->route('appointment.index')->with('success', 'Appointment created successfully');
     }
@@ -75,7 +64,7 @@ $doctors = User::role('doctor')->get();
             'patient_id' => 'required|exists:users,id',
             'appointment_date' => 'required|date',
             'appointment_time' => 'required',
-            'status' => 'required|in:available,pending,confirmed,cancelled, rejected',
+            'status' => 'required|in:scheduled,completed,cancelled',
             'notes' => 'nullable|string'
         ]);
 
@@ -183,18 +172,18 @@ $doctors = User::role('doctor')->get();
     }
 
     public function updateNote(Request $request, Appointment $appointment)
-        {
-            $request->validate([
-                'notes' => 'nullable|string|max:255'
-            ]);
-    
-            $appointment->update([
-                'notes' => $request->notes
-            ]);
-    
-            return redirect()->back()
-                ->with('success', __('Note updated successfully'));
-        }
+    {
+        $request->validate([
+            'notes' => 'nullable|string|max:255'
+        ]);
+
+        $appointment->update([
+            'notes' => $request->notes
+        ]);
+
+        return redirect()->back()
+            ->with('success', __('Note updated successfully'));
+    }
 
     public function myAppointments()
     {
