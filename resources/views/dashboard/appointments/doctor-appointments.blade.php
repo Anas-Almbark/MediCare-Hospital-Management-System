@@ -3,20 +3,45 @@
     <div class="container-fluid py-4">
         <div class="card">
             <div class="card-header">
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <h5 class="card-title mb-1">{{ __("Today's Appointments") }}</h5>
                         <p class="text-muted mb-0">{{ __('View and manage your appointments for') }} {{ now()->format('l, F j, Y') }}</p>
                     </div>
-                    <div>
-                        <select id="appointmentFilter" class="form-select form-select-sm" onchange="filterAppointments(this.value)">
-                            <option value="all">{{ __('All Appointments') }}</option>
-                            <option value="today" selected>{{ __('Today') }}</option>
-                            <option value="upcoming">{{ __('Upcoming') }}</option>
-                            <option value="past">{{ __('Past') }}</option>
+                </div>
+                
+                <form action="{{ route('appointments.doctor') }}" method="GET" class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label">{{ __('Filter by Date') }}</label>
+                        <input type="date" name="date" class="form-control" value="{{ request('date') }}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">{{ __('Status') }}</label>
+                        <select name="status" class="form-select">
+                            <option value="">{{ __('All Status') }}</option>
+                            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>{{ __('Pending') }}</option>
+                            <option value="confirmed" {{ request('status') == 'confirmed' ? 'selected' : '' }}>{{ __('Confirmed') }}</option>
+                            <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>{{ __('Cancelled') }}</option>
                         </select>
                     </div>
-                </div>
+                    <div class="col-md-3">
+                        <label class="form-label">{{ __('Time Range') }}</label>
+                        <select name="time_range" class="form-select">
+                            <option value="all" {{ request('time_range') == 'all' ? 'selected' : '' }}>{{ __('All Time') }}</option>
+                            <option value="morning" {{ request('time_range') == 'morning' ? 'selected' : '' }}>{{ __('Morning') }}</option>
+                            <option value="afternoon" {{ request('time_range') == 'afternoon' ? 'selected' : '' }}>{{ __('Afternoon') }}</option>
+                            <option value="evening" {{ request('time_range') == 'evening' ? 'selected' : '' }}>{{ __('Evening') }}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary me-2">
+                            <i class="fas fa-filter"></i> {{ __('Filter') }}
+                        </button>
+                        <a href="{{ route('appointments.doctor') }}" class="btn btn-light">
+                            <i class="fas fa-redo"></i> {{ __('Reset') }}
+                        </a>
+                    </div>
+                </form>
             </div>
             
             <div class="card-body p-0">

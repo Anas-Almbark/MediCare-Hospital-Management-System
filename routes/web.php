@@ -169,4 +169,17 @@ Route::get('/appointments/pending', [AppointmentController::class, 'pendingAppoi
     ->name('appointment.pending')
     ->middleware('role:doctor');
 
+Route::get('/appointments/my', [AppointmentController::class, 'myAppointments'])->name('appointment.my');
+Route::get('/appointments/{appointment}/book', [AppointmentController::class, 'book'])
+    ->name('appointment.book')
+    ->middleware(['auth', 'role:patient']);
+
+Route::patch('/appointments/{appointment}/update-status', [AppointmentController::class, 'updateStatus'])
+    ->name('appointment.update-status')
+    ->middleware(['auth', 'role:doctor']);
+
+Route::get('/appointments/{appointment}/cancel', [AppointmentController::class, 'cancelAppointment'])
+    ->name('appointment.cancel')
+    ->middleware(['auth', 'role:patient']);
+
 require __DIR__ . '/auth.php';
