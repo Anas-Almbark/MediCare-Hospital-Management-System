@@ -14,7 +14,7 @@ class UserController extends Controller
     {
         $users = User::paginate(10);
         $roles = Role::all();
-        return view('dashboard.employees.users.', compact('users', 'roles'));
+        return view('dashboard.employees.users', compact('users', 'roles'));
     }
 
     public function create()
