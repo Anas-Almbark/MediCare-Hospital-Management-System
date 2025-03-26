@@ -110,8 +110,8 @@
                     </svg><span class="side-menu__label">{{ __('Bills') }}</span></a>
             </li>
             @hasrole('doctor')
-            <li class="slide">
-                <a class="side-menu__item" data-toggle="slide" href="#">
+                <li class="slide">
+                    <a class="side-menu__item" data-toggle="slide" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
                             <path d="M0 0h24v24H0z" fill="none" />
                             <path
@@ -124,15 +124,15 @@
                         <i class="angle fe fe-chevron-down"></i>
                     </a>
                     <ul class="slide-menu">
-                            <li><a class="slide-item"
-                                    href="{{ route('doctor.appointments.index') }}">{{ __('My Appointments') }}</a></li>
-                            <li><a class="slide-item" href="{{ route('appointment.pending') }}">
-                                    <span class="badge bg-warning rounded-pill float-end">
-                                        {{ \App\Models\Appointment::where('doctor_id', auth()->id())->where('status', 'pending')->count() }}
-                                    </span>
-                                    {{ __('Pending Requests') }}
-                                </a></li>
-                        </ul>
+                        <li><a class="slide-item"
+                                href="{{ route('doctor.appointments.index') }}">{{ __('My Appointments') }}</a></li>
+                        <li><a class="slide-item" href="{{ route('appointment.pending') }}">
+                                <span class="badge bg-warning rounded-pill float-end">
+                                    {{ \App\Models\Appointment::where('doctor_id', auth()->id())->where('status', 'pending')->count() }}
+                                </span>
+                                {{ __('Pending Requests') }}
+                            </a></li>
+                    </ul>
                 </li>
                 <li class="slide">
                     <a class="side-menu__item" data-toggle="slide" href="#">
@@ -173,23 +173,25 @@
                             d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-8-2h4v2h-4V4zm8 14H4V8h16v12zM6 10h12v2H6zm0 4h12v2H6z" />
                     </svg><span class="side-menu__label">{{ __('Medical Records') }}</span></a>
             </li>
-            <li class="slide">
-                <a class="side-menu__item" data-toggle="slide" href="#">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3" />
-                        <path
-                            d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z" />
-                    </svg>
-                    <span class="side-menu__label">{{ __('Laboratory Management') }}</span>
-                    <i class="angle fe fe-chevron-down"></i>
-                </a>
-                <ul class="slide-menu">
-                    <li><a class="slide-item" href="{{ route('lab-test.index') }}">{{ __('Lab Tests') }}</a></li>
-                    <li><a class="slide-item" href="{{ route('lab-type.index') }}">{{ __('Lab Test Types') }}</a>
-                    </li>
-                </ul>
-            </li>
+            @hasrole('lab_technician|super-admin')
+                <li class="slide">
+                    <a class="side-menu__item" data-toggle="slide" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3" />
+                            <path
+                                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z" />
+                        </svg>
+                        <span class="side-menu__label">{{ __('Laboratory Management') }}</span>
+                        <i class="angle fe fe-chevron-down"></i>
+                    </a>
+                    <ul class="slide-menu">
+                        <li><a class="slide-item" href="{{ route('lab-test.index') }}">{{ __('Lab Tests') }}</a></li>
+                        <li><a class="slide-item" href="{{ route('lab-type.index') }}">{{ __('Lab Test Types') }}</a>
+                        </li>
+                    </ul>
+                </li>
+            @endhasrole
         </ul>
     </div>
 </aside>

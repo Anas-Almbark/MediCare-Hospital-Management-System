@@ -26,7 +26,7 @@
 									<h2>Your Most Trusted Health Partner For Life.</h2>
 									<div class="text">We offer free consulting and the best project management for your ideas, 100% delivery guaranteed.</div>
 									<div class="btn-box">
-										<a href="contact.html" class="theme-btn appointment-btn"><span class="txt">Appointment</span></a>
+										<a href="{{ route('patient.appointments.available') }}" class="theme-btn appointment-btn"><span class="txt">Appointment</span></a>
 										<a href="services.html" class="theme-btn services-btn">Services</a>
 									</div>
 								</div>
@@ -57,7 +57,7 @@
 									<h2>Your Most Trusted Health Partner For Life.</h2>
 									<div class="text">We offer free consulting and the best project management for your ideas, 100% delivery guaranteed.</div>
 									<div class="btn-box">
-										<a href="contact.html" class="theme-btn appointment-btn"><span class="txt">Appointment</span></a>
+										<a href="{{ route('patient.appointments.available') }}" class="theme-btn appointment-btn"><span class="txt">Appointment</span></a>
 										<a href="services.html" class="theme-btn services-btn">Services</a>
 									</div>
 								</div>
@@ -88,8 +88,8 @@
 									<h2>Your Most Trusted Health Partner For Life.</h2>
 									<div class="text">We offer free consulting and the best project management for your ideas, 100% delivery guaranteed.</div>
 									<div class="btn-box">
-										<a href="contact.html" class="theme-btn appointment-btn"><span class="txt">Appointment</span></a>
-										<a href="services.html" class="theme-btn services-btn">Services</a>
+										<a href="{{ route('patient.appointments.available') }}" class="theme-btn appointment-btn"><span class="txt">Appointment</span></a>
+										<a href="" class="theme-btn services-btn">Services</a>
 									</div>
 								</div>
 							</div>

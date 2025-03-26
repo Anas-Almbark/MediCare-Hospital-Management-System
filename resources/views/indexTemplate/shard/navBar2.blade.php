@@ -148,7 +148,7 @@
                                 <div class="search-box-btn"><span class="icon flaticon-search"></span></div>
                          <!-- Button Box -->
                          <div class="btn-box">
-                             <a href="contact.html" class="theme-btn btn-style-one"><span class="txt">Appointment</span></a>
+                             <a href="{{ route('patient.appointments.available') }}" class="theme-btn btn-style-one"><span class="txt">Appointment</span></a>
                          </div>
                      </div>
                  </div>

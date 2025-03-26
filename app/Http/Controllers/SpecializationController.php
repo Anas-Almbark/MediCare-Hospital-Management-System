@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class SpecializationController extends Controller
 {
+    
     public function index()
     {
         $specializations = Specialization::paginate(10);

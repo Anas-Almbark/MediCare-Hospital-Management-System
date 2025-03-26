@@ -13,7 +13,7 @@
                     <thead>
                         <tr>
                             <th>{{ __('Doctor') }}</th>
-                            <th>{{ __('Specialization') }}</th>
+                            <th>{{ __('Notes') }}</th>
                             <th>{{ __('Date') }}</th>
                             <th>{{ __('Time') }}</th>
                             <th>{{ __('Status') }}</th>
@@ -32,7 +32,7 @@
                                         <span>Dr. {{ $appointment->doctor->name }}</span>
                                     </div>
                                 </td>
-                                <td>{{ $appointment->doctor->specialization }}</td>
+                                <td>{{ $appointment->notes }}</td>
                                 <td>{{ \Carbon\Carbon::parse($appointment->date)->format('l, F j, Y') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($appointment->start_time)->format('h:i A') }}</td>
                                 <td>
@@ -55,11 +55,16 @@
                                 </td>
                                 <td>
                                     @if($appointment->status === 'pending')
-                                        <button onclick="cancelAppointment({{ $appointment->id }})" 
-                                                class="btn btn-sm btn-danger">
-                                            <i class="fas fa-times me-1"></i>
-                                            {{ __('Cancel') }}
-                                        </button>
+                                        <form action="{{ route('patient.appointments.cancel', $appointment->id) }}" 
+                                              method="POST" 
+                                              class="d-inline"
+                                              onsubmit="return confirm('{{ __('Are you sure you want to cancel this appointment?') }}')">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="fas fa-times me-1"></i>
+                                                {{ __('Cancel') }}
+                                            </button>
+                                        </form>
                                     @endif
                                     @if($appointment->status === 'completed')
                                         <a href="{{ route('medical-record.show', $appointment->id) }}" 
@@ -96,13 +101,5 @@
     </div>
 </div>
 
-@push('scripts')
-<script>
-function cancelAppointment(appointmentId) {
-    if (confirm("{{ __('Are you sure you want to cancel this appointment?') }}")) {
-        window.location.href = `{{ url('appointments') }}/${appointmentId}/cancel`;
-    }
-}
-</script>
-@endpush
+
 @endsection

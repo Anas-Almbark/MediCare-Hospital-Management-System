@@ -37,7 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:super-admin'])->group(function () {
     Route::get("/roles", [RoleController::class, "index"])->name("role.index");
     Route::get("/new/role", [RoleController::class, "create"])->name("role.create");
     Route::post("/add/role", [RoleController::class, "store"])->name("role.store");
@@ -46,7 +46,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete("/delete/role/{role}", [RoleController::class, "destroy"])->name("role.destroy");
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:super-admin'])->group(function () {
     Route::get("/permission", [PermissionController::class, "index"])->name("permission.index");
     Route::get("/new/permission", [PermissionController::class, "create"])->name("permission.create");
     Route::post("/add/permission", [PermissionController::class, "store"])->name("permission.store");
@@ -55,14 +55,14 @@ Route::middleware(['auth'])->group(function () {
     Route::delete("/delete/permission/{permission}", [PermissionController::class, "destroy"])->name("permission.destroy");
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:super-admin'])->group(function () {
     Route::get("/users", [UserController::class, "index"])->name("user.index");
     Route::get("/new/user", [UserController::class, "create"])->name("user.create");
     Route::post("/add/user", [UserController::class, "store"])->name("user.store");
     Route::get("/edit/user/{user}", [UserController::class, "edit"])->name("user.edit");
     Route::put("/update/user/{user}", [UserController::class, "update"])->name("user.update");
     Route::delete("/delete/user/{user}", [UserController::class, "destroy"])->name("user.destroy");
-    Route::get("/search", [UserController::class, "searchByName"])->name('user.search');
+    Route::get("user/search", [UserController::class, "searchByName"])->name('user.search');
     Route::post("/user/filter", [UserController::class, "filterByRole"])->name('user.filter'); // تم تعديل المسار
 });
 
@@ -143,17 +143,18 @@ Route::middleware('auth')->group(function () {
     Route::delete("/medical-record/attachment/{id}", [MedicalRecordController::class, "deleteAttachment"])->name('medical-record.delete-attachment');
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:lab_technician|super-admin'])->group(function () {
     Route::get("/lab-tests", [LabTestController::class, "index"])->name("lab-test.index");
     Route::get("/lab-test/{labTest}", [LabTestController::class, "show"])->name("lab-test.show");
     Route::get("/new/lab-test", [LabTestController::class, "create"])->name("lab-test.create");
     Route::post("/add/lab-test", [LabTestController::class, "store"])->name("lab-test.store");
     Route::get("/edit/lab-test/{labTest}", [LabTestController::class, "edit"])->name("lab-test.edit");
+    Route::get("/search", [LabTestController::class, "searchByName"])->name('lab-test.search');
     Route::put("/update/lab-test/{labTest}", [LabTestController::class, "update"])->name("lab-test.update");
     Route::delete("/delete/lab-test/{labTest}", [LabTestController::class, "destroy"])->name('lab-test.destroy');
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:lab_technician|super-admin'])->group(function () {
     Route::get("/lab-types", [LabTypeController::class, "index"])->name("lab-type.index");
     Route::get("/new/lab-type", [LabTypeController::class, "create"])->name("lab-type.create");
     Route::post("/add/lab-type", [LabTypeController::class, "store"])->name("lab-type.store");
@@ -178,5 +179,3 @@ Route::get('/user/messages', [SupportController::class, 'usermessages'])->name('
 require __DIR__ . '/appointments.php';
 
 require __DIR__ . '/auth.php';
-
-

@@ -75,11 +75,12 @@
                 <div class="row mb-4">
                     <div class="col-md-8">
                         <div class="input-group">
-                            <input type="text" class="form-control"
-                                placeholder="Search by test name, patient or status...">
-                            <button class="btn btn-outline-primary" type="button">
-                                <i class="fas fa-search"></i>
-                            </button>
+                            <form action="{{ route('lab-test.search') }}" class="d-flex w-100">
+                                <input type="text" class="form-control" name="search" placeholder="Search by name">
+                                <button class="btn btn-outline-primary" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
                     <div class="pr-1 mb-3 mb-xl-0">
@@ -88,8 +89,6 @@
                         </button>
                     </div>
                 </div>
-
-                <!-- Filters Panel (Hidden by default) -->
                 <div id="filter-panel" class="card mb-4 shadow-sm" style="display: none;">
                     <div class="card-body bg-light">
                         <form>
@@ -175,7 +174,8 @@
                                     </td>
                                     <td>
                                         @if ($labTest->status == 'completed')
-                                            <a href="#" class="btn btn-sm btn-info">
+                                            <a href="{{ route('lab-test.show', $labTest->id) }}"
+                                                class="btn btn-sm btn-info">
                                                 <i class="fas fa-file-medical"></i> View
                                             </a>
                                             <button onclick="sendWhatsApp('{{ $labTest->patientData->phone_number }}', '{{ $labTest->labType->name }}', '{{ $labTest->created_at->format('Y-m-d') }}', '{{ $labTest->id }}')" 
