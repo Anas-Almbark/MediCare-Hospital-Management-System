@@ -131,4 +131,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Specialization::class, 'doctor_specialization', 'doctor_id', 'specialization_id');
     }
+    public function specialization()
+    {
+        return $this->belongsTo(Specialization::class);
+    }
 }

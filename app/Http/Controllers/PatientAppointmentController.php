@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\User;
+use App\Models\Specialization;
 use Illuminate\Http\Request;
 
 class PatientAppointmentController extends Controller
@@ -11,13 +12,24 @@ class PatientAppointmentController extends Controller
     public function index()
     {
         $currentDate = request('date', now()->format('Y-m-d'));
+        $doctorId = request('doctor_id');
+
         $appointments = Appointment::with('doctor')
             ->whereDate('date', $currentDate)
             ->whereNull('patient_id')
             ->where('status', 'available')
+            ->when($doctorId, function($query) use ($doctorId) {
+                return $query->where('doctor_id', $doctorId);
+            })
             ->paginate(9);
 
-        return view('patient_pages.appointments.index', compact('appointments', 'currentDate'));
+        $doctors = User::role('doctor')->get();
+
+        return view('patient_pages.appointments.index', compact(
+            'appointments', 
+            'currentDate', 
+            'doctors'
+        ));
     }
 
     public function myAppointments()
