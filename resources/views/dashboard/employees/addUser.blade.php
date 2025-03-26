@@ -7,7 +7,7 @@
                 <p class="mb-2">{{ __('Create a new user account with appropriate role.') }}</p>
             </div>
             <div class="card-body pt-0">
-                <form class="form-horizontal" action="{{ route('user.store') }}" method="POST">
+                <form class="form-horizontal" action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label for="name" class="form-label">{{ __('Full Name') }}</label>
@@ -30,6 +30,16 @@
                         <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
                             id="password" placeholder="{{ __('Password') }}" required />
                         @error('password')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profile_photo" class="form-label">{{ __('Profile Photo') }}</label>
+                        <input type="file" name="profile_photo" class="form-control @error('profile_photo') is-invalid @enderror"
+                            id="profile_photo" accept="image/*" />
+                        <small class="form-text text-muted">{{ __('Optional: Upload a profile photo') }}</small>
+                        @error('profile_photo')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>

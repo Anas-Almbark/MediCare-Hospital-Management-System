@@ -33,7 +33,8 @@ class User extends Authenticatable
         'provider_name',
         'token',
         'refresh_token',
-        'status_account'
+        'status_account',
+        'profile_photo',
     ];
 
     /**

@@ -6,7 +6,7 @@
            
                <!--Info-->
                <div class="logo-outer">
-                    <div class="logo"><a href="index.html"><img src="images/logo-3.png" alt="" title=""></a></div>
+                    <div class="logo"><a href="index.html"><img src="{{ asset('assets/img/logo-v.png') }}" alt="" title="" style="width: 160px; height: auto;"></a></div>
                </div>
 
                <!--Nav Box-->
