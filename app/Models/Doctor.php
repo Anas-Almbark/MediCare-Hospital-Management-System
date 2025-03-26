@@ -18,7 +18,7 @@ class Doctor extends Model
         'doctor',
         'specialization_id',
         'license_number',
-        'experience_years',
+        'experience_years'
     ];
     public function schedules()
 {

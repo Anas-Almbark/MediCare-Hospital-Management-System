@@ -83,7 +83,17 @@ class User extends Authenticatable
     }
     public function appointments()
     {
-        return $this->hasMany(Appointment::class);
+        return $this->hasMany(Appointment::class, 'patient_id')->with(['doctor', 'schedule']);
+    }
+
+    public function doctorAppointments()
+    {
+        return $this->hasMany(Appointment::class, 'doctor_id')->with(['patient', 'schedule']);
+    }
+
+    public function schedules()
+    {
+        return $this->hasMany(DoctorSchedule::class, 'doctor_id')->with(['appointments.patient', 'appointments.doctor']);
     }
     public function labTests()
     {
@@ -116,5 +126,9 @@ class User extends Authenticatable
         return self::whereDoesntHave('salaries', function ($query) {
             $query->whereMonth('payment_date', now()->month);
         })->whereIn('id', self::employees()->pluck('id'))->get();
+    }
+    public function specializations()
+    {
+        return $this->belongsToMany(Specialization::class, 'doctor_specialization', 'doctor_id', 'specialization_id');
     }
 }

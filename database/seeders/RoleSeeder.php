@@ -9,13 +9,16 @@ class RoleSeeder extends Seeder
 {
     public function run(): void
     {
-        // Create roles
         $roles = [
             'super-admin',
             'admin',
             'doctor',
             'patient',
-            'nurse'  // Added nurse role
+            'nurse',
+            'receptionist',
+            'accountant',
+            'lab_technician',
+            'doctor_secretary',
         ];
 
         foreach ($roles as $role) {

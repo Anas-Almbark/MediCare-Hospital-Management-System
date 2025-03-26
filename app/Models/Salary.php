@@ -18,6 +18,10 @@ class Salary extends Model
     {
         return $this->belongsTo(User::class, 'employee');
     }
+    public function staticSalary()
+    {
+        return $this->hasOneThrough(StaticSalary::class, User::class, 'id', 'employee', 'employee', 'id');
+    }
     public static function monthlySalaries()
     {
         $currentMonth = self::whereMonth('payment_date', now()->month)->get();

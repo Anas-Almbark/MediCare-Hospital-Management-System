@@ -7,22 +7,10 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Specialization;
 class DoctorController extends Controller
 {
-    public function index()
-    {
-        $doctors = User::role('doctor')->get();
-        $specialties = [
-            'Cardiology',
-            'Neurology',
-            'Pediatrics',
-            'Orthopedics',
-            'Dermatology',
-            'General Medicine'
-        ];
-        
-        return view('dashboard.doctors.index', compact('doctors', 'specialties'));
-    }
+
 
     public function create()
     {
@@ -34,23 +22,52 @@ class DoctorController extends Controller
     {
         $validation = $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:doctors',
-            'specialty' => 'required',
-            'phone' => 'required',
+            'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
-            'role' => 'required',
+            'specialization' => 'required|exists:specializations,id',
+            'license_number' => 'required|unique:doctors',
+            'experience_years' => 'required|numeric|min:0',
+            'phone' => 'required',
+            'birth_date' => 'required|date',
+            'gender' => 'required|in:male,female',
+            'blood_type' => 'nullable|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
+            'address' => 'required',
+            'identity_number' => 'required|unique:users',
         ]);
 
-        $doctor = Doctor::create([
+        // Create user first
+        $user = User::create([
             'name' => $validation['name'],
             'email' => $validation['email'],
-            'specialty' => $validation['specialty'],
-            'phone' => $validation['phone'],
             'password' => Hash::make($validation['password']),
+            'birth_date' => $validation['birth_date'],
+            'gender' => $validation['gender'],
+            'blood_type' => $validation['blood_type'],
+            'phone_number' => $validation['phone'],
+            'address' => $validation['address'],
+            'identity_number' => $validation['identity_number'],
         ]);
 
-        $doctor->assignRole($validation['role']);
+        // Assign doctor role
+        $user->assignRole('doctor');
+
+        // Create doctor record
+        $doctor = Doctor::create([
+            'doctor' => $user->id,
+            'specialization_id' => $validation['specialization'],
+            'license_number' => $validation['license_number'],
+            'experience_years' => $validation['experience_years'],
+        ]);
+
         return redirect()->route('doctor.index')->with('success', 'Doctor created successfully');
+    }
+
+    public function index()
+    {
+        $doctors = Doctor::with(['user', 'specialization'])->get();
+        $specializations = Specialization::all();
+        
+        return view('dashboard.doctors.index', compact('doctors', 'specializations'));
     }
 
     public function edit($id)

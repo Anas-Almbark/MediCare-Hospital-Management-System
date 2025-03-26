@@ -16,9 +16,7 @@
         <header class="main-header">
             @if (Request::is('user/home'))
                 @include('indexTemplate.shard.navBar')
-            @elseif (Request::is('about*'))
-                @include('indexTemplate.shard.navBar2')
-            @elseif (Request::is('doctors*'))
+            @else
                 @include('indexTemplate.shard.navBar2')
             @endif
 
