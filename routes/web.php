@@ -19,7 +19,7 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\DoctorScheduleController;
 use App\Http\Controllers\LabTypeController;
 use App\Http\Controllers\MessagesController;
-use Chatify\Http\Controllers\MessagesController;
+use Chatify\Http\Controllers\MessagesController as ChatifyMessagesController;
 
 
 Route::get('{path?}', [UserController::class, 'idFetch'])
@@ -159,7 +159,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete("/delete/lab-type/{labType}", [LabTypeController::class, "destroy"])->name('lab-type.destroy');
 });
 
-Route::get('/chat/{id?}', [MessagesController::class, 'index'])->name('chatify');
+Route::get('/chat/{id?}', [ChatifyMessagesController::class, 'index'])->name('chatify');
 Route::get('change/language/{locale}', [LanguageController::class, 'changeLanguage'])->name('change.language');
 
 
