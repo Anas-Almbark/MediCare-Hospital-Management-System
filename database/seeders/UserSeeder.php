@@ -10,7 +10,6 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Create Super Admin
         $superAdmin = User::firstOrCreate(
             ['email' => 'superadmin@gmail.com'],
             [
@@ -20,7 +19,6 @@ class UserSeeder extends Seeder
         );
         $superAdmin->assignRole('super-admin');
 
-        // Create Admin
         $admin = User::firstOrCreate(
             ['email' => 'admin@gmail.com'],
             [
@@ -30,7 +28,6 @@ class UserSeeder extends Seeder
         );
         $admin->assignRole('admin');
 
-        // Create Doctor
         $doctor = User::firstOrCreate(
             ['email' => 'doctor@gmail.com'],
             [
@@ -40,7 +37,6 @@ class UserSeeder extends Seeder
         );
         $doctor->assignRole('doctor');
 
-        // Create Patient
         $patient = User::firstOrCreate(
             ['email' => 'patient@gmail.com'],
             [
@@ -59,7 +55,42 @@ class UserSeeder extends Seeder
         );
         $nurse->assignRole('nurse');
 
-        // Create additional patients
+        $receptionist = User::firstOrCreate(
+            ['email' => 'receptionist@gmail.com'],
+            [
+                'name' => 'Receptionist',
+                'password' => Hash::make('12345678'),
+            ]
+        );
+        $receptionist->assignRole('receptionist');
+
+        $accountant = User::firstOrCreate(
+            ['email' => 'accountant@gmail.com'],
+            [
+                'name' => 'Accountant',
+                'password' => Hash::make('12345678'),
+            ]
+        );
+        $accountant->assignRole('accountant');
+
+        $labTechnician = User::firstOrCreate(
+            ['email' => 'lab.technician@gmail.com'],
+            [
+                'name' => 'Lab Technician',
+                'password' => Hash::make('12345678'),
+            ]
+        );
+        $labTechnician->assignRole('lab_technician');
+
+        $doctorSecretary = User::firstOrCreate(
+            ['email' => 'doctor.secretary@gmail.com'],
+            [
+                'name' => 'Doctor Secretary',
+                'password' => Hash::make('12345678'),
+            ]
+        );
+        $doctorSecretary->assignRole('doctor_secretary');
+
         for ($i = 1; $i <= 5; $i++) {
             $additionalPatient = User::firstOrCreate(
                 ['email' => "patient{$i}@gmail.com"],

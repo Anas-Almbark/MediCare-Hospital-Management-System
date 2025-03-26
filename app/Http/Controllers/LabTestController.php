@@ -51,9 +51,8 @@ class LabTestController extends Controller
         return redirect()->route('lab-test.index')->with('success', 'Lab test created successfully');
     }
 
-    public function show($id)
+    public function show(LabTest $labTest)
     {
-        $labTest = LabTest::with(['patient', 'doctor'])->findOrFail($id);
         return view('dashboard.lab-tests.show', compact('labTest'));
     }
 
@@ -72,10 +71,10 @@ class LabTestController extends Controller
             if ($labTest->result) {
                 Storage::disk('public')->delete($labTest->result);
             }
-            $request->file('result')->store('lab-tests', 'public');
+            $labTest->result = $request->file('result')->store('lab-tests', 'public');
         }
         $labTest->patientData->update($validation);
-        $labTest->update($validation);
+        $labTest->update(collect($validation)->except('result')->toArray());
         return redirect()->route('lab-test.index')->with('success', 'Lab test updated successfully');
     }
 
@@ -84,15 +83,9 @@ class LabTestController extends Controller
         $labTest->delete();
         return redirect()->route('lab-test.index')->with('success', 'Lab test deleted successfully');
     }
-
-    public function downloadReport($id)
+    public function searchByName(Request $request)
     {
-        $labTest = LabTest::findOrFail($id);
-
-        if (!$labTest->report_file) {
-            return back()->with('error', 'No report file available');
-        }
-
-        return Storage::disk('public')->download($labTest->report_file);
+        $labTests = User::search(request()->input('search'));
+        return view('dashboard.lab-tests.index', compact('labTests'));
     }
 }

@@ -30,4 +30,8 @@ class LabTest extends Model
     {
         return $this->belongsTo(LabType::class);
     }
+    public function scopeSearch($query, $request = '')
+    {
+        $query->where("name", "like", "%" . $request . "%");
+    }
 }

@@ -20,7 +20,7 @@ class UpdateLabTestRequest extends FormRequest
             'doctor' => 'nullable|exists:users,id',
             'lab_type_id' => 'sometimes|exists:lab_types,id',
             'status' => 'sometimes|string|in:pending,completed,cancelled',
-            'result' => 'required_if:status,completed|nullable'
+            'result' => 'required_if:status,completed|nullable|mimes:pdf'
         ];
     }
 }
