@@ -162,6 +162,11 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/chat/{id?}', [ChatifyMessagesController::class, 'index'])->name('chatify');
 Route::get('change/language/{locale}', [LanguageController::class, 'changeLanguage'])->name('change.language');
 
+// Add public pages routes
+Route::get('/about', [PatientController::class, 'about'])->name('about');
+Route::get('/services', [PatientController::class, 'services'])->name('services');
+Route::get('/doctors', [PatientController::class, 'doctors'])->name('doctors');
+Route::get('/doctors-detail', [PatientController::class, 'doctorsDetail'])->name('doctors-detail');
 
 Route::resource('supports', SupportController::class);
 Route::get('/supports/create', [SupportController::class, 'create'])->name('supports.create');
