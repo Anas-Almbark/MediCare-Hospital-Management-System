@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddLabTestRequest;
+use App\Http\Requests\UpdateLabTestRequest;
 use App\Models\User;
 use App\Models\LabTest;
+use App\Models\LabType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -12,35 +15,39 @@ class LabTestController extends Controller
 {
     public function index()
     {
-        $labTests = LabTest::with(['patient', 'doctor'])->paginate(10);
-        return view('dashboard.lab-tests.index', compact('labTests'));
+        $labTests = LabTest::with(['patientData', 'doctorData'])->paginate(10);
+        $labTypes = LabType::all();
+        return view('dashboard.lab-tests.index', compact('labTests', 'labTypes'));
     }
 
     public function create()
     {
         $doctors = User::role('doctor')->get();
         $patients = User::role('patient')->get();
-        return view('dashboard.lab-tests.create', compact('doctors', 'patients'));
+        $labTypes = LabType::all();
+        return view('dashboard.lab-tests.create', compact('doctors', 'patients', 'labTypes'));
     }
 
-    public function store(Request $request)
+    public function store(AddLabTestRequest $request)
     {
-        $request->validate([
-            'patient' => 'required|exists:users,id',
-            'doctor' => 'required|exists:users,id',
-            'test_type' => 'required|string|max:255',
-            'result' => 'required|date',
+        $validation =  $request->validated();
+        $patientData = [
+            ...$validation,
+            'email' => $validation['phone_number'] . '@patient.com',
+            'password' => bcrypt('password123'),
+        ];
 
-        ]);
+        $patient = User::create($patientData);
+        $patient->assignRole('patient');
 
-        $data = $request->except('report_file');
+        $labTestData = [
+            'patient' => $patient->id,
+            'doctor' => $validation['doctor_id'],
+            'lab_type_id' => $validation['lab_type_id'],
+        ];
 
-        if ($request->hasFile('report_file')) {
-            $path = $request->file('report_file')->store('lab-tests', 'public');
-            $data['report_file'] = $path;
-        }
+        LabTest::create($labTestData);
 
-        LabTest::create($data);
         return redirect()->route('lab-test.index')->with('success', 'Lab test created successfully');
     }
 
@@ -50,48 +57,30 @@ class LabTestController extends Controller
         return view('dashboard.lab-tests.show', compact('labTest'));
     }
 
-    public function edit($id)
+    public function edit(LabTest $labTest)
     {
-        $labTest = LabTest::findOrFail($id);
         $doctors = User::role('doctor')->get();
         $patients = User::role('patient')->get();
-        return view('dashboard.lab-tests.edit', compact('labTest', 'doctors', 'patients'));
+        $labTypes = LabType::all();
+        return view('dashboard.lab-tests.edit', compact('labTest', 'doctors', 'patients', 'labTypes'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateLabTestRequest $request, LabTest $labTest)
     {
-        $request->validate([
-            'patient' => 'required|exists:users,id',
-            'doctor' => 'required|exists:users,id',
-            'test_type' => 'required|string|max:255',
-            'result' => 'required|date',
-        ]);
-
-        $labTest = LabTest::findOrFail($id);
-        $data = $request->except('report_file');
-
-        if ($request->hasFile('report_file')) {
-            // Delete old file if exists
-            if ($labTest->report_file) {
-                Storage::disk('public')->delete($labTest->report_file);
+        $validation = $request->validated();
+        if ($request->hasFile('result')) {
+            if ($labTest->result) {
+                Storage::disk('public')->delete($labTest->result);
             }
-            $path = $request->file('report_file')->store('lab-tests', 'public');
-            $data['report_file'] = $path;
+            $request->file('result')->store('lab-tests', 'public');
         }
-
-        $labTest->update($data);
+        $labTest->patientData->update($validation);
+        $labTest->update($validation);
         return redirect()->route('lab-test.index')->with('success', 'Lab test updated successfully');
     }
 
-    public function destroy($id)
+    public function destroy(LabTest $labTest)
     {
-        $labTest = LabTest::findOrFail($id);
-
-        // Delete report file if exists
-        if ($labTest->report_file) {
-            Storage::disk('public')->delete($labTest->report_file);
-        }
-
         $labTest->delete();
         return redirect()->route('lab-test.index')->with('success', 'Lab test deleted successfully');
     }
