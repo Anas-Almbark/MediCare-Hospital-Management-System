@@ -178,9 +178,10 @@
                                             <a href="#" class="btn btn-sm btn-info">
                                                 <i class="fas fa-file-medical"></i> View
                                             </a>
-                                            <a href="#" class="btn btn-sm btn-success">
+                                            <button onclick="sendWhatsApp('{{ $labTest->patientData->phone_number }}', '{{ $labTest->labType->name }}', '{{ $labTest->created_at->format('Y-m-d') }}', '{{ $labTest->id }}')" 
+                                                    class="btn btn-sm btn-success">
                                                 <i class="fab fa-whatsapp"></i> Send
-                                            </a>
+                                            </button>
                                         @else
                                             <span class="text-muted">N/A</span>
                                         @endif
@@ -279,3 +280,25 @@
         </script>
     @endpush
 @endsection
+
+@push('scripts')
+<script>
+function sendWhatsApp(phone, testName, date, testId) {
+    const resultUrl = `${window.location.origin}/lab-test/${testId}`;
+    
+    const waLink = document.createElement('a');
+    waLink.href = `whatsapp://send?phone=${phone.replace(/[^0-9]/g, '')}&text=${encodeURIComponent(
+`🔬✨ مرحبًا عزيزي،
+نتائج اختبار المختبر ${testName} جاهزة الآن! ✅
+📅 التاريخ: ${date}
+
+📄 يمكنك الاطلاع على النتائج من خلال الرابط التالي:
+${resultUrl}
+
+نتمنى لك دوام الصحة والعافية! 💙`)}`;
+    
+    waLink.click();
+}
+</script>
+@endpush
+    

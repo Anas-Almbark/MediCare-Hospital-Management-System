@@ -2,12 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Specialization extends Model
 {
-    public function doctors(){
-        return $this->hasMany(Doctor::class);
+    use HasFactory;
+
+    protected $fillable = ['name', 'description'];
+
+    public function doctors()
+    {
+        return $this->hasMany(Doctor::class, 'specialization_id');
     }
-    
 }
