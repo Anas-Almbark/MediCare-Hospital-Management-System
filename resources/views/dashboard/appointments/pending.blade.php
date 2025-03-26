@@ -10,7 +10,7 @@
                         <h5 class="card-title mb-1">{{ __('Pending Appointments') }}</h5>
                         <p class="text-muted mb-0">{{ __('Review and manage appointment requests') }}</p>
                     </div>
-                    <a href="{{ route('appointment.index') }}" class="btn btn-secondary btn-sm">
+                    <a href="{{ route('doctor.appointments.index') }}" class="btn btn-secondary btn-sm">
                         <i class="fas fa-arrow-left"></i> {{ __('Back to All Appointments') }}
                     </a>
                 </div>

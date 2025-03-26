@@ -16,6 +16,7 @@ use App\Http\Controllers\SupportController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\StaticSalaryController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\SpecializationController;
 use App\Http\Controllers\LabTypeController;
 use App\Http\Controllers\MessagesController;
 use Chatify\Http\Controllers\MessagesController as ChatifyMessagesController;
@@ -94,6 +95,10 @@ Route::middleware('auth')->group(function () {
     Route::delete("/delete/doctor/{doctor}", [DoctorController::class, "destroy"])->name("doctor.destroy");
     Route::get("/doctor/search", [DoctorController::class, "searchByName"])->name('doctor.search');
     Route::get("/doctor/filter", [DoctorController::class, "filterByRole"])->name('doctor.filter');
+});
+
+Route::middleware(['auth', 'role:super-admin'])->group(function () {
+    Route::resource('specialization', SpecializationController::class);
 });
 
 Route::middleware('auth')->group(function () {
@@ -176,3 +181,4 @@ Route::get('/user/messages', [SupportController::class, 'usermessages'])->name('
 require __DIR__ . '/appointments.php';
 
 require __DIR__ . '/auth.php';
+

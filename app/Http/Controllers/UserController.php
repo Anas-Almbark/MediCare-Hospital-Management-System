@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use App\Models\Specialization;
+use App\Models\Doctor;
 
 class UserController extends Controller
 {
@@ -14,13 +16,14 @@ class UserController extends Controller
     {
         $users = User::paginate(10);
         $roles = Role::all();
-        return view('dashboard.employees.users.', compact('users', 'roles'));
+        return view('dashboard.employees.users', compact('users', 'roles'));
     }
 
     public function create()
     {
         $roles = Role::all();
-        return view('dashboard.employees.addUser', compact('roles'));
+        $specializations = Specialization::all();
+        return view('dashboard.employees.addUser', compact('roles', 'specializations'));
     }
     public function store(Request $request)
     {
@@ -29,6 +32,9 @@ class UserController extends Controller
             'email' => 'required|email|unique:users|max:255',
             'password' => 'required|string|min:8',
             'role' => 'required|exists:roles,name',
+            'specialization' => 'required_if:role,doctor|exists:specializations,id',
+            'license_number' => 'required_if:role,doctor|string|unique:doctors,license_number',
+            'experience_years' => 'required_if:role,doctor|numeric|min:0',
             'birth_date' => 'required|date|before:today',
             'gender' => 'required|in:male,female',
             'blood_type' => 'nullable|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
@@ -50,6 +56,16 @@ class UserController extends Controller
         ]);
 
         $user->assignRole($validation['role']);
+
+        if ($validation['role'] === 'doctor') {
+            Doctor::create([
+                'doctor' => $user->id,
+                'specialization_id' => $validation['specialization'],
+                'license_number' => $validation['license_number'],
+                'experience_years' => $validation['experience_years']
+            ]);
+        }
+
         return redirect()->route('user.index')->with('success', 'User created successfully');
     }
 

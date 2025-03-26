@@ -18,6 +18,7 @@ class PrescriptionController extends Controller
     {
         $doctors = User::role('doctor')->get();
         $patients = User::role('patient')->get();
+       
         return view('dashboard.prescriptions.create', compact('doctors', 'patients'));
     }
 
