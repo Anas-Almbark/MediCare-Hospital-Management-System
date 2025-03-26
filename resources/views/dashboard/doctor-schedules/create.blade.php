@@ -7,24 +7,20 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="m-0">{{ __('Add Doctor Schedule') }}</h5>
-                    <a href="{{ route('doctor-schedules.index') }}" class="btn btn-secondary btn-sm">
+                    <a href="{{ route('doctor.schedules.index') }}" class="btn btn-secondary btn-sm">
                         <i class="fas fa-arrow-left"></i> {{ __('Back') }}
                     </a>
                 </div>
             </div>
             <div class="card-body">
-                <form action="{{ route('doctor-schedules.store') }}" method="POST">
+                <form action="{{ route('doctor.schedules.store') }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="doctor_id" class="form-label">{{ __('Select Doctor') }}</label>
-                                <select name="doctor_id" class="form-select" id="doctor_id" required>
-                                    <option value="">-- {{ __('Choose Doctor') }} --</option>
-                                    @foreach($doctors as $doctor)
-                                        <option value="{{ $doctor->id }}">{{ $doctor->name }}</option>
-                                    @endforeach
-                                </select>
+                                <label for="doctor_id" class="form-label">{{ __('Doctor Name') }}</label>
+                                <input type="text" class="form-control" value="{{ auth()->user()->name }}" readonly>
+                                <input type="hidden" name="doctor_id" value="{{ auth()->id() }}">
                             </div>
                         </div>
 

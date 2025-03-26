@@ -8,7 +8,7 @@
                 <h5 class="m-0">{{ __('Edit Doctor Schedule') }}</h5>
             </div>
             <div class="card-body">
-                <form action="{{ route('doctor-schedules.update', $schedule->id) }}" method="POST">
+                <form action="{{ route('doctor.schedules.update', $schedule->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     
@@ -52,7 +52,7 @@
                     </div>
 
                     <div class="d-flex justify-content-between">
-                        <a href="{{ route('doctor-schedules.index') }}" class="btn btn-light">
+                        <a href="{{ route('doctor.schedules.index') }}" class="btn btn-light">
                             {{ __('Cancel') }}
                         </a>
                         <button type="submit" class="btn btn-primary">

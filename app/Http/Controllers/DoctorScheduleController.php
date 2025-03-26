@@ -24,17 +24,12 @@ class DoctorScheduleController extends Controller
 
     public function create()
     {
-        $doctors = User::role('doctor')
-            
-            ->orderBy('name')
-            ->get();
-
-        if ($doctors->isEmpty()) {
-            return redirect()->route('doctor-schedules.index')
-                ->with('error', __('No active doctors available to create schedule'));
+        if (!auth()->user()->hasRole('doctor')) {
+            return redirect()->route('doctor.schedules.index')
+                ->with('error', __('Unauthorized access'));
         }
 
-        return view('dashboard.doctor-schedules.create', compact('doctors'));
+        return view('dashboard.doctor-schedules.create');
     }
 
     public function store(Request $request)
@@ -72,14 +67,19 @@ class DoctorScheduleController extends Controller
         // Bulk insert appointments
         \App\Models\Appointment::insert($appointments);
 
-        return redirect()->route('doctor-schedules.index')
+        return redirect()->route('doctor.schedules.index')
             ->with('success', __('Schedule created successfully with available appointments'));
     }
 
     public function edit(DoctorSchedule $doctorSchedule)
     {
-        $doctors = Doctor::all();
-        return view('dashboard.doctor-schedules.edit', compact('doctorSchedule', 'doctors'));
+        // Ensure the doctor can only edit their own schedules
+        if (auth()->user()->hasRole('doctor') && $doctorSchedule->doctor_id !== auth()->id()) {
+            return redirect()->route('doctor.schedules.index')
+                ->with('error', __('You are not authorized to edit this schedule'));
+        }
+
+        return view('dashboard.doctor-schedules.edit', ['schedule' => $doctorSchedule]);
     }
 
     public function update(Request $request, DoctorSchedule $doctorSchedule)
@@ -94,7 +94,7 @@ class DoctorScheduleController extends Controller
 
         $doctorSchedule->update($validated);
 
-        return redirect()->route('doctor-schedules.index')
+        return redirect()->route('doctor.schedules.index')
             ->with('success', __('Schedule updated successfully'));
     }
 
@@ -102,13 +102,31 @@ class DoctorScheduleController extends Controller
     {
         $doctorSchedule->delete();
 
-        return redirect()->route('doctor-schedules.index')
+        return redirect()->route('doctor.schedules.index')
             ->with('success', __('Schedule deleted successfully'));
     }
 
     public function show(DoctorSchedule $doctorSchedule)
     {
-        $schedule = $doctorSchedule->load(['doctor', 'appointments.patient']);
+        $schedule = $doctorSchedule->load([
+            'doctor' => function($query) {
+                $query->select('id', 'name', 'email', 'phone');
+            },
+            'appointments' => function($query) {
+                $query->with(['patient' => function($q) {
+                    $q->select('id', 'name', 'email', 'phone');
+                }])
+                ->select('id', 'schedule_id', 'patient_id', 'doctor_id', 'date', 'start_time', 'end_time', 'status', 'notes')
+                ->orderBy('date')
+                ->orderBy('start_time');
+            }
+        ]);
+        dd($schedule);
+        if (!$schedule->doctor) {
+            return redirect()->route('doctor.schedules.index')
+                ->with('error', __('Schedule information not found'));
+        }
+
         return view('dashboard.doctor-schedules.show', compact('schedule'));
     }
 }

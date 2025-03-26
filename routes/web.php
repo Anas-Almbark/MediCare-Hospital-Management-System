@@ -16,7 +16,6 @@ use App\Http\Controllers\SupportController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\StaticSalaryController;
 use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\DoctorScheduleController;
 use App\Http\Controllers\LabTypeController;
 use App\Http\Controllers\MessagesController;
 use Chatify\Http\Controllers\MessagesController as ChatifyMessagesController;
@@ -172,28 +171,8 @@ Route::resource('supports', SupportController::class);
 Route::get('/supports/create', [SupportController::class, 'create'])->name('supports.create');
 Route::get('/user/messages', [SupportController::class, 'usermessages'])->name('supports.usermessages');
 
-Route::middleware(['auth', 'role:doctor'])->group(function () {
-    Route::resource('doctor-schedules', DoctorScheduleController::class);
-    Route::get('/doctor/appointments', [AppointmentController::class, 'doctorAppointments'])
-        ->name('appointments.doctor');
-    Route::get('/appointments/pending', [AppointmentController::class, 'pendingAppointments'])
-        ->name('appointment.pending');
-});
-
-Route::middleware(['auth', 'role:patient'])->group(function () {
-    Route::get('/patient/available-appointments', [AppointmentController::class, 'availableAppointments'])
-        ->name('patient.appointments');
-    Route::get('/appointments/{appointment}/book', [AppointmentController::class, 'bookAppointment'])
-        ->name('appointment.book');
-    Route::get('/appointments/my', [AppointmentController::class, 'myAppointments'])
-        ->name('appointment.my');
-    Route::get('/appointments/{appointment}/cancel', [AppointmentController::class, 'cancelAppointment'])
-        ->name('appointment.cancel');
-});
-
-Route::patch('/appointments/{appointment}/update-status', [AppointmentController::class, 'updateStatus'])
-    ->name('appointment.update-status')
-    ->middleware(['auth', 'role:doctor']);
+// Include appointments routes
+require __DIR__ . '/appointments.php';
 
 require __DIR__ . '/auth.php';
 

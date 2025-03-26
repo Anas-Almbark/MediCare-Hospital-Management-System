@@ -119,7 +119,7 @@ class AppointmentController extends Controller
     {
         $appointment = Appointment::findOrFail($id);
         $appointment->delete();
-        return redirect()->route('appointment.index')->with('success', 'Appointment deleted successfully');
+        return redirect()->back()->with('success', 'Appointment deleted successfully');
     }
 
     public function doctorAppointments(Request $request)
@@ -238,14 +238,14 @@ class AppointmentController extends Controller
             'status' => 'pending'
         ]);
     
-        return redirect()->route('appointment.my')
+        return redirect()->back()
             ->with('success', __('Appointment booked successfully. Waiting for doctor confirmation.'));
     }
 
     public function updateStatus(Request $request, Appointment $appointment)
     {
         $validated = $request->validate([
-            'status' => 'required|in:confirmed,rejected',
+            'status' => 'required',
             'notes' => 'nullable|string|max:500'
         ]);
     
@@ -258,7 +258,7 @@ class AppointmentController extends Controller
             ? __('Appointment confirmed successfully') 
             : __('Appointment rejected successfully');
     
-        return redirect()->route('appointment.pending')
+        return redirect()->back()
             ->with('success', $message);
     }
 

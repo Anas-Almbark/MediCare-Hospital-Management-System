@@ -7,7 +7,7 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="m-0">{{ __('Doctor Schedules') }}</h5>
-                    <a href="{{ route('doctor-schedules.create') }}" class="btn btn-primary btn-sm">
+                    <a href="{{ route('doctor.schedules.create') }}" class="btn btn-primary btn-sm">
                         <i class="fas fa-plus"></i> {{ __('Add Schedule') }}
                     </a>
                 </div>
@@ -35,13 +35,13 @@
                                     <td>{{ $schedule->appointment_duration }} {{ __('minutes') }}</td>
                                     <td>
                                         <div class="btn-group btn-group-sm">
-                                            <a href="{{ route('doctor-schedules.show', $schedule->id) }}" class="btn btn-light" title="{{ __('View Appointments') }}">
+                                            <a href="{{ route('doctor.schedules.show', $schedule->id) }}" class="btn btn-light" title="{{ __('View Appointments') }}">
                                                 <i class="fas fa-calendar-check text-info"></i>
                                             </a>
-                                            <a href="{{ route('doctor-schedules.edit', $schedule->id) }}" class="btn btn-light" title="{{ __('Edit Schedule') }}">
+                                            <a href="{{ route('doctor.schedules.edit', $schedule->id) }}" class="btn btn-light" title="{{ __('Edit Schedule') }}">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <form action="{{ route('doctor-schedules.destroy', $schedule->id) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('doctor.schedules.destroy', $schedule->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-light" onclick="return confirm('{{ __('Are you sure?') }}')" title="{{ __('Delete Schedule') }}">
