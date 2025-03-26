@@ -17,6 +17,7 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\StaticSalaryController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\DoctorScheduleController;
+use App\Http\Controllers\LabTypeController;
 use App\Http\Controllers\MessagesController;
 
 Route::get('{path?}', [UserController::class, 'idFetch'])->where('path', '|dashboard')
@@ -138,17 +139,25 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get("/lab-tests", [LabTestController::class, "index"])->name("lab-test.index");
-    Route::get("/lab-test/{id}", [LabTestController::class, "show"])->name("lab-test.show");
+    Route::get("/lab-test/{labTest}", [LabTestController::class, "show"])->name("lab-test.show");
     Route::get("/new/lab-test", [LabTestController::class, "create"])->name("lab-test.create");
     Route::post("/add/lab-test", [LabTestController::class, "store"])->name("lab-test.store");
-    Route::get("/edit/lab-test/{id}", [LabTestController::class, "edit"])->name("lab-test.edit");
-    Route::put("/update/lab-test/{id}", [LabTestController::class, "update"])->name("lab-test.update");
-    Route::delete("/delete/lab-test/{id}", [LabTestController::class, "destroy"])->name('lab-test.destroy');
+    Route::get("/edit/lab-test/{labTest}", [LabTestController::class, "edit"])->name("lab-test.edit");
+    Route::put("/update/lab-test/{labTest}", [LabTestController::class, "update"])->name("lab-test.update");
+    Route::delete("/delete/lab-test/{labTest}", [LabTestController::class, "destroy"])->name('lab-test.destroy');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get("/lab-types", [LabTypeController::class, "index"])->name("lab-type.index");
+    Route::get("/new/lab-type", [LabTypeController::class, "create"])->name("lab-type.create");
+    Route::post("/add/lab-type", [LabTypeController::class, "store"])->name("lab-type.store");
+    Route::get("/edit/lab-type/{labType}", [LabTypeController::class, "edit"])->name("lab-type.edit");
+    Route::put("/update/lab-type/{labType}", [LabTypeController::class, "update"])->name("lab-type.update");
+    Route::delete("/delete/lab-type/{labType}", [LabTypeController::class, "destroy"])->name('lab-type.destroy');
 });
 
 Route::get('/chat/{id?}', [MessagesController::class, 'index'])->name('chatify');
 Route::get('change/language/{locale}', [LanguageController::class, 'changeLanguage'])->name('change.language');
-
 
 
 Route::resource('supports', SupportController::class);

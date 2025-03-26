@@ -15,7 +15,9 @@ class RoleSeeder extends Seeder
             'admin',
             'doctor',
             'patient',
-            'nurse'  // Added nurse role
+            'nurse',
+            'accountant',
+            'lab_technician'
         ];
 
         foreach ($roles as $role) {
