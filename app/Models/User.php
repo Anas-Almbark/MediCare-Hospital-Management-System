@@ -117,4 +117,8 @@ class User extends Authenticatable
             $query->whereMonth('payment_date', now()->month);
         })->whereIn('id', self::employees()->pluck('id'))->get();
     }
+    public function specializations()
+    {
+        return $this->belongsToMany(Specialization::class, 'doctor_specialization', 'doctor_id', 'specialization_id');
+    }
 }

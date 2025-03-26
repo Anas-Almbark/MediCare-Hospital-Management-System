@@ -46,6 +46,39 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+
+                    <div class="form-group" id="specializationGroup" style="display: none;">
+                        <label for="specialization" class="form-label">{{ __('Specialization') }}</label>
+                        <select class="form-control @error('specialization') is-invalid @enderror" name="specialization" id="specialization">
+                            <option selected disabled>{{ __('Select Specialization') }}</option>
+                            @foreach ($specializations as $specialization)
+                                <option value="{{ $specialization->id }}" {{ old('specialization') == $specialization->id ? 'selected' : '' }}>
+                                    {{ $specialization->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('specialization')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group" id="licenseGroup" style="display: none;">
+                        <label for="license_number" class="form-label">{{ __('License Number') }}</label>
+                        <input type="text" name="license_number" class="form-control @error('license_number') is-invalid @enderror"
+                            id="license_number" placeholder="{{ __('License Number') }}" value="{{ old('license_number') }}" />
+                        @error('license_number')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group" id="experienceGroup" style="display: none;">
+                        <label for="experience_years" class="form-label">{{ __('Years of Experience') }}</label>
+                        <input type="number" name="experience_years" class="form-control @error('experience_years') is-invalid @enderror"
+                            id="experience_years" placeholder="{{ __('Years of Experience') }}" value="{{ old('experience_years') }}" min="0" />
+                        @error('experience_years')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
                     <div class="form-group">
                         <label for="dp1742037476809" class="form-label">{{ __('Date of Birth') }}</label>
                         <div class="input-group w-100">
@@ -152,6 +185,35 @@
                 });
             } else {
                 console.error('Select2 is not loaded');
+            }
+        });
+    </script>
+@endpush
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            const doctorFields = ['#specializationGroup', '#licenseGroup', '#experienceGroup'];
+            
+            $('#role').on('change', function() {
+                if ($(this).val() === 'doctor') {
+                    doctorFields.forEach(field => {
+                        $(field).slideDown();
+                        $(field + ' input, ' + field + ' select').prop('required', true);
+                    });
+                } else {
+                    doctorFields.forEach(field => {
+                        $(field).slideUp();
+                        $(field + ' input, ' + field + ' select').prop('required', false);
+                    });
+                }
+            });
+
+            // Check initial state
+            if ($('#role').val() === 'doctor') {
+                doctorFields.forEach(field => {
+                    $(field).show();
+                    $(field + ' input, ' + field + ' select').prop('required', true);
+                });
             }
         });
     </script>
