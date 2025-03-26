@@ -27,10 +27,9 @@ Route::get('{path?}', [UserController::class, 'idFetch'])
     ->middleware(['auth', 'verified', 'prevent.patient.dashboard'])
     ->name('dashboard');
 
-Route::get('/user/home', function () {
-    return view('welcome');
-})->middleware(['auth', 'verified', 'role:patient'])->name('welcome');
-
+Route::get('/user/home', [DoctorController::class, 'showDoctorsForHome'])
+    ->middleware(['auth', 'verified', 'role:patient'])
+    ->name('welcome');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -167,12 +166,11 @@ Route::middleware(['auth', 'role:lab_technician|super-admin'])->group(function (
 Route::get('/chat/{id?}', [ChatifyMessagesController::class, 'index'])->name('chatify');
 Route::get('change/language/{locale}', [LanguageController::class, 'changeLanguage'])->name('change.language');
 
-// Add public pages routes
 Route::get('/about', [PatientController::class, 'about'])->name('about');
 Route::get('/services', [PatientController::class, 'services'])->name('services');
 Route::get('/doctors', [PatientController::class, 'doctors'])->name('doctors');
 Route::get('/doctors-detail', [PatientController::class, 'doctorsDetail'])->name('doctors-detail');
-
+Route::get('/', [DoctorController::class, 'showDoctorsForHome'])->name('home');
 Route::resource('supports', SupportController::class);
 Route::get('/supports/create', [SupportController::class, 'create'])->name('supports.create');
 Route::get('/user/messages', [SupportController::class, 'usermessages'])->name('supports.usermessages');

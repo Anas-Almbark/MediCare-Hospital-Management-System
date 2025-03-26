@@ -48,7 +48,7 @@
                                      <ul>
                                          <li><a href="index.html">Home page 01</a></li>
                                          <li><a href="index-2.html">Home page 02</a></li>
-                                         <li><a href="index-3.html">Home page 03</a></li>
+                                         <li><a href="{{ route('welcome') }}">Home page 03</a></li>
                                                     <li><a href="index-4.html">Home page 04</a></li>
                                          <li class="dropdown"><a href="#">Header Styles</a>
                                              <ul>
@@ -62,8 +62,8 @@
                                  </li>
                                           <li class="dropdown"><a href="#">About us</a>
                                      <ul>
-                                         <li><a href="about.html">About Us</a></li>
-                                                    <li><a href="team.html">Our Team</a></li>
+                                        <li><a href="{{ route('about') }}">About Us</a></li>
+                                        <li><a href="team.html">Our Team</a></li>
                                                     <li><a href="faq.html">Faq</a></li>
                                                     <li><a href="services.html">Services</a></li>
                                                     <li><a href="gallery.html">Gallery</a></li>
@@ -76,8 +76,8 @@
                                                          <div class="column col-md-3 col-xs-12">
                                                               <h3>About Us</h3>
                                                               <ul>
-                                                                   <li><a href="about.html">About Us</a></li>
-                                                                   <li><a href="team.html">Our Team</a></li>
+                                                                <li><a href="{{ route('about') }}">About Us</a></li>
+                                                                <li><a href="team.html">Our Team</a></li>
                                                                    <li><a href="faq.html">Faq</a></li>
                                                                    <li><a href="services.html">Services</a></li>
                                                               </ul>
@@ -85,8 +85,8 @@
                                                          <div class="column col-md-3 col-xs-12">
                                                               <h3>Doctors</h3>
                                                               <ul>
-                                                                   <li><a href="doctors.html">Doctors</a></li>
-                                                                   <li><a href="doctors-detail.html">Doctors Detail</a></li>
+                                                                <li><a href="{{ route('doctors') }}">Doctors</a></li>
+                                                                <li><a href="{{ route('doctors-detail') }}">Doctors Detail</a></li>
                                                               </ul>
                                                          </div>
                                                          <div class="column col-md-3 col-xs-12">
@@ -111,8 +111,8 @@
                                           </li>
                                  <li class="dropdown"><a href="#">Doctors</a>
                                      <ul>
-                                         <li><a href="doctors.html">Doctors</a></li>
-                                         <li><a href="doctors-detail.html">Doctors Detail</a></li>
+                                        <li><a href="{{ route('doctors') }}">Doctors</a></li>
+                                        <li><a href="{{ route('doctors-detail') }}">Doctors Detail</a></li>
                                      </ul>
                                  </li>
                                           <li class="dropdown"><a href="#">Department</a>

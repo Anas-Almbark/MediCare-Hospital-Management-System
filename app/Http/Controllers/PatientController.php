@@ -8,21 +8,21 @@ class PatientController extends Controller
 {
     public function about()
     {
-        return view('about');
+        return view('indexTemplate.about.about');
     }
 
     public function services()
     {
-        return view('services');
+        return view('indexTemplate.about.services');
     }
 
     public function doctors()
     {
-        return view('doctors');
+        return view('indexTemplate.doctors.doctors');
     }
 
     public function doctorsDetail()
     {
-        return view('doctors-detail');
+        return view('indexTemplate.doctors.doctors-detail');
     }
 }
