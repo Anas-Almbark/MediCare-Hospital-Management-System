@@ -11,8 +11,9 @@ class AppointmentController extends Controller
 {
     public function index()
     {
+        $doctors = User::role('doctor')->get();
         $appointments = Appointment::with(['doctor', 'patient'])->paginate(5);
-        return view('dashboard.appointments.index', compact('appointments'));
+        return view('dashboard.appointments.index', compact('appointments', 'doctors'));
     }
 
     public function create()
@@ -83,27 +84,41 @@ class AppointmentController extends Controller
 
     public function doctorAppointments(Request $request)
     {
-        $filter = $request->get('filter', 'today');
-        $doctor = auth()->user();
-    
         $query = Appointment::with('patient')
-            ->where('doctor_id', $doctor->id);
+            ->where('doctor_id', auth()->id());
     
-        switch ($filter) {
-            case 'today':
-                $query->whereDate('date', today());
-                break;
-            case 'upcoming':
-                $query->whereDate('date', '>', today());
-                break;
-            case 'past':
-                $query->whereDate('date', '<', today());
-                break;
+        // Filter by date
+        if ($request->filled('date')) {
+            $query->whereDate('date', $request->date);
+        }
+    
+        // Filter by status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+    
+        // Filter by time range
+        if ($request->filled('time_range')) {
+            switch ($request->time_range) {
+                case 'morning':
+                    $query->whereTime('start_time', '>=', '06:00:00')
+                          ->whereTime('start_time', '<', '12:00:00');
+                    break;
+                case 'afternoon':
+                    $query->whereTime('start_time', '>=', '12:00:00')
+                          ->whereTime('start_time', '<', '17:00:00');
+                    break;
+                case 'evening':
+                    $query->whereTime('start_time', '>=', '17:00:00')
+                          ->whereTime('start_time', '<', '22:00:00');
+                    break;
+            }
         }
     
         $appointments = $query->orderBy('date')
             ->orderBy('start_time')
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
     
         return view('dashboard.appointments.doctor-appointments', compact('appointments'));
     }

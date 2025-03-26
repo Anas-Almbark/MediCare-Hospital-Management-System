@@ -19,14 +19,17 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\DoctorScheduleController;
 use App\Http\Controllers\LabTypeController;
 use App\Http\Controllers\MessagesController;
+use Chatify\Http\Controllers\MessagesController;
 
-Route::get('{path?}', [UserController::class, 'idFetch'])->where('path', '|dashboard')
-    ->middleware(['auth', 'verified'])
+
+Route::get('{path?}', [UserController::class, 'idFetch'])
+    ->where('path', '|dashboard')
+    ->middleware(['auth', 'verified', 'prevent.patient.dashboard'])
     ->name('dashboard');
 
 Route::get('/user/home', function () {
     return view('welcome');
-})->middleware(['auth', 'verified'])->name('welcome');
+})->middleware(['auth', 'verified', 'role:patient'])->name('welcome');
 
 
 Route::middleware('auth')->group(function () {
@@ -177,5 +180,18 @@ Route::get('/doctors-detail', [PatientController::class, 'doctorsDetail'])->name
 Route::get('/appointments/pending', [AppointmentController::class, 'pendingAppointments'])
     ->name('appointment.pending')
     ->middleware('role:doctor');
+    Route::get('/appointments/my', [AppointmentController::class, 'myAppointments'])->name('appointment.my');
+Route::get('/appointments/{appointment}/book', [AppointmentController::class, 'book'])
+    ->name('appointment.book')
+    ->middleware(['auth', 'role:patient']);
+
+Route::patch('/appointments/{appointment}/update-status', [AppointmentController::class, 'updateStatus'])
+    ->name('appointment.update-status')
+    ->middleware(['auth', 'role:doctor']);
+
+Route::get('/appointments/{appointment}/cancel', [AppointmentController::class, 'cancelAppointment'])
+    ->name('appointment.cancel')
+    ->middleware(['auth', 'role:patient']);
 
 require __DIR__ . '/auth.php';
+
