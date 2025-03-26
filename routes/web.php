@@ -160,27 +160,24 @@ Route::middleware(['auth', 'role:doctor'])->group(function () {
     Route::resource('doctor-schedules', DoctorScheduleController::class);
     Route::get('/doctor/appointments', [AppointmentController::class, 'doctorAppointments'])
         ->name('appointments.doctor');
+    Route::get('/appointments/pending', [AppointmentController::class, 'pendingAppointments'])
+        ->name('appointment.pending');
 });
-Route::get('/about', [PatientController::class, 'about'])->name('about');
-Route::get('/about-services', [PatientController::class, 'services'])->name('services');
-Route::get('/doctors', [PatientController::class, 'doctors'])->name('doctors');
-Route::get('/doctors-detail', [PatientController::class, 'doctorsDetail'])->name('doctors-detail');
 
-Route::get('/appointments/pending', [AppointmentController::class, 'pendingAppointments'])
-    ->name('appointment.pending')
-    ->middleware('role:doctor');
-    Route::get('/appointments/my', [AppointmentController::class, 'myAppointments'])->name('appointment.my');
-Route::get('/appointments/{appointment}/book', [AppointmentController::class, 'book'])
-    ->name('appointment.book')
-    ->middleware(['auth', 'role:patient']);
+Route::middleware(['auth', 'role:patient'])->group(function () {
+    Route::get('/patient/available-appointments', [AppointmentController::class, 'availableAppointments'])
+        ->name('patient.appointments');
+    Route::get('/appointments/{appointment}/book', [AppointmentController::class, 'bookAppointment'])
+        ->name('appointment.book');
+    Route::get('/appointments/my', [AppointmentController::class, 'myAppointments'])
+        ->name('appointment.my');
+    Route::get('/appointments/{appointment}/cancel', [AppointmentController::class, 'cancelAppointment'])
+        ->name('appointment.cancel');
+});
 
 Route::patch('/appointments/{appointment}/update-status', [AppointmentController::class, 'updateStatus'])
     ->name('appointment.update-status')
     ->middleware(['auth', 'role:doctor']);
-
-Route::get('/appointments/{appointment}/cancel', [AppointmentController::class, 'cancelAppointment'])
-    ->name('appointment.cancel')
-    ->middleware(['auth', 'role:patient']);
 
 require __DIR__ . '/auth.php';
 

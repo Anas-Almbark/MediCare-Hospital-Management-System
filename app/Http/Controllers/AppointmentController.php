@@ -9,11 +9,51 @@ use App\Http\Controllers\Controller;
 
 class AppointmentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        // Get all doctors
         $doctors = User::role('doctor')->get();
-        $appointments = Appointment::with(['doctor', 'patient'])->paginate(5);
-        return view('dashboard.appointments.index', compact('appointments', 'doctors'));
+    
+        // Build the query for available appointments
+        $query = Appointment::with('doctor')
+            ->where('status', 'available')
+            ->whereDate('date', '>=', now());
+    
+        // Filter by doctor if selected
+        if ($request->filled('doctor_id')) {
+            $query->where('doctor_id', $request->doctor_id);
+        }
+    
+        // Filter by date if selected
+        if ($request->filled('date')) {
+            $query->whereDate('date', $request->date);
+        }
+    
+        // Filter by time of day if selected
+        if ($request->filled('time_of_day')) {
+            switch ($request->time_of_day) {
+                case 'morning':
+                    $query->whereTime('start_time', '>=', '06:00:00')
+                          ->whereTime('start_time', '<', '12:00:00');
+                    break;
+                case 'afternoon':
+                    $query->whereTime('start_time', '>=', '12:00:00')
+                          ->whereTime('start_time', '<', '17:00:00');
+                    break;
+                case 'evening':
+                    $query->whereTime('start_time', '>=', '17:00:00')
+                          ->whereTime('start_time', '<', '22:00:00');
+                    break;
+            }
+        }
+    
+        // Get appointments ordered by date and time
+        $appointments = $query->orderBy('date')
+            ->orderBy('start_time')
+            ->paginate(12)
+            ->withQueryString();
+    
+        return view('patient_pages.appointments.index', compact('appointments', 'doctors'));
     }
 
     public function create()
@@ -134,19 +174,72 @@ class AppointmentController extends Controller
         return view('dashboard.appointments.pending', compact('pendingAppointments'));
     }
 
-    public function book(Appointment $appointment)
+    public function availableAppointments(Request $request)
     {
-        if ($appointment->status !== 'available') {
-            return back()->with('error', __('This appointment is no longer available'));
+        $query = Appointment::with('doctor')
+            ->where('status', 'available')
+            ->whereDate('date', '>=', now());
+    
+        if ($request->filled('doctor_id')) {
+            $query->where('doctor_id', $request->doctor_id);
         }
     
+        if ($request->filled('date')) {
+            $query->whereDate('date', $request->date);
+        }
+    
+        if ($request->filled('time_of_day')) {
+            switch ($request->time_of_day) {
+                case 'morning':
+                    $query->whereTime('start_time', '>=', '06:00:00')
+                          ->whereTime('start_time', '<', '12:00:00');
+                    break;
+                case 'afternoon':
+                    $query->whereTime('start_time', '>=', '12:00:00')
+                          ->whereTime('start_time', '<', '17:00:00');
+                    break;
+                case 'evening':
+                    $query->whereTime('start_time', '>=', '17:00:00')
+                          ->whereTime('start_time', '<', '22:00:00');
+                    break;
+            }
+        }
+    
+        $appointments = $query->orderBy('date')
+            ->orderBy('start_time')
+            ->paginate(12)
+            ->withQueryString();
+    
+        $doctors = User::role('doctor')->get();
+    
+        return view('patient_pages.appointments.index', compact('appointments', 'doctors'));
+    }
+
+    public function bookAppointment(Appointment $appointment)
+    {
+        // التحقق من أن الموعد متاح
+        if ($appointment->status !== 'available') {
+            return back()->with('error', __('This appointment is no longer available.'));
+        }
+    
+        // التحقق من أن المستخدم ليس لديه موعد في نفس الوقت
+        $hasConflict = Appointment::where('patient_id', auth()->id())
+            ->where('date', $appointment->date)
+            ->where('start_time', $appointment->start_time)
+            ->exists();
+    
+        if ($hasConflict) {
+            return back()->with('error', __('You already have an appointment at this time.'));
+        }
+    
+        // حجز الموعد
         $appointment->update([
             'patient_id' => auth()->id(),
             'status' => 'pending'
         ]);
     
-        return redirect()->route('appointment.index')
-            ->with('success', __('Appointment booked successfully'));
+        return redirect()->route('appointment.my')
+            ->with('success', __('Appointment booked successfully. Waiting for doctor confirmation.'));
     }
 
     public function updateStatus(Request $request, Appointment $appointment)
@@ -169,23 +262,7 @@ class AppointmentController extends Controller
             ->with('success', $message);
     }
 
-    public function cancelAppointment(Appointment $appointment)
-    {
-        if (!in_array($appointment->status, ['confirmed', 'pending'])) {
-            return back()->with('error', __('This appointment cannot be cancelled'));
-        }
-    
-        if ($appointment->patient_id !== auth()->id()) {
-            return back()->with('error', __('You are not authorized to cancel this appointment'));
-        }
-    
-        $appointment->update([
-            'patient_id' => null,
-            'status' => 'available',
-        ]);
-    
-        return back()->with('success', __('Appointment cancelled successfully'));
-    }
+
 
     public function updateNote(Request $request, Appointment $appointment)
     {
@@ -203,12 +280,27 @@ class AppointmentController extends Controller
 
     public function myAppointments()
     {
-        $appointments = Appointment::with(['doctor'])
+        $appointments = Appointment::with('doctor')
             ->where('patient_id', auth()->id())
-            ->orderBy('date')
-            ->orderBy('start_time')
+            ->orderBy('date', 'desc')
+            ->orderBy('start_time', 'desc')
             ->paginate(10);
     
-        return view('dashboard.appointments.my-appointments', compact('appointments'));
+        return view('patient_pages.appointments.my-appointments', compact('appointments'));
+    }
+
+    public function cancelAppointment(Appointment $appointment)
+    {
+        if ($appointment->patient_id !== auth()->id()) {
+            return back()->with('error', __('You are not authorized to cancel this appointment.'));
+        }
+    
+        if ($appointment->status !== 'pending') {
+            return back()->with('error', __('This appointment cannot be cancelled.'));
+        }
+    
+        $appointment->update(['status' => 'cancelled']);
+    
+        return back()->with('success', __('Appointment cancelled successfully.'));
     }
 }

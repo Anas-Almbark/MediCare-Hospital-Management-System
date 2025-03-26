@@ -116,10 +116,10 @@
                     <i class="angle fe fe-chevron-down"></i>
                 </a>
                 <ul class="slide-menu">
-                    @hasrole('patient')
+                   
                         <li><a class="slide-item" href="{{ route('appointment.index') }}">{{ __('All Appointments') }}</a></li>
                         <li><a class="slide-item" href="{{ route('appointment.my') }}">{{ __('My Appointments') }}</a></li>
-                    @endhasrole
+                    
                     
                     @hasrole('doctor')
                         <li><a class="slide-item" href="{{ route('appointments.doctor') }}">{{ __('My Appointments') }}</a></li>
