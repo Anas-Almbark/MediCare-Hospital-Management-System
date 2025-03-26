@@ -8,27 +8,16 @@ use Illuminate\Http\Request;
 
 class PatientAppointmentController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $query = Appointment::with('doctor')
+        $currentDate = request('date', now()->format('Y-m-d'));
+        $appointments = Appointment::with('doctor')
+            ->whereDate('date', $currentDate)
+            ->whereNull('patient_id')
             ->where('status', 'available')
-            ->whereDate('date', '>=', now());
+            ->paginate(9);
 
-        if ($request->filled('doctor_id')) {
-            $query->where('doctor_id', $request->doctor_id);
-        }
-
-        if ($request->filled('date')) {
-            $query->whereDate('date', $request->date);
-        }
-
-        $appointments = $query->orderBy('date')
-            ->orderBy('start_time')
-            ->paginate(10);
-
-        $doctors = User::role('doctor')->get();
-
-        return view('patient.appointments.index', compact('appointments', 'doctors'));
+        return view('patient_pages.appointments.index', compact('appointments', 'currentDate'));
     }
 
     public function myAppointments()
@@ -38,7 +27,7 @@ class PatientAppointmentController extends Controller
             ->latest()
             ->paginate(10);
 
-        return view('patient.appointments.my-appointments', compact('appointments'));
+        return view('patient_pages.appointments.my-appointments', compact('appointments'));
     }
 
     public function book(Appointment $appointment)
