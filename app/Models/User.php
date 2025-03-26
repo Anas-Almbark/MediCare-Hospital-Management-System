@@ -83,7 +83,17 @@ class User extends Authenticatable
     }
     public function appointments()
     {
-        return $this->hasMany(Appointment::class);
+        return $this->hasMany(Appointment::class, 'patient_id')->with(['doctor', 'schedule']);
+    }
+
+    public function doctorAppointments()
+    {
+        return $this->hasMany(Appointment::class, 'doctor_id')->with(['patient', 'schedule']);
+    }
+
+    public function schedules()
+    {
+        return $this->hasMany(DoctorSchedule::class, 'doctor_id')->with(['appointments.patient', 'appointments.doctor']);
     }
     public function labTests()
     {

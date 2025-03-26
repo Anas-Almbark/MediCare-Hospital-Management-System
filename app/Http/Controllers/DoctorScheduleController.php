@@ -59,6 +59,7 @@ class DoctorScheduleController extends Controller
                 'start_time' => date('H:i:s', $time),
                 'end_time' => date('H:i:s', min($time + $duration, $end)),
                 'status' => 'available',
+                'day_of_week' => $validated['day_of_week'],
                 'created_at' => now(),
                 'updated_at' => now()
             ];
@@ -98,33 +99,34 @@ class DoctorScheduleController extends Controller
             ->with('success', __('Schedule updated successfully'));
     }
 
-    public function destroy(DoctorSchedule $doctorSchedule)
+    public function destroy(string $id)
     {
-        $doctorSchedule->delete();
-
+        
+        $schedule = DoctorSchedule::findOrFail($id);
+        $schedule->delete();
         return redirect()->route('doctor.schedules.index')
             ->with('success', __('Schedule deleted successfully'));
     }
 
-    public function show(DoctorSchedule $doctorSchedule)
+    public function show(string $id)
     {
-        $schedule = $doctorSchedule->load([
+        $schedule = DoctorSchedule::with([
             'doctor' => function($query) {
-                $query->select('id', 'name', 'email', 'phone');
+                $query->select('id', 'name', 'email');
             },
             'appointments' => function($query) {
                 $query->with(['patient' => function($q) {
-                    $q->select('id', 'name', 'email', 'phone');
+                    $q->select('id', 'name', 'email');
                 }])
                 ->select('id', 'schedule_id', 'patient_id', 'doctor_id', 'date', 'start_time', 'end_time', 'status', 'notes')
                 ->orderBy('date')
                 ->orderBy('start_time');
             }
-        ]);
-        dd($schedule);
-        if (!$schedule->doctor) {
+        ])->findOrFail($id);
+
+        if (auth()->user()->hasRole('doctor') && $schedule->doctor_id !== auth()->id()) {
             return redirect()->route('doctor.schedules.index')
-                ->with('error', __('Schedule information not found'));
+                ->with('error', __('Unauthorized access'));
         }
 
         return view('dashboard.doctor-schedules.show', compact('schedule'));

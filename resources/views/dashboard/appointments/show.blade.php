@@ -41,10 +41,8 @@
                                 <div class="details-group mb-4">
                                     <h4 class="details-label">Doctor Information</h4>
                                     <div class="details-value">
-                                        <h5>{{ $appointment->doctor()->first()->name }}</h5>
-                                        <p>Specialization: {{ '$appointment->specialization '}}</p>
-                                        <p>Email: {{ $appointment->doctor()->first()->email }}</p>
-                                        <p>Phone: {{ $appointment->doctor()->first()->phone }}</p>
+                                        <h5>{{ $appointment->doctor->name ?? 'N/A'}}</h5>                                        <p>Email: {{ $appointment->doctor()->first()->email }}</p>
+                                        <p>Phone: {{ $appointment->doctor->phone?? 'N/A' }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -53,9 +51,9 @@
                                 <div class="details-group mb-4">
                                     <h4 class="details-label">Patient Information</h4>
                                     <div class="details-value">
-                                        <h5>{{ $appointment->patient()->first()->email }}</h5>
-                                        <p>Email: {{$appointment->patient()->first()->email }}</p>
-                                        <p>Phone: {{ $appointment->patient()->first()->email }}</p>
+                                        <h5>{{ $appointment->patient->name ?? 'N/A' }}</h5>
+                                        <p>Email: {{ $appointment->patient->email ?? 'N/A' }}</p>
+                                        <p>Phone: {{ $appointment->patient->phone_number ?? 'N/A' }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +64,10 @@
                                 <div class="details-group mb-4">
                                     <h4 class="details-label">Appointment Details</h4>
                                     <div class="details-value">
-                                        <p><strong>Date & Time:</strong> {{ $appointment->date }}</p>
+                                        <p><strong>Date:</strong> {{ $appointment->date }}</p>
+                                        <p><strong>start_time:</strong> {{ $appointment->start_time }}</p>
+                                        <p><strong>end_time:</strong> {{ $appointment->end_time }}</p>
+                                        <p><strong>day_of_week:</strong> {{ $appointment->day_of_week }}</p>
                                         <p><strong>Status:</strong> 
                                             <span class="badge badge-{{ $appointment->status == 'pending' ? 'warning' : ($appointment->status == 'confirmed' ? 'success' : 'danger') }}">
                                                 {{ ucfirst($appointment->status) }}
@@ -80,7 +81,7 @@
                                 <div class="details-group">
                                     <h4 class="details-label">Notes</h4>
                                     <div class="details-value">
-                                        <p>{{ $appointment->notes }}</p>
+                                        <p>{{ $appointment->notes ?? 'NO NOTES YEET' }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -89,9 +90,15 @@
                         <hr>
                         
                         <div class="mt-4">
-                            <a href="{{ route('appointment.index') }}" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left"></i> Back to List
-                            </a>
+                            @if(auth()->user()->hasRole('doctor'))
+                                <a href="{{ route('doctor.appointments.index') }}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> Back to Appointments List
+                                </a>
+                            @else
+                                <a href="{{ route('appointment.index') }}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> Back to Appointments List
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </div>

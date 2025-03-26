@@ -20,12 +20,8 @@
                         <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label class="form-label">{{ __('Doctor') }}</label>
-                                <select name="doctor" class="form-select" id="inputDoctor" required>
-                                    <option value="">-- {{ __('Select Doctor') }} --</option>
-                                    @foreach($doctors as $doctor)
-                                        <option value="{{ $doctor->id }}">Dr. {{ $doctor->name }} - {{ $doctor->specialization }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="hidden" name="doctor" value="{{ auth()->id() }}">
+                                <input type="text" class="form-control" value="Dr. {{ auth()->user()->name }}" readonly>
                             </div>
 
                             <div class="form-group mb-3">
@@ -33,7 +29,10 @@
                                 <select name="patient" class="form-select" id="inputPatient" required>
                                     <option value="">-- {{ __('Select Patient') }} --</option>
                                     @foreach($patients as $patient)
-                                        <option value="{{ $patient->id }}">{{ $patient->name }}</option>
+                                        <option value="{{ $patient->id }}" 
+                                            {{ (request()->get('patient_id') == $patient->id) ? 'selected' : '' }}>
+                                            {{ $patient->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
