@@ -77,17 +77,9 @@ class AppointmentController extends Controller
         return redirect()->route('appointment.index')->with('success', 'Appointment created successfully');
     }
 
-    public function show($id)
+    public function show(string $id)
     {
-        $appointment = Appointment::with([
-            'doctor' => function($query) {
-                $query->select('id', 'name', 'email');
-            },
-            'patient' => function($query) {
-                $query->select('id', 'name', 'email');
-            }
-        ])->findOrFail($id);
-        
+        $appointment = Appointment::with(['patient', 'doctor'])->findOrFail($id);
         return view('dashboard.appointments.show', compact('appointment'));
     }
 
@@ -280,13 +272,22 @@ class AppointmentController extends Controller
 
     public function myAppointments()
     {
-        $appointments = Appointment::with('doctor')
-            ->where('patient_id', auth()->id())
-            ->orderBy('date', 'desc')
-            ->orderBy('start_time', 'desc')
-            ->paginate(10);
-    
-        return view('patient_pages.appointments.my-appointments', compact('appointments'));
+        $appointments = Appointment::with(['doctor', 'patient'])
+            ->orderBy('day_of_week')
+            ->orderBy('start_time')
+            ->get();
+
+        $appointmentDays = $appointments->pluck('day_of_week')->unique()->values();
+        
+        // Move today to the first tab
+        $today = now()->format('l');
+        if($appointmentDays->contains($today)) {
+            $appointmentDays = $appointmentDays->filter(function($day) use ($today) {
+                return $day !== $today;
+            })->prepend($today);
+        }
+
+        return view('dashboard.appointments.index', compact('appointments', 'appointmentDays'));
     }
 
     public function cancelAppointment(Appointment $appointment)

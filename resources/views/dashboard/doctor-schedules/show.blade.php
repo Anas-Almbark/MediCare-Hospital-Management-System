@@ -17,7 +17,6 @@
                     <div class="col-md-6">
                         <h6>{{ __('Doctor') }}: {{ auth()->user()->name }}</h6>
                         <h6>{{ __('Day') }}: {{ __($schedule->day_of_week) }}</h6>
-                        <h6>{{dump($schedule)}}</h6>
                     </div>
                     <div class="col-md-6">
                         <h6>{{ __('Working Hours') }}: {{ date('h:i A', strtotime($schedule->start_time)) }} - {{ date('h:i A', strtotime($schedule->end_time)) }}</h6>

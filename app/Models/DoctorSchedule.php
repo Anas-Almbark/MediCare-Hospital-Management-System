@@ -15,11 +15,13 @@ class DoctorSchedule extends Model
         'appointment_duration'
     ];
 
+    // العلاقة مع الطبيب
     public function doctor()
     {
         return $this->belongsTo(User::class, 'doctor_id');
     }
 
+    // العلاقة مع المواعيد
     public function appointments()
     {
         return $this->hasMany(Appointment::class, 'schedule_id');
