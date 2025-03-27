@@ -19,6 +19,7 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\SpecializationController;
 use App\Http\Controllers\LabTypeController;
 use App\Http\Controllers\MessagesController;
+use App\Http\Controllers\ReviewController;
 use Chatify\Http\Controllers\MessagesController as ChatifyMessagesController;
 
 
@@ -27,10 +28,10 @@ Route::get('{path?}', [UserController::class, 'idFetch'])
     ->middleware(['auth', 'verified', 'prevent.patient.dashboard'])
     ->name('dashboard');
 
-Route::get('/user/home', function () {
-    return view('welcome');
-})->middleware(['auth', 'verified', 'role:patient'])->name('welcome');
-
+// Route::get('/user/home', function () {
+//     return view('welcome');
+// })->middleware(['auth', 'verified', 'role:patient'])->name('welcome');
+Route::get('/user/home',[ReviewController::class,'index'])->middleware(['auth', 'verified', 'role:patient'])->name('welcome');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -176,6 +177,23 @@ Route::get('/doctors-detail', [PatientController::class, 'doctorsDetail'])->name
 Route::resource('supports', SupportController::class);
 Route::get('/supports/create', [SupportController::class, 'create'])->name('supports.create');
 Route::get('/user/messages', [SupportController::class, 'usermessages'])->name('supports.usermessages');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::put('/reviews/{id}', [ReviewController::class, 'update'])->name('reviews.update');
+    Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+});
+Route::middleware(['auth'])->group(function () {
+    // Route::get('/evaluation', [ReviewController::class, 'index'])->name('evaluation.index');
+    Route::get('/new/evaluation', [ReviewController::class, 'create'])->name('evaluation.create');
+    Route::post('/evaluation', [ReviewController::class, 'store'])->name('evaluation.store');
+    Route::put('/evaluation/{id}', [ReviewController::class, 'update'])->name('evaluation.update');
+    Route::delete('/evaluation/{id}', [ReviewController::class, 'destroy'])->name('evaluation.destroy');
+});
+
+// Include doctors routes
+// require __DIR__. '/doctors.php';
 
 // Include appointments routes
 require __DIR__ . '/appointments.php';

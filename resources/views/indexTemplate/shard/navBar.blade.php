@@ -115,7 +115,7 @@
                                    </ul>
                                </li>
 
-                                   <li><a href="contact.html">Contact</a></li>
+                                   <li><a href="{{route('evaluation.create')}}">evaluation</a></li>
                                    @auth
                                    <li>
                                         <a href="{{ route('logout') }}" 

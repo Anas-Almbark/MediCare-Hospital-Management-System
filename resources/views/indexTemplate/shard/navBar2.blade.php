@@ -136,7 +136,7 @@
                                          <li><a href="checkout.html">Checkout Page</a></li>
                                      </ul>
                                  </li>
-                                 <li><a href="contact.html">Contact</a></li>
+                                 <li><a href="{{route('evaluation.create')}}">evaluation</a></li>
                              </ul>
                          </div>
                      </nav>

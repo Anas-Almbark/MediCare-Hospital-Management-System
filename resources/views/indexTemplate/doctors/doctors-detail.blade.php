@@ -129,6 +129,7 @@
                                 </div>
                             </div>
                         </div>
+                        
 
                         <!-- Info Column -->
                         <div class="info-column col-lg-4 col-md-12 col-sm-12">
