@@ -70,6 +70,15 @@ class DoctorController extends Controller
         return view('dashboard.doctors.index', compact('doctors', 'specializations'));
     }
 
+    public function showDoctorsForHome()
+    {
+        $doctors = User::role('doctor')
+            ->with('doctor.specialization')
+            ->take(4)
+            ->get();
+        return view('welcome', compact('doctors'));
+    }
+
     public function edit($id)
     {
         $doctor = User::role('doctor')->findOrFail($id);
@@ -114,5 +123,23 @@ class DoctorController extends Controller
         $roles = Role::all();
         return view('dashboard.doctors.index', compact('doctors', 'roles'));
     }
+
+    public function createDoctor(User $user, Request $request)
+        {
+            $validation = $request->validate([
+                'specialization' => 'required|exists:specializations,id',
+                'license_number' => 'required|string|unique:doctors,license_number',
+                'experience_years' => 'required|numeric|min:0',
+            ]);
+    
+            Doctor::create([
+                'doctor' => $user->id,
+                'specialization_id' => $validation['specialization'],
+                'license_number' => $validation['license_number'],
+                'experience_years' => $validation['experience_years']
+            ]);
+    
+            return redirect()->route('user.index')->with('success', 'Doctor created successfully');
+        }
 }
 

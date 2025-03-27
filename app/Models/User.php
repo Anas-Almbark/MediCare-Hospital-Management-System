@@ -33,7 +33,8 @@ class User extends Authenticatable
         'provider_name',
         'token',
         'refresh_token',
-        'status_account'
+        'status_account',
+        'profile_photo',
     ];
 
     /**
@@ -130,5 +131,9 @@ class User extends Authenticatable
     public function specializations()
     {
         return $this->belongsToMany(Specialization::class, 'doctor_specialization', 'doctor_id', 'specialization_id');
+    }
+    public function specialization()
+    {
+        return $this->belongsTo(Specialization::class);
     }
 }
