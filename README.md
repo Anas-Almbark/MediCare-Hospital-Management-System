@@ -25,8 +25,8 @@ MediCare is a comprehensive **Hospital Management System (HMS)** designed to imp
 ✅ **E-Prescriptions** → Doctors can generate and send prescriptions digitally.  
 
 ### **Laboratory & Diagnostics**
-✅ Test Management System → Track and manage lab tests, including requested and completed tests.
-✅ Doctor-Requested Tests → Ensure certain tests can only be conducted upon a doctor's request.
+✅ **Test Management System** → Track and manage lab tests, including requested and completed tests.
+✅ **Doctor-Requested Tests** → Ensure certain tests can only be conducted upon a doctor's request.
 
 ### **Billing & Payments**  
 ✅ **Invoice Generation** → Automatically generate patient invoices.  
