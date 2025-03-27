@@ -69,7 +69,7 @@
                                                 </form>
                                             @endif
 
-                                            <form action="{{ route('appointment.destroy', $appointment->id) }}" method="POST" class="d-inline" onsubmit="return confirm('{{ __('Are you sure you want to delete this appointment?') }}')">
+                                            <form action="{{ route('doctor.appointments.destroy', $appointment->id) }}" method="POST" class="d-inline" onsubmit="return confirm('{{ __('Are you sure you want to delete this appointment?') }}')">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger">

@@ -12,12 +12,12 @@
             </div>
             <div class="d-flex my-xl-auto right-content">
                 <div class="pr-1 mb-3 mb-xl-0">
-                    <a href="{{ route('appointment.edit', $appointment->id) }}" class="btn btn-info">
+                    <a href="{{ route('doctor.appointments.edit', $appointment->id) }}" class="btn btn-info">
                         <i class="fas fa-edit"></i> Edit
                     </a>
                 </div>
                 <div class="pr-1 mb-3 mb-xl-0">
-                    <form action="{{ route('appointment.destroy', $appointment->id) }}" method="POST" class="d-inline">
+                    <form action="{{ route('doctor.appointments.destroy', $appointment->id) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">

@@ -128,7 +128,7 @@
                                                         </span>
                                                         <div>
 
-                                                            <strong>{{ \Carbon\Carbon::parse($appointment->statr_time)->format('h:i A')}}</strong>
+                                                            <strong>{{ \Carbon\Carbon::parse($appointment->start_time)->format('h:i A')}}</strong>
                                                             <br>
                                                             <small
                                                                 class="text-muted">{{ \Carbon\Carbon::parse($appointment->end_time)->format('h:i A')}}</small>
@@ -166,7 +166,7 @@
                                                 <td>{{ Str::limit($appointment->notes, 30) }}</td>
                                                 <td>
                                                     <div class="btn-group btn-group-sm">
-                                                        <a href="{{ route('appointment.show', $appointment->id) }}"
+                                                        <a href="{{ route('doctor.appointments.show', $appointment->id) }}"
                                                             class="btn btn-light" title="{{ __('View Details') }}">
                                                             <i class="fas fa-eye"></i>
                                                         </a>
@@ -177,7 +177,7 @@
                                                                 <i class="fas fa-prescription"></i>
                                                             </a>
                                                             <form
-                                                                action="{{ route('appointment.destroy', $appointment->id) }}"
+                                                                action="{{ route('doctor.appointments.destroy', $appointment->id) }}"
                                                                 method="POST" class="d-inline"
                                                                 onsubmit="return confirm('{{ __('Are you sure you want to delete this appointment? This action cannot be undone.') }}')">
                                                                 @csrf
