@@ -68,7 +68,7 @@ class RegisteredUserController extends Controller
 
             if ($existingUser) {
                 Auth::login($existingUser);
-                return redirect()->route('dashboard');
+                return redirect()->route('welcome');
             }
 
             $newUser = User::create([
@@ -80,9 +80,9 @@ class RegisteredUserController extends Controller
                 'token' => $user->token,
                 'refresh_token' => $user->refreshToken,
             ]);
-
+            $newUser->assignRole('patient');
             Auth::login($newUser);
-            return redirect()->route('dashboard');
+            return redirect()->route('welcome');
         } catch (\Exception $e) {
             return redirect()->route('login')->with('error', 'GitHub authentication failed.');
         }
@@ -102,7 +102,7 @@ class RegisteredUserController extends Controller
 
             if ($existingUser) {
                 Auth::login($existingUser);
-                return redirect()->route('dashboard');
+                return redirect()->route('welcome');
             }
 
             $newUser = User::create([
@@ -114,9 +114,9 @@ class RegisteredUserController extends Controller
                 'token' => $user->token,
                 'refresh_token' => $user->refreshToken,
             ]);
-
+            $newUser->assignRole('patient');
             Auth::login($newUser);
-            return redirect()->route('dashboard');
+            return redirect()->route('welcome');
         } catch (\Exception $e) {
             return redirect()->route('login')->with('error', 'Google authentication failed.');
         }

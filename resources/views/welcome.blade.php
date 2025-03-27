@@ -7,9 +7,9 @@
     <!-- Preloader -->
     <div class="preloader"></div>
 
-   
+
     <!-- End Main Header -->
-	
+
 	<!-- Main Slider Three -->
 	<section class="main-slider-three">
 		<div class="banner-carousel">
@@ -19,7 +19,7 @@
 				<div class="swiper-slide slide">
 					<div class="auto-container">
 						<div class="row clearfix">
-							
+
 							<!-- Content Column -->
 							<div class="content-column col-lg-6 col-md-12 col-sm-12">
 								<div class="inner-column">
@@ -31,27 +31,27 @@
 									</div>
 								</div>
 							</div>
-							
+
 							<!-- Image Column -->
 							<div class="image-column col-lg-6 col-md-12 col-sm-12">
 								<div class="inner-column">
 									<div class="image" style="width: 550px; height: 550px;">
-										<img src="{{ asset('assets/img/photos/home1.jpg') }}" alt="" 
+										<img src="{{ asset('assets/img/photos/home1.jpg') }}" alt=""
                                         style="width: 550px; height: 550px;"/>
 									</div>
 								</div>
 							</div>
-							
+
 						</div>
-						
+
 					</div>
 				</div>
-				
-				
+
+
 				<div class="swiper-slide slide">
 					<div class="auto-container">
 						<div class="row clearfix">
-							
+
 							<!-- Content Column -->
 							<div class="content-column col-lg-6 col-md-12 col-sm-12">
 								<div class="inner-column">
@@ -63,7 +63,7 @@
 									</div>
 								</div>
 							</div>
-							
+
 							<!-- Image Column -->
 							<div class="image-column col-lg-6 col-md-12 col-sm-12">
 								<div class="inner-column">
@@ -73,17 +73,17 @@
 									</div>
 								</div>
 							</div>
-							
+
 						</div>
-						
+
 					</div>
 				</div>
-				
-				
+
+
 				<div class="swiper-slide slide">
 					<div class="auto-container">
 						<div class="row clearfix">
-							
+
 							<!-- Content Column -->
 							<div class="content-column col-lg-6 col-md-12 col-sm-12">
 								<div class="inner-column">
@@ -96,7 +96,7 @@
 									</div>
 								</div>
 							</div>
-							
+
 							<!-- Image Column -->
 							<div class="image-column col-lg-6 col-md-12 col-sm-12">
 								<div class="inner-column">
@@ -106,12 +106,12 @@
 									</div>
 								</div>
 							</div>
-							
+
 						</div>
-						
+
 					</div>
 				</div>
-				
+
 			</div>
 			<!-- Add Arrows -->
 			<div class="swiper-button-next"></div>
@@ -119,14 +119,14 @@
 		</div>
 	</section>
 	<!-- End Main Slider -->
-	
+
 	<!-- Health Section -->
 	<section class="health-section">
 		<div class="auto-container">
 			<div class="inner-container">
-				
+
 				<div class="row clearfix">
-					
+
 					<!-- Content Column -->
 					<div class="content-column col-lg-7 col-md-12 col-sm-12">
 						<div class="inner-column">
@@ -140,7 +140,7 @@
 							<a href="about.html" class="theme-btn btn-style-one"><span class="txt">More About Us</span></a>
 						</div>
 					</div>
-					
+
 					<!-- Image Column -->
 					<div class="image-column col-lg-5 col-md-12 col-sm-12">
 						<div class="inner-column wow fadeInRight" data-wow-delay="0ms" data-wow-duration="1500ms">
@@ -150,19 +150,19 @@
 							</div>
 						</div>
 					</div>
-					
+
 				</div>
-				
+
 			</div>
 		</div>
 	</section>
 	<!-- End Health Section -->
-	
+
 	<!-- Featured Section -->
 	<section class="featured-section">
 		<div class="auto-container">
 			<div class="row clearfix">
-				
+
 				<!-- Feature Block -->
 				<div class="feature-block col-lg-3 col-md-6 col-sm-12">
 					<div class="inner-box wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
@@ -173,7 +173,7 @@
 						<div class="text">Whether you're taking your first steps, just finding your stride,</div>
 					</div>
 				</div>
-				
+
 				<!-- Feature Block -->
 				<div class="feature-block col-lg-3 col-md-6 col-sm-12">
 					<div class="inner-box wow fadeInLeft" data-wow-delay="250ms" data-wow-duration="1500ms">
@@ -184,7 +184,7 @@
 						<div class="text">Whether you're taking your first steps, just finding your stride,</div>
 					</div>
 				</div>
-				
+
 				<!-- Feature Block -->
 				<div class="feature-block col-lg-3 col-md-6 col-sm-12">
 					<div class="inner-box wow fadeInLeft" data-wow-delay="500ms" data-wow-duration="1500ms">
@@ -195,7 +195,7 @@
 						<div class="text">Whether you're taking your first steps, just finding your stride,</div>
 					</div>
 				</div>
-				
+
 				<!-- Feature Block -->
 				<div class="feature-block col-lg-3 col-md-6 col-sm-12">
 					<div class="inner-box wow fadeInLeft" data-wow-delay="750ms" data-wow-duration="1500ms">
@@ -206,12 +206,12 @@
 						<div class="text">Whether you're taking your first steps, just finding your stride,</div>
 					</div>
 				</div>
-				
+
 			</div>
 		</div>
 	</section>
 	<!-- End Featured Section -->
-	
+
 	<!-- Department Section Three -->
 	<section class="department-section-three">
 		<div class="image-layer" style="background-image:url(images/background/6.jpg)"></div>
@@ -239,7 +239,7 @@
                     <div class="col-lg-8 col-md-12 col-sm-12">
                     	<!--Tabs Container-->
                         <div class="tabs-content">
-                        
+
                             <!-- Tab -->
                             <div class="tab" id="tab-urology">
                             	<div class="content">
@@ -262,7 +262,7 @@
 									<a href="doctors-detail.html" class="theme-btn btn-style-two"><span class="txt">View More</span></a>
 								</div>
 							</div>
-							
+
 							<!-- Tab -->
                             <div class="tab active-tab" id="tab-department">
                             	<div class="content">
@@ -285,7 +285,7 @@
 									<a href="doctors-detail.html" class="theme-btn btn-style-two"><span class="txt">View More</span></a>
 								</div>
 							</div>
-							
+
 							<!-- Tab -->
                             <div class="tab" id="tab-gastrology">
                             	<div class="content">
@@ -308,7 +308,7 @@
 									<a href="doctors-detail.html" class="theme-btn btn-style-two"><span class="txt">View More</span></a>
 								</div>
 							</div>
-							
+
 							<!-- Tab -->
                             <div class="tab" id="tab-cardiology">
                             	<div class="content">
@@ -331,7 +331,7 @@
 									<a href="doctors-detail.html" class="theme-btn btn-style-two"><span class="txt">View More</span></a>
 								</div>
 							</div>
-							
+
 							<!-- Tab -->
                             <div class="tab" id="tab-eye">
                             	<div class="content">
@@ -354,26 +354,26 @@
 									<a href="doctors-detail.html" class="theme-btn btn-style-two"><span class="txt">View More</span></a>
 								</div>
 							</div>
-							
+
 						</div>
 					</div>
 				</div>
 			</div>
-			
+
 		</div>
 	</section>
 	<!-- End Department Section -->
-	
+
 	<!-- Team Section -->
 	<section class="team-section">
 		<div class="auto-container">
-			
+
 			<!-- Sec Title -->
 			<div class="sec-title centered">
 				<h2>The Medical Specialists</h2>
 				<div class="separator"></div>
 			</div>
-			
+
 			<div class="row clearfix">
 				@foreach($doctors as $doctor)
 				<!-- Team Block -->
@@ -404,25 +404,19 @@
 				</div>
 				@endforeach
 			</div>
-			
+
 		</div>
 	</section>
-	<!-- End Team Section -->
-
-        <!-- Video Section -->
-        <section class="video-section" style="background-image:url(images/background/5.jpg)">
+        <section class="video-section" style="background-image:url({{ asset('assets/img/viedo.png')}})">
             <div class="auto-container">
                 <div class="content">
-                    <a href="https://www.youtube.com/watch?v=kxPCFljwJws" class="lightbox-image play-box"><span
+                    <a href="https://youtu.be/EceDhNJE6Eg?si=FR5FclvNg4t9pmjk" class="lightbox-image play-box"><span
                             class="flaticon-play-button"><i class="ripple"></i></span></a>
                     <div class="text">WE ARE CARE ABOUT YOUR HEALTH</div>
                     <h2>We Care About You</h2>
                 </div>
             </div>
         </section>
-        <!-- End Video Section -->
-
-        <!-- Appointment Section Two -->
         <section class="appointment-section-two">
             <div class="auto-container">
                 <div class="inner-container">
@@ -514,10 +508,10 @@
                 <div class="testimonial-carousel owl-carousel owl-theme">
 
                     <!-- Tesimonial Block Two -->
-                   
-                    
+
+
                     @foreach ( $reviews ?? [] as $review)
-	
+
 
 <div class="testimonial-block-two">
 	<div class="inner-box">
@@ -533,7 +527,7 @@
 				</div>
 				<div class="pull-right">
 					<div class="author-info">
-						
+
 						<div class="author">{{$review->user->name ?? ''}}</div>
 					</div>
 				</div>
@@ -545,7 +539,7 @@
 @endforeach
 
                     <!-- Tesimonial Block Two -->
-                    
+
 
                 </div>
             </div>

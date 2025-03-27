@@ -78,6 +78,7 @@
                                                         <div class="row">
                                                             <div class="col-md-6 mb-2">
                                                                 <a href="{{ route('auth.google') }}"
+                                                                    style="background: #ea4335"
                                                                     class="btn btn-danger btn-block">
                                                                     <i class="fab fa-google me-2"></i> Google
                                                                 </a>
