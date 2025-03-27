@@ -13,17 +13,45 @@
                             {{ __('My Appointments') }}
                         </a>
                     </div>
-                    <form action="{{ route('patient.appointments.available') }}" method="GET" class="d-flex align-items-center">
-                        <input type="date" 
-                               name="date" 
-                               class="form-control me-2" 
-                               value="{{ $currentDate }}"
-                               min="{{ now()->format('Y-m-d') }}"
-                               max="{{ now()->addMonths(3)->format('Y-m-d') }}"
-                               onchange="this.form.submit()">
-                    </form>
                 </div>
             </div>
+            
+            <div class="filters-section mb-3">
+                <form action="{{ route('patient.appointments.available') }}" method="GET" class="row g-3">
+                    <!-- Date Filter -->
+                    <div class="col-md-5">
+                        <label class="form-label">{{ __('Date') }}</label>
+                        <input type="date" 
+                               name="date" 
+                               class="form-control" 
+                               value="{{ $currentDate }}"
+                               min="{{ now()->format('Y-m-d') }}"
+                               max="{{ now()->addMonths(3)->format('Y-m-d') }}">
+                    </div>
+            
+                    <!-- Doctor Filter -->
+                    <div class="col-md-5">
+                        <label class="form-label">{{ __('Doctor') }}</label>
+                        <select name="doctor_id" class="form-select">
+                            <option value="">{{ __('All Doctors') }}</option>
+                            @foreach($doctors as $doctor)
+                                <option value="{{ $doctor->id }}" {{ request('doctor_id') == $doctor->id ? 'selected' : '' }}>
+                                    Dr. {{ $doctor->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+            
+                    <!-- Submit Button -->
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-filter me-1"></i>
+                            {{ __('Filter') }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
             <div class="selected-date text-primary">
                 <i class="fas fa-calendar-day me-2"></i>
                 {{ \Carbon\Carbon::parse($currentDate)->format('l, F j, Y') }}
@@ -62,6 +90,21 @@
                                                     <div class="time-display text-center mb-3">
                                                         <h4 class="mb-0">{{ \Carbon\Carbon::parse($appointment->start_time)->format('h:i A') }}</h4>
                                                         <small class="text-muted">{{ \Carbon\Carbon::parse($appointment->end_time)->format('h:i A') }}</small>
+                                                        <div class="appointment-details mt-2">
+                                                            <span class="badge bg-light text-dark mb-2">
+                                                                <i class="fas fa-clock me-1"></i>
+                                                                {{ \Carbon\Carbon::parse($appointment->start_time)->diffInMinutes($appointment->end_time) }} دقيقة
+                                                            </span>
+                                                            <div class="doctor-info small text-muted">
+                                                                <div><i class="fas fa-user-md me-1"></i> د. {{ $doctor->name }}</div>
+                                                                @if($doctor->specialization)
+                                                                    <div><i class="fas fa-stethoscope me-1"></i> {{ $doctor->specialization->name }}</div>
+                                                                @endif
+                                                                @if($doctor->experience_years)
+                                                                    <div><i class="fas fa-award me-1"></i> {{ $doctor->experience_years }} سنوات خبرة</div>
+                                                                @endif
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <form action="{{ route('appointment.book', $appointment->id) }}" method="POST">
                                                         @csrf
@@ -120,6 +163,36 @@
     .selected-date {
         font-size: 1.1rem;
         font-weight: 500;
+    }
+    .appointment-details {
+        border-top: 1px solid #eee;
+        padding-top: 0.5rem;
+    }
+    .doctor-info div {
+        margin-bottom: 0.25rem;
+    }
+    .badge {
+        font-weight: normal;
+    }
+    .filters-section {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .form-label {
+        font-weight: 500;
+        color: #6c757d;
+    }
+    
+    .form-select, .form-control {
+        border-color: #dee2e6;
+    }
+    
+    .form-select:focus, .form-control:focus {
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
     }
 </style>
 @endpush

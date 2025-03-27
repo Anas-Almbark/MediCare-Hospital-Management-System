@@ -32,18 +32,16 @@ class UserController extends Controller
             'email' => 'required|email|unique:users|max:255',
             'password' => 'required|string|min:8',
             'role' => 'required|exists:roles,name',
-            'specialization' => 'required_if:role,doctor|exists:specializations,id',
-            'license_number' => 'required_if:role,doctor|string|unique:doctors,license_number',
-            'experience_years' => 'required_if:role,doctor|numeric|min:0',
             'birth_date' => 'required|date|before:today',
             'gender' => 'required|in:male,female',
             'blood_type' => 'nullable|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
             'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:7|max:18',
             'address' => 'required|string|max:255',
             'identity_number' => 'required|string|unique:users|min:6|max:30',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $user = User::create([
+        $userData = [
             'name' => $validation['name'],
             'email' => $validation['email'],
             'password' => Hash::make($validation['password']),
@@ -53,17 +51,20 @@ class UserController extends Controller
             'phone_number' => $validation['phone'],
             'address' => $validation['address'],
             'identity_number' => $validation['identity_number'],
-        ]);
+        ];
 
+        if ($request->hasFile('profile_photo')) {
+            $file = $request->file('profile_photo');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('storage/profile-photos'), $filename);
+            $userData['profile_photo'] = $filename;
+        }
+
+        $user = User::create($userData);
         $user->assignRole($validation['role']);
 
         if ($validation['role'] === 'doctor') {
-            Doctor::create([
-                'doctor' => $user->id,
-                'specialization_id' => $validation['specialization'],
-                'license_number' => $validation['license_number'],
-                'experience_years' => $validation['experience_years']
-            ]);
+            return app(DoctorController::class)->createDoctor($user, $request);
         }
 
         return redirect()->route('user.index')->with('success', 'User created successfully');

@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             StaticSalarySeeder::class,
-            SalarySeeder::class
+            SalarySeeder::class,
+            DoctorScheduleSeeder::class
         ]);
     }
 }

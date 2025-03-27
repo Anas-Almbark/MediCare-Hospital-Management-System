@@ -28,10 +28,16 @@ Route::get('{path?}', [UserController::class, 'idFetch'])
     ->middleware(['auth', 'verified', 'prevent.patient.dashboard'])
     ->name('dashboard');
 
+<<<<<<< HEAD
 // Route::get('/user/home', function () {
 //     return view('welcome');
 // })->middleware(['auth', 'verified', 'role:patient'])->name('welcome');
 Route::get('/user/home',[ReviewController::class,'index'])->middleware(['auth', 'verified', 'role:patient'])->name('welcome');
+=======
+Route::get('/user/home', [DoctorController::class, 'showDoctorsForHome'])
+    ->middleware(['auth', 'verified', 'role:patient'])
+    ->name('welcome');
+>>>>>>> 54fdc6472adb76f94403b4d7e4f7f37af84e1913
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -152,6 +158,7 @@ Route::middleware(['auth', 'role:lab_technician|super-admin'])->group(function (
     Route::post("/add/lab-test", [LabTestController::class, "store"])->name("lab-test.store");
     Route::get("/edit/lab-test/{labTest}", [LabTestController::class, "edit"])->name("lab-test.edit");
     Route::get("/search", [LabTestController::class, "searchByName"])->name('lab-test.search');
+    Route::get("/filter", [LabTestController::class, "advancedSearch"])->name('lab-test.advFilter');
     Route::put("/update/lab-test/{labTest}", [LabTestController::class, "update"])->name("lab-test.update");
     Route::delete("/delete/lab-test/{labTest}", [LabTestController::class, "destroy"])->name('lab-test.destroy');
 });
@@ -168,12 +175,11 @@ Route::middleware(['auth', 'role:lab_technician|super-admin'])->group(function (
 Route::get('/chat/{id?}', [ChatifyMessagesController::class, 'index'])->name('chatify');
 Route::get('change/language/{locale}', [LanguageController::class, 'changeLanguage'])->name('change.language');
 
-// Add public pages routes
 Route::get('/about', [PatientController::class, 'about'])->name('about');
 Route::get('/services', [PatientController::class, 'services'])->name('services');
 Route::get('/doctors', [PatientController::class, 'doctors'])->name('doctors');
 Route::get('/doctors-detail', [PatientController::class, 'doctorsDetail'])->name('doctors-detail');
-
+Route::get('/', [DoctorController::class, 'showDoctorsForHome'])->name('home');
 Route::resource('supports', SupportController::class);
 Route::get('/supports/create', [SupportController::class, 'create'])->name('supports.create');
 Route::get('/user/messages', [SupportController::class, 'usermessages'])->name('supports.usermessages');
