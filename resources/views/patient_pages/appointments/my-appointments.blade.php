@@ -77,7 +77,7 @@
                                                 </button>
                                             </form>
                                     @endif
-                                    @if($appointment->status === 'confirmed')
+                                    @if($appointment->status === 'confirmed'||$appointment->status === 'completed')
                                         <form action="{{ route('patient.appointments.show', $appointment->id) }}" 
                                               method="POST" 
                                               class="d-inline">

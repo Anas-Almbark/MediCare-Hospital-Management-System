@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\User;
+use App\Models\Prescription;
 use App\Models\Specialization;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PatientAppointmentController extends Controller
 {
@@ -79,14 +81,30 @@ class PatientAppointmentController extends Controller
         
         $appointment = Appointment::with([
             'doctor' => function($query) {
-                $query->select('id', 'name', 'email');
+                $query->select('id', 'name', 'email')
+                    ->with('specialization:id,name');
             },
             'prescription' => function($query) {
                 $query->with('doctor:id,name');
             }
         ])->findOrFail($appointment->id);
-        
 
         return view('patient_pages.appointments.show', compact('appointment'));
+    }
+
+    public function downloadPrescription(Prescription $prescription)
+    {
+        // Check if the prescription belongs to the authenticated patient
+        if ($prescription->patient_id !== auth()->id()) {
+            return back()->with('error', 'غير مصرح لك بتحميل هذه الوصفة');
+        }
+
+        $pdf = PDF::loadView('pdf.prescription', [
+            'prescription' => $prescription->load(['doctor', 'patient', 'appointment'])
+        ]);
+
+        $fileName = 'prescription_' . $prescription->id . '_' . now()->format('Y-m-d') . '.pdf';
+        
+        return $pdf->download($fileName);
     }
 }

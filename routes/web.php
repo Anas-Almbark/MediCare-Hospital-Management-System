@@ -130,7 +130,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get("/prescriptions", [PrescriptionController::class, "index"])->name("prescription.index");
     Route::get("/prescription/{id}", [PrescriptionController::class, "show"])->name("prescription.show");
-    Route::get("/new/prescription", [PrescriptionController::class, "create"])->name("prescription.create");
+    Route::get("/new/prescription/{id}", [PrescriptionController::class, "create"])->name("prescription.create");
     Route::post("/add/prescription", [PrescriptionController::class, "store"])->name("prescription.store");
     Route::get("/edit/prescription/{id}", [PrescriptionController::class, "edit"])->name("prescription.edit");
     Route::put("/update/prescription/{id}", [PrescriptionController::class, "update"])->name("prescription.update");

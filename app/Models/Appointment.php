@@ -15,8 +15,6 @@ class Appointment extends Model
         'end_time',
         'status',
         'notes',
-        'prescription_id'
-
     ];
 
     // العلاقة مع جدول المواعيد
@@ -39,6 +37,6 @@ class Appointment extends Model
 
     public function prescription()
     {
-        return $this->belongsTo(Prescription::class, 'prescription_id');
+        return $this->hasOne(Prescription::class);
     }
 }

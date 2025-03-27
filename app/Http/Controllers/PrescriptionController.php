@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\User;
 use App\Models\Prescription;
 use Illuminate\Http\Request;
@@ -14,16 +15,12 @@ class PrescriptionController extends Controller
         return view('dashboard.prescriptions.index', compact('prescriptions'));
     }
 
-    public function create()
-    {
-        $doctors = User::role('doctor')->get();
-        $patients = User::role('patient')->get();
-        $appointments = \App\Models\Appointment::where('status', 'confirmed')
-            ->whereNull('prescription_id')
-            ->with(['doctor', 'patient'])
-            ->get();
+    public function create($id)
+    {   
+        $appointment = Appointment::with(['doctor', 'patient'])
+            ->findOrFail($id);
        
-        return view('dashboard.prescriptions.create', compact('doctors', 'patients', 'appointments'));
+        return view('dashboard.prescriptions.create', compact('appointment'));
     }
 
     public function store(Request $request)
@@ -39,12 +36,12 @@ class PrescriptionController extends Controller
             'doctor_id' => $request->doctor,
             'patient_id' => $request->patient,
             'description' => $request->description,
+            'appointment_id'=>$request->appointment_id
         ]);
         // Update the appointment with the prescription
-        $appointment = \App\Models\Appointment::findOrFail($request->appointment_id);
+        $appointment = Appointment::findOrFail($request->appointment_id);
         $appointment->update([
-            'prescription_id' => $prescription->id,
-            'status' => 'confirmed'
+            'status' => 'completed'
         ]);
 
         return redirect()->route('prescription.index')

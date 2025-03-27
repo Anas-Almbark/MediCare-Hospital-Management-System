@@ -171,7 +171,7 @@
                                                             <i class="fas fa-eye"></i>
                                                         </a>
                                                         @if ($appointment->status != 'cancelled')
-                                                            <a href="{{ route('prescription.create', ['appointment' => $appointment->id]) }}"
+                                                            <a href="{{ route('prescription.create', $appointment->id) }}"
                                                                 class="btn btn-light"
                                                                 title="{{ __('Create Prescription') }}">
                                                                 <i class="fas fa-prescription"></i>
