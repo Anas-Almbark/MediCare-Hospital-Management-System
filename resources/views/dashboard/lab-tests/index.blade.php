@@ -76,7 +76,8 @@
                     <div class="col-md-8">
                         <div class="input-group">
                             <form action="{{ route('lab-test.search') }}" class="d-flex w-100">
-                                <input type="text" class="form-control" name="search" placeholder="Search by name">
+                                <input type="text" class="form-control" value="{{ request('search') }}" name="search"
+                                    placeholder="Search by name">
                                 <button class="btn btn-outline-primary" type="submit">
                                     <i class="fas fa-search"></i>
                                 </button>
@@ -91,20 +92,21 @@
                 </div>
                 <div id="filter-panel" class="card mb-4 shadow-sm" style="display: none;">
                     <div class="card-body bg-light">
-                        <form>
+                        <form action="{{ route('lab-test.advFilter') }}" method="GET">
+                            @csrf
                             <div class="row">
                                 <div class="col-md-3 mb-3">
                                     <label class="form-label fw-bold">Test Type</label>
-                                    <select class="form-control select2-no-search">
+                                    <select class="form-control select2-no-search" name="test_type">
                                         <option label="Choose one"></option>
-                                        <option value="blood">Blood Test</option>
-                                        <option value="urine">Urine Test</option>
-                                        <option value="imaging">Imaging</option>
+                                        @foreach ($labTypes as $labType)
+                                            <option value="{{ $labType->id }}">{{ $labType->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="col-lg-4">
                                     <p class="mg-b-10">Status</p>
-                                    <select class="form-control select2-no-search">
+                                    <select class="form-control select2-no-search" name="status">
                                         <option label="Choose one">
                                         </option>
                                         <option value="">
@@ -123,17 +125,17 @@
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label class="form-label fw-bold">From Date</label>
-                                    <input type="date" class="form-control">
+                                    <input type="date" class="form-control" name="fromDate">
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label class="form-label fw-bold">To Date</label>
-                                    <input type="date" class="form-control">
+                                    <input type="date" class="form-control" name="toDate">
                                 </div>
                                 <div class="col-12 text-end">
                                     <button type="reset" class="btn btn-secondary btn-sm me-2">
                                         <i class="fas fa-redo me-1"></i> Reset
                                     </button>
-                                    <button type="button" class="btn btn-primary btn-sm">
+                                    <button type="submit" class="btn btn-primary btn-sm">
                                         <i class="fas fa-check me-1"></i> Apply Filters
                                     </button>
                                 </div>
@@ -145,7 +147,7 @@
                     <table class="table table-hover table-striped mb-0">
                         <thead>
                             <tr>
-                                <th class="py-3"> Patient Name</th>
+                                <th class="py-3">Patient Name</th>
                                 <th class="py-3">Test Type</th>
                                 <th class="py-3">Test Price</th>
                                 <th class="py-3">Doctor</th>
@@ -178,8 +180,9 @@
                                                 class="btn btn-sm btn-info">
                                                 <i class="fas fa-file-medical"></i> View
                                             </a>
-                                            <button onclick="sendWhatsApp('{{ $labTest->patientData->phone_number }}', '{{ $labTest->labType->name }}', '{{ $labTest->created_at->format('Y-m-d') }}', '{{ $labTest->id }}')" 
-                                                    class="btn btn-sm btn-success">
+                                            <button
+                                                onclick="sendWhatsApp('{{ $labTest->patientData->phone_number }}', '{{ $labTest->labType->name }}', '{{ $labTest->created_at->format('Y-m-d') }}', '{{ $labTest->id }}')"
+                                                class="btn btn-sm btn-success">
                                                 <i class="fab fa-whatsapp"></i> Send
                                             </button>
                                         @else
@@ -224,7 +227,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            @foreach ($labTypes as $index => $test)
+                            @foreach ($labTypes ?? [] as $index => $test)
                                 <div class="col-md-4 mb-3">
                                     <div class="card border-0 shadow-sm h-100">
                                         <div class="card-body">
@@ -282,23 +285,23 @@
 @endsection
 
 @push('scripts')
-<script>
-function sendWhatsApp(phone, testName, date, testId) {
-    const resultUrl = `${window.location.origin}/lab-test/${testId}`;
-    
-    const waLink = document.createElement('a');
-    waLink.href = `whatsapp://send?phone=${phone.replace(/[^0-9]/g, '')}&text=${encodeURIComponent(
+    <script>
+        function sendWhatsApp(phone, testName, date, testId) {
+            const resultUrl = `${window.location.origin}/lab-test/${testId}`;
+
+            const waLink = document.createElement('a');
+            waLink.href =
+                `whatsapp://send?phone=${phone.replace(/[^0-9]/g, '')}&text=${encodeURIComponent(
 `🔬✨ مرحبًا عزيزي،
-نتائج اختبار المختبر ${testName} جاهزة الآن! ✅
-📅 التاريخ: ${date}
+                                                                                                                            نتائج اختبار المختبر ${testName} جاهزة الآن! ✅
+                                                                                                                            📅 التاريخ: ${date}
 
-📄 يمكنك الاطلاع على النتائج من خلال الرابط التالي:
-${resultUrl}
+                                                                                                                            📄 يمكنك الاطلاع على النتائج من خلال الرابط التالي:
+                                                                                                                            ${resultUrl}
 
-نتمنى لك دوام الصحة والعافية! 💙`)}`;
-    
-    waLink.click();
-}
-</script>
+                                                                                                                            نتمنى لك دوام الصحة والعافية! 💙`)}`;
+
+            waLink.click();
+        }
+    </script>
 @endpush
-    

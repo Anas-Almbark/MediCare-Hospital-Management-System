@@ -151,6 +151,7 @@ Route::middleware(['auth', 'role:lab_technician|super-admin'])->group(function (
     Route::post("/add/lab-test", [LabTestController::class, "store"])->name("lab-test.store");
     Route::get("/edit/lab-test/{labTest}", [LabTestController::class, "edit"])->name("lab-test.edit");
     Route::get("/search", [LabTestController::class, "searchByName"])->name('lab-test.search');
+    Route::get("/filter", [LabTestController::class, "advancedSearch"])->name('lab-test.advFilter');
     Route::put("/update/lab-test/{labTest}", [LabTestController::class, "update"])->name("lab-test.update");
     Route::delete("/delete/lab-test/{labTest}", [LabTestController::class, "destroy"])->name('lab-test.destroy');
 });
