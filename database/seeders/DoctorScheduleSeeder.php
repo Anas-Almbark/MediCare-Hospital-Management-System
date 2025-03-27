@@ -30,23 +30,28 @@ class DoctorScheduleSeeder extends Seeder
 
     private function createSchedulesForDoctor($doctorId)
     {
-        // Define working days and shifts
-        $workingDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday'];
+        // Define working days
+        $workingDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         
-        // Get next Monday's date and generate dates for the week
-        $nextMonday = Carbon::now()->next('Monday');
-        $dates = [
-            'Monday' => $nextMonday->format('Y-m-d'),
-            'Tuesday' => $nextMonday->copy()->addDay()->format('Y-m-d'),
-            'Wednesday' => $nextMonday->copy()->addDays(2)->format('Y-m-d'),
-            'Thursday' => $nextMonday->copy()->addDays(3)->format('Y-m-d')
-        ];
+        // Get the selected day or default to today
+        $selectedDay = request('day', Carbon::now()->format('l'));
+        
+        // Start from today and generate dates for the next 7 days
+        $today = Carbon::today();
+        $dates = [];
+        
+        // Find the next occurrence of the selected day
+        $date = $today->copy();
+        while ($date->format('l') !== $selectedDay) {
+            $date->addDay();
+        }
+        $dates[$selectedDay] = $date->format('Y-m-d');
 
         $shifts = [
             [
                 'start' => '09:00',
                 'end' => '13:00',
-                'duration' => 30 // 30 minutes per appointment
+                'duration' => 30
             ],
             [
                 'start' => '16:00',
@@ -56,17 +61,15 @@ class DoctorScheduleSeeder extends Seeder
         ];
 
         $schedules = [];
-        foreach ($workingDays as $day) {
-            foreach ($shifts as $shift) {
-                $schedules[] = [
-                    'doctor_id' => $doctorId,
-                    'day_of_week' => $day,
-                    'date' => $dates[$day],
-                    'start_time' => $shift['start'],
-                    'end_time' => $shift['end'],
-                    'appointment_duration' => $shift['duration']
-                ];
-            }
+        foreach ($shifts as $shift) {
+            $schedules[] = [
+                'doctor_id' => $doctorId,
+                'day_of_week' => $selectedDay,
+                'date' => $dates[$selectedDay],
+                'start_time' => $shift['start'],
+                'end_time' => $shift['end'],
+                'appointment_duration' => $shift['duration']
+            ];
         }
 
         return $schedules;

@@ -75,12 +75,23 @@
             </div>
             <div class="card-body">
                 <!-- Tabs -->
+                @php
+                    $today = \Carbon\Carbon::now();
+                    $currentDay = $today->format('l');
+                    $currentDate = $today->format('Y-m-d');
+                @endphp
+                
                 <ul class="nav nav-tabs mb-3">
                     @foreach ($appointmentDays as $day)
                         <li class="nav-item">
-                            <a class="nav-link {{ $day == now()->format('l') ? 'active' : '' }}" data-bs-toggle="tab"
-                                href="#day-{{ $day }}">
-                                {{ $day }}
+                            <a class="nav-link {{ $day == $currentDay ? 'active' : '' }}" 
+                               data-bs-toggle="tab"
+                               href="#day-{{ $day }}"
+                               data-date="{{ $currentDate }}">
+                                {{ __($day) }}
+                                @if($day == $currentDay)
+                                    <span class="badge bg-success ms-1">{{ __('Today') }}</span>
+                                @endif
                                 <span class="badge bg-primary ms-1">
                                     {{ $appointmentsByDay[$day]->total() }}
                                 </span>
@@ -92,13 +103,14 @@
                 <!-- Tab Content -->
                 <div class="tab-content">
                     @foreach ($appointmentDays as $day)
-                        <div class="tab-pane fade {{ $day == now()->format('l') ? 'show active' : '' }}"
+                        <div class="tab-pane fade {{ $day == $currentDay ? 'show active' : '' }}"
                             id="day-{{ $day }}">
                             <div class="table-responsive">
                                 <table class="table table-hover mb-0">
                                     <thead>
                                         <tr>
                                             <th>{{ __('Time') }}</th>
+                                            <th>{{ __('Date') }}</th>
                                             <th>{{ __('Patient') }}</th>
                                             <th>{{ __('Status') }}</th>
                                             <th>{{ __('Notes') }}</th>
@@ -115,13 +127,24 @@
                                                             <i class="fas fa-circle fs-xs"></i>
                                                         </span>
                                                         <div>
-                                                            <strong>{{ \Carbon\Carbon::parse($appointment->start_time)->format('h:i A') }}</strong>
+
+                                                            <strong>{{ \Carbon\Carbon::parse($appointment->statr_time)->format('h:i A')}}</strong>
                                                             <br>
                                                             <small
-                                                                class="text-muted">{{ \Carbon\Carbon::parse($appointment->end_time)->format('h:i A') }}</small>
+                                                                class="text-muted">{{ \Carbon\Carbon::parse($appointment->end_time)->format('h:i A')}}</small>
                                                         </div>
                                                     </div>
                                                 </td>
+                                                <td>
+                                                    <div>
+
+                                                        <strong>{{$appointment->day_of_week}}</strong>
+                                                        <br>
+                                                        <small
+                                                            class="text-muted">{{$appointment->date }}</small>
+                                                    </div>
+                                                </td>
+
                                                 <td>
                                                     <div>
                                                         @if ($appointment->patient)
@@ -197,19 +220,15 @@
 
     @push('scripts')
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
         <script>
-            // Keep track of active tab
             document.addEventListener('DOMContentLoaded', function() {
-                // Get active tab from URL or localStorage
-                const urlParams = new URLSearchParams(window.location.search);
-                let activeDay = urlParams.get('day') || localStorage.getItem('activeDay') ||
-                '{{ now()->format('l') }}';
-
-                // Activate the tab
-                const tab = document.querySelector(`a[href="#day-${activeDay}"]`);
-                if (tab) {
-                    const tabTrigger = new bootstrap.Tab(tab);
+                const today = new Date();
+                const currentDay = today.toLocaleString('en-us', {weekday: 'long'});
+                
+                // Activate today's tab by default
+                const todayTab = document.querySelector(`a[href="#day-${currentDay}"]`);
+                if (todayTab) {
+                    const tabTrigger = new bootstrap.Tab(todayTab);
                     tabTrigger.show();
                 }
 
@@ -218,9 +237,11 @@
                     link.addEventListener('shown.bs.tab', function(e) {
                         const day = e.target.getAttribute('href').replace('#day-', '');
                         localStorage.setItem('activeDay', day);
-                        // Update URL without page reload
+                        
+                        // Update URL with the selected day
                         const url = new URL(window.location);
                         url.searchParams.set('day', day);
+                        url.searchParams.set('date', e.target.dataset.date);
                         window.history.pushState({}, '', url);
                     });
                 });

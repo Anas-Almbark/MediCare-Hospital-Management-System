@@ -7,17 +7,22 @@ use App\Models\Doctor;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Spatie\Permission\Traits\HasRoles;
+use Carbon\Carbon;
 
 class DoctorScheduleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $schedules = DoctorSchedule::with(['doctor' => function($query) {
-            $query->select('id', 'name');
-        }])
-        ->orderBy('day_of_week')
-        ->orderBy('start_time')
-        ->paginate(10);
+        $selectedDay = $request->get('day', Carbon::now()->format('l'));
+        
+        $query = DoctorSchedule::with('doctor')
+            ->where('day_of_week', $selectedDay);
+
+        if (!auth()->user()->hasRole('super-admin')) {
+            $query->where('doctor_id', auth()->id());
+        }
+
+        $schedules = $query->paginate(10)->withQueryString();
 
         return view('dashboard.doctor-schedules.index', compact('schedules'));
     }

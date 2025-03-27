@@ -38,19 +38,19 @@
                                 <td>
                                     @switch($appointment->status)
                                         @case('pending')
-                                            <span class="badge bg-warning">{{ __('Pending') }}</span>
+                                            <span class="badge bg-warning text-white">{{ __('Pending') }}</span>
                                             @break
                                         @case('confirmed')
-                                            <span class="badge bg-success">{{ __('Confirmed') }}</span>
+                                            <span class="badge bg-success text-white">{{ __('Confirmed') }}</span>
                                             @break
                                         @case('cancelled')
-                                            <span class="badge bg-danger">{{ __('Cancelled') }}</span>
+                                            <span class="badge bg-danger text-white">{{ __('Cancelled') }}</span>
                                             @break
                                         @case('completed')
-                                            <span class="badge bg-info">{{ __('Completed') }}</span>
+                                            <span class="badge bg-info text-white">{{ __('Completed') }}</span>
                                             @break
                                         @default
-                                            <span class="badge bg-secondary">{{ $appointment->status }}</span>
+                                            <span class="badge bg-info text-white">{{ $appointment->status }}</span>
                                     @endswitch
                                 </td>
                                 <td>
@@ -65,13 +65,28 @@
                                                 {{ __('Cancel') }}
                                             </button>
                                         </form>
+                                        @elseif($appointment->status === 'available')
+                                            <form action="{{ route('patient.appointments.book', $appointment->id) }}"
+                                                  method="POST"
+                                                  class="d-inline"
+                                                  onsubmit="return confirm('{{ __('Are you sure you want to confirm this appointment?') }}')">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-success">
+                                                    <i class="fas fa-check me-1"></i>
+                                                    {{ __('Re Booking') }}
+                                                </button>
+                                            </form>
                                     @endif
-                                    @if($appointment->status === 'completed')
-                                        <a href="{{ route('medical-record.show', $appointment->id) }}" 
-                                           class="btn btn-sm btn-info">
-                                            <i class="fas fa-file-medical me-1"></i>
-                                            {{ __('Medical Record') }}
-                                        </a>
+                                    @if($appointment->status === 'confirmed')
+                                        <form action="{{ route('patient.appointments.show', $appointment->id) }}" 
+                                              method="POST" 
+                                              class="d-inline">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-info">
+                                                <i class="fas fa-file-medical me-1"></i>
+                                                {{ __('Medical Record') }}
+                                            </button>
+                                        </form>
                                     @endif
                                 </td>
                             </tr>

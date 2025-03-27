@@ -14,7 +14,9 @@ class Appointment extends Model
         'start_time',
         'end_time',
         'status',
-        'notes'
+        'notes',
+        'prescription_id'
+
     ];
 
     // العلاقة مع جدول المواعيد
@@ -33,5 +35,10 @@ class Appointment extends Model
     public function doctor()
     {
         return $this->belongsTo(User::class, 'doctor_id');
+    }
+
+    public function prescription()
+    {
+        return $this->belongsTo(Prescription::class, 'prescription_id');
     }
 }

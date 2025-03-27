@@ -46,6 +46,10 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
     Route::get('/appointments/my', [PatientAppointmentController::class, 'myAppointments'])->name('patient.appointments.my');
     Route::post('/appointments/{appointment}/book', [PatientAppointmentController::class, 'book'])->name('patient.appointments.book');
     Route::post('/appointments/{appointment}/cancel', [PatientAppointmentController::class, 'cancel'])->name('patient.appointments.cancel');
+    Route::post('/appointments/{appointment}/show', [PatientAppointmentController::class, 'show'])
+    ->name('patient.appointments.show');
+    Route::get('/prescriptions/{prescription}/download', [PatientAppointmentController::class, 'downloadPrescription'])
+        ->name('patient.prescriptions.download');
 });
 
 // Doctor Appointment Routes

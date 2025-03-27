@@ -38,12 +38,17 @@
                                             <small class="text-muted">{{ $appointment->patient->email }}</small>
                                         </div>
                                     </td>
-                                    <td>{{ $appointment->appointment_date }}</td>
-                                    <td>
-                                        <span class="badge bg-light text-dark">
-                                            {{ date('h:i A', strtotime($appointment->start_time)) }}
-                                        </span>
-                                    </td>
+                                    <td><strong>{{ $appointment->day_of_week }}</strong>
+                                    <br>
+                                    <small class="text-muted">{{ $appointment->date }}</small>
+                                </td>
+                                <td>
+                                    <div>
+                                        <strong>{{ \Carbon\Carbon::parse($appointment->start_time)->format('h:i A') }}</strong>
+                                        <br>
+                                        <small class="text-muted">{{ \Carbon\Carbon::parse($appointment->end_time)->format('h:i A') }}</small>
+                                    </div>
+                                </td>
                                     <td>{{ $appointment->notes ?? '-' }}</td>
                                     <td>
                                         <div class="btn-group btn-group-sm">

@@ -39,6 +39,19 @@
                         </div>
 
                         <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="appointment_id">{{ __('Appointment') }}</label>
+                                <select name="appointment_id" id="appointment_id" class="form-control" required>
+                                    <option value="">{{ __('Select Appointment') }}</option>
+                                    @foreach($appointments as $appointment)
+                                        <option value="{{ $appointment->id }}">
+                                            {{ __('Patient') }}: {{ $appointment->patient->name }} - 
+                                            {{ __('Doctor') }}: {{ $appointment->doctor->name }} - 
+                                            {{ __('Date') }}: {{ $appointment->date }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="form-group mb-3">
                                 <label class="form-label">{{ __('Prescription Date') }}</label>
                                 <input type="date" name="prescription_date" class="form-control" 

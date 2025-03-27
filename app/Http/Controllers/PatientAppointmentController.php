@@ -21,7 +21,7 @@ class PatientAppointmentController extends Controller
             ->when($doctorId, function($query) use ($doctorId) {
                 return $query->where('doctor_id', $doctorId);
             })
-            ->paginate(9);
+            ->paginate(8); // Set number of items per page
 
         $doctors = User::role('doctor')->get();
 
@@ -68,5 +68,25 @@ class PatientAppointmentController extends Controller
         ]);
 
         return back()->with('success', 'تم إلغاء الموعد بنجاح');
+    }
+
+    public function show(Appointment $appointment)
+    {
+        if ($appointment->patient_id !== auth()->id()) {
+            return redirect()->route('patient.appointments')
+                ->with('error', 'غير مصرح لك بعرض هذا الموعد');
+        }
+        
+        $appointment = Appointment::with([
+            'doctor' => function($query) {
+                $query->select('id', 'name', 'email');
+            },
+            'prescription' => function($query) {
+                $query->with('doctor:id,name');
+            }
+        ])->findOrFail($appointment->id);
+        
+
+        return view('patient_pages.appointments.show', compact('appointment'));
     }
 }

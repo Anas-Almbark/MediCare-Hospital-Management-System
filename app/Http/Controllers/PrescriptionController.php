@@ -18,8 +18,12 @@ class PrescriptionController extends Controller
     {
         $doctors = User::role('doctor')->get();
         $patients = User::role('patient')->get();
+        $appointments = \App\Models\Appointment::where('status', 'confirmed')
+            ->whereNull('prescription_id')
+            ->with(['doctor', 'patient'])
+            ->get();
        
-        return view('dashboard.prescriptions.create', compact('doctors', 'patients'));
+        return view('dashboard.prescriptions.create', compact('doctors', 'patients', 'appointments'));
     }
 
     public function store(Request $request)
@@ -27,12 +31,24 @@ class PrescriptionController extends Controller
         $request->validate([
             'doctor' => 'required|exists:users,id',
             'patient' => 'required|exists:users,id',
+            'appointment_id' => 'required|exists:appointments,id',
             'description' => 'required|string|max:255',
-
         ]);
-       
-        Prescription::create($request->all());
-        return redirect()->route('prescription.index')->with('success', 'Prescription created successfully');
+        
+        $prescription = Prescription::create([
+            'doctor_id' => $request->doctor,
+            'patient_id' => $request->patient,
+            'description' => $request->description,
+        ]);
+        // Update the appointment with the prescription
+        $appointment = \App\Models\Appointment::findOrFail($request->appointment_id);
+        $appointment->update([
+            'prescription_id' => $prescription->id,
+            'status' => 'confirmed'
+        ]);
+
+        return redirect()->route('prescription.index')
+            ->with('success', 'تم إضافة الوصفة الطبية بنجاح');
     }
 
     public function update(Request $request, $id)
@@ -70,4 +86,5 @@ class PrescriptionController extends Controller
         $prescription->delete();
         return redirect()->route('prescription.index')->with('success', 'Prescription deleted successfully');
     }
+
 }
