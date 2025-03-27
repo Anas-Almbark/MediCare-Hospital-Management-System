@@ -85,7 +85,14 @@ class LabTestController extends Controller
     }
     public function searchByName(Request $request)
     {
-        $labTests = User::search(request()->input('search'));
-        return view('dashboard.lab-tests.index', compact('labTests'));
+        $labTests = LabTest::search(request()->input('search'))->with(['patientData', 'doctorData'])->paginate(10);
+        $labTypes = LabType::all();
+        return view('dashboard.lab-tests.index', compact('labTests', 'labTypes'));
+    }
+    public function advancedSearch(Request $request)
+    {
+        $labTests = LabTest::advancedSearch($request->all())->with(['patientData', 'doctorData'])->paginate(10);
+        $labTypes = LabType::all();
+        return view('dashboard.lab-tests.index', compact('labTests', 'labTypes'));
     }
 }

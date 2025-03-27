@@ -35,6 +35,7 @@
     </div>
 
     @include('indexTemplate.shard.scripts')
+    
 
 </body>
 

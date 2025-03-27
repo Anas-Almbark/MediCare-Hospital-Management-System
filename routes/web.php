@@ -19,6 +19,7 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\SpecializationController;
 use App\Http\Controllers\LabTypeController;
 use App\Http\Controllers\MessagesController;
+use App\Http\Controllers\ReviewController;
 use Chatify\Http\Controllers\MessagesController as ChatifyMessagesController;
 
 
@@ -27,9 +28,16 @@ Route::get('{path?}', [UserController::class, 'idFetch'])
     ->middleware(['auth', 'verified', 'prevent.patient.dashboard'])
     ->name('dashboard');
 
+<<<<<<< HEAD
+// Route::get('/user/home', function () {
+//     return view('welcome');
+// })->middleware(['auth', 'verified', 'role:patient'])->name('welcome');
+Route::get('/user/home',[ReviewController::class,'index'])->middleware(['auth', 'verified', 'role:patient'])->name('welcome');
+=======
 Route::get('/user/home', [DoctorController::class, 'showDoctorsForHome'])
     ->middleware(['auth', 'verified', 'role:patient'])
     ->name('welcome');
+>>>>>>> 54fdc6472adb76f94403b4d7e4f7f37af84e1913
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -150,6 +158,7 @@ Route::middleware(['auth', 'role:lab_technician|super-admin'])->group(function (
     Route::post("/add/lab-test", [LabTestController::class, "store"])->name("lab-test.store");
     Route::get("/edit/lab-test/{labTest}", [LabTestController::class, "edit"])->name("lab-test.edit");
     Route::get("/search", [LabTestController::class, "searchByName"])->name('lab-test.search');
+    Route::get("/filter", [LabTestController::class, "advancedSearch"])->name('lab-test.advFilter');
     Route::put("/update/lab-test/{labTest}", [LabTestController::class, "update"])->name("lab-test.update");
     Route::delete("/delete/lab-test/{labTest}", [LabTestController::class, "destroy"])->name('lab-test.destroy');
 });
@@ -174,6 +183,23 @@ Route::get('/', [DoctorController::class, 'showDoctorsForHome'])->name('home');
 Route::resource('supports', SupportController::class);
 Route::get('/supports/create', [SupportController::class, 'create'])->name('supports.create');
 Route::get('/user/messages', [SupportController::class, 'usermessages'])->name('supports.usermessages');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::put('/reviews/{id}', [ReviewController::class, 'update'])->name('reviews.update');
+    Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+});
+Route::middleware(['auth'])->group(function () {
+    // Route::get('/evaluation', [ReviewController::class, 'index'])->name('evaluation.index');
+    Route::get('/new/evaluation', [ReviewController::class, 'create'])->name('evaluation.create');
+    Route::post('/evaluation', [ReviewController::class, 'store'])->name('evaluation.store');
+    Route::put('/evaluation/{id}', [ReviewController::class, 'update'])->name('evaluation.update');
+    Route::delete('/evaluation/{id}', [ReviewController::class, 'destroy'])->name('evaluation.destroy');
+});
+
+// Include doctors routes
+// require __DIR__. '/doctors.php';
 
 // Include appointments routes
 require __DIR__ . '/appointments.php';

@@ -32,6 +32,17 @@ class LabTest extends Model
     }
     public function scopeSearch($query, $request = '')
     {
-        $query->where("name", "like", "%" . $request . "%");
+        $query->whereHas('patientData', function ($query) use ($request) {
+            $query->where('name', 'like', '%' . $request . '%');
+        })->get();
+    }
+    public function scopeAdvancedSearch($query, $request = '')
+    {
+        return $query
+            ->where(function ($q) use ($request) {
+                $q->where('lab_type_id', $request['test_type'])
+                    ->orWhere('status', $request['status'])
+                    ->orWhereBetween('created_at', [$request['fromDate'], $request['toDate']]);
+            });
     }
 }
