@@ -65,7 +65,7 @@
                                         <li><a href="{{ route('about') }}">About Us</a></li>
                                         <li><a href="team.html">Our Team</a></li>
                                                     <li><a href="faq.html">Faq</a></li>
-                                                    <li><a href="services.html">Services</a></li>
+                                                    <li><a href="{{ route('services') }}">Services</a></li>
                                                     <li><a href="gallery.html">Gallery</a></li>
                                                     <li><a href="comming-soon.html">Comming Soon</a></li>
                                      </ul>
@@ -79,8 +79,8 @@
                                                                 <li><a href="{{ route('about') }}">About Us</a></li>
                                                                 <li><a href="team.html">Our Team</a></li>
                                                                    <li><a href="faq.html">Faq</a></li>
-                                                                   <li><a href="services.html">Services</a></li>
-                                                              </ul>
+                                                                   <li><a href="{{ route('services') }}">Services</a></li>
+                                                                </ul>
                                                          </div>
                                                          <div class="column col-md-3 col-xs-12">
                                                               <h3>Doctors</h3>

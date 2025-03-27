@@ -35,8 +35,9 @@
 							<!-- Image Column -->
 							<div class="image-column col-lg-6 col-md-12 col-sm-12">
 								<div class="inner-column">
-									<div class="image">
-										<img src="{{ asset('assets/img/photos/home1.jpg') }}" alt="" />
+									<div class="image" style="width: 550px; height: 550px;">
+										<img src="{{ asset('assets/img/photos/home1.jpg') }}" alt="" 
+                                        style="width: 550px; height: 550px;"/>
 									</div>
 								</div>
 							</div>
@@ -66,8 +67,9 @@
 							<!-- Image Column -->
 							<div class="image-column col-lg-6 col-md-12 col-sm-12">
 								<div class="inner-column">
-									<div class="image">
-										<img src="{{ asset('assets/img/photos/home1.jpg') }}" alt="" />
+									<div class="image" style="width: 550px; height: 550px;">
+										<img src="{{ asset('assets/img/photos/home2.jpg') }}" alt=""
+                                        style="width: 550px; height: 550px;" />
 									</div>
 								</div>
 							</div>
@@ -86,7 +88,8 @@
 							<div class="content-column col-lg-6 col-md-12 col-sm-12">
 								<div class="inner-column">
 									<h2>Your Most Trusted Health Partner For Life.</h2>
-									<div class="text">We offer free consulting and the best project management for your ideas, 100% delivery guaranteed.</div>
+<div class="text">We leverage cutting-edge technologies and artificial intelligence to provide smart solutions, ensuring precision, efficiency, and 100% guaranteed results.</div>
+
 									<div class="btn-box">
 										<a href="{{ route('patient.appointments.available') }}" class="theme-btn appointment-btn"><span class="txt">Appointment</span></a>
 										<a href="" class="theme-btn services-btn">Services</a>
@@ -97,8 +100,9 @@
 							<!-- Image Column -->
 							<div class="image-column col-lg-6 col-md-12 col-sm-12">
 								<div class="inner-column">
-									<div class="image">
-										<img src="{{ asset('assets/img/photos/home1.jpg') }}" alt="" />
+									<div class="image" style="width: 550px; height: 550px;">
+										<img src="{{ asset('assets/img/photos/home3.jpg') }}" alt=""
+                                        style="width: 550px; height: 550px;" />
 									</div>
 								</div>
 							</div>
@@ -141,7 +145,8 @@
 					<div class="image-column col-lg-5 col-md-12 col-sm-12">
 						<div class="inner-column wow fadeInRight" data-wow-delay="0ms" data-wow-duration="1500ms">
 							<div class="image">
-								<img src="images/resource/image-3.jpg" alt="" />
+								<img src="{{ asset('assets/img/photos/home4.jpg') }}" alt=""
+                                style="width: 549px; height: 426px;" />
 							</div>
 						</div>
 					</div>
@@ -378,7 +383,7 @@
 							@if($doctor->profile_photo)
 								<img src="{{ asset('storage/profile-photos/' . $doctor->profile_photo) }}" alt="{{ $doctor->name }}" />
 							@else
-								<img src="{{ asset('assets/img/default-avatar.jpg') }}" alt="{{ $doctor->name }}" />
+								<img src="{{ asset('assets/img/default-avatar.png') }}" alt="{{ $doctor->name }}" />
 							@endif
 							<div class="overlay-box">
 								<ul class="social-icons">
