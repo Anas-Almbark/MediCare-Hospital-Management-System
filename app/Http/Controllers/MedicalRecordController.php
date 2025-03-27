@@ -2,104 +2,105 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\MedicalRecord;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use App\Models\Attachment;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+use App\Models\MedicalRecord;
 
 class MedicalRecordController extends Controller
 {
     public function index()
     {
-        $records = MedicalRecord::with(['patient', 'doctor'])->paginate(10);
-        return view('dashboard.medical-records.index', compact('records'));
+        $tables = [
+            'users', 'doctors', 'appointments', 'prescriptions',
+            'lab_tests', 'medical_records', 'bills', 'salaries','specializations','roles',' permissions'
+        ];
+        
+        return view('dashboard.medical-records.index', compact('tables'));
     }
 
-    public function create()
+    public function getData(Request $request)
     {
-        $doctors = User::role('doctor')->get();
-        $patients = User::role('patient')->get();
-        return view('dashboard.medical-records.create', compact('doctors', 'patients'));
-    }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'patient' => 'required|exists:users,id',
-            'doctor' => 'required|exists:users,id',
-            'diagnosis' => 'required|string',
-            'prescription_id' => 'required|string',
-        ]);
-
-        $record = MedicalRecord::create($request->except('attachments'));
-
-        if ($request->hasFile('attachments')) {
-            foreach ($request->file('attachments') as $file) {
-                $path = $file->store('medical-records', 'public');
-                $record->attachments()->create(['path' => $path]);
+        try {
+            $table = $request->input('table', 'medical_records');
+            $length = $request->input('length', 10);
+            $start = $request->input('start', 0);
+            $search = $request->input('search');
+            $status = $request->input('status');
+            
+            $query = DB::table($table);
+            
+            if (!empty($status)) {
+                $query->where('status', '=', $status);
             }
-        }
-
-        return redirect()->route('medical-record.index')->with('success', 'Medical record created successfully');
-    }
-
-    public function show($id)
-    {
-        $record = MedicalRecord::with(['patient', 'doctor', 'attachments'])->findOrFail($id);
-        return view('dashboard.medical-records.show', compact('record'));
-    }
-
-    public function edit($id)
-    {
-        $record = MedicalRecord::findOrFail($id);
-        $doctors = User::role('doctor')->get();
-        $patients = User::role('patient')->get();
-        return view('dashboard.medical-records.edit', compact('record', 'doctors', 'patients'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'patient' => 'required|exists:users,id',
-            'doctor' => 'required|exists:users,id',
-            'diagnosis' => 'required|string',
-            'prescription_id' => 'required|string',
-        ]);
-
-        $record = MedicalRecord::findOrFail($id);
-        $record->update($request->except('attachments'));
-
-        if ($request->hasFile('attachments')) {
-            foreach ($request->file('attachments') as $file) {
-                $path = $file->store('medical-records', 'public');
-                $record->attachments()->create(['path' => $path]);
+            
+            if ($search) {
+                $columns = Schema::getColumnListing($table);
+                $query->where(function($q) use ($columns, $search) {
+                    foreach ($columns as $column) {
+                        $q->orWhereRaw("BINARY `$column` LIKE ?", ["%$search%"]);
+                    }
+                });
             }
+            
+            $totalRecords = DB::table($table)->count();
+            
+            $filteredRecords = $query->count();
+            
+            $results = $query->skip($start)
+                            ->take($length)
+                            ->get();
+            
+            return response()->json([
+                'draw' => $request->input('draw'),
+                'recordsTotal' => $totalRecords,
+                'recordsFiltered' => $filteredRecords,
+                'data' => $results
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        return redirect()->route('medical-record.index')->with('success', 'Medical record updated successfully');
     }
 
-    public function destroy($id)
+    public function getColumns(Request $request)
     {
-        $record = MedicalRecord::findOrFail($id);
-        
-        // Delete associated attachments from storage
-        foreach ($record->attachments as $attachment) {
-        Storage::disk('public')->delete($attachment->path);
-            $attachment->delete();
-        }
-        
-        $record->delete();
-        return redirect()->route('medical-record.index')->with('success', 'Medical record deleted successfully');
-    }
+        try {
+            $table = $request->input('table', 'medical_records');
 
-    public function deleteAttachment($id)
-    {
-        $attachment = Attachment::findOrFail($id);
-        Storage::disk('public')->delete($attachment->path);
-        $attachment->delete();
-        
-        return back()->with('success', 'Attachment deleted successfully');
+            $columnConfig = [
+                'users' => [
+                    'id' => 'ID',
+                    'name' => 'Name',
+                    'email' => 'Email',
+                    'phone_number' => 'Phone Number',
+                    'created_at' => 'Created Date'
+                ],              
+            ];
+
+            $availableColumns = Schema::getColumnListing($table);
+
+            if (isset($columnConfig[$table])) {
+                $columns = array_intersect_key($columnConfig[$table], array_flip($availableColumns));
+            } else {
+                $columns = array_combine($availableColumns, array_map(function($col) {
+                    return ucwords(str_replace('_', ' ', $col));
+                }, $availableColumns));
+            }
+
+            $formattedColumns = [];
+            foreach ($columns as $column => $title) {
+                $formattedColumns[] = [
+                    'data' => $column,
+                    'name' => $column,
+                    'title' => $title
+                ];
+            }
+
+            return response()->json($formattedColumns);
+
+        } catch (\Exception $e) {
+            \Log::error('getColumns error:', ['error' => $e->getMessage()]);
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

@@ -28,16 +28,13 @@ Route::get('{path?}', [UserController::class, 'idFetch'])
     ->middleware(['auth', 'verified', 'prevent.patient.dashboard'])
     ->name('dashboard');
 
-<<<<<<< HEAD
 // Route::get('/user/home', function () {
 //     return view('welcome');
 // })->middleware(['auth', 'verified', 'role:patient'])->name('welcome');
 Route::get('/user/home',[ReviewController::class,'index'])->middleware(['auth', 'verified', 'role:patient'])->name('welcome');
-=======
 Route::get('/user/home', [DoctorController::class, 'showDoctorsForHome'])
     ->middleware(['auth', 'verified', 'role:patient'])
     ->name('welcome');
->>>>>>> 54fdc6472adb76f94403b4d7e4f7f37af84e1913
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -142,6 +139,8 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get("/medical-records", [MedicalRecordController::class, "index"])->name("medical-record.index");
+    Route::get("/medical-record/get-data", [MedicalRecordController::class, "getData"])->name("medical-record.getData");
+    Route::get("/medical-record/get-columns", [MedicalRecordController::class, "getColumns"])->name("medical-record.getColumns");
     Route::get("/medical-record/{id}", [MedicalRecordController::class, "show"])->name("medical-record.show");
     Route::get("/new/medical-record", [MedicalRecordController::class, "create"])->name("medical-record.create");
     Route::post("/add/medical-record", [MedicalRecordController::class, "store"])->name("medical-record.store");
@@ -197,6 +196,15 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/evaluation/{id}', [ReviewController::class, 'update'])->name('evaluation.update');
     Route::delete('/evaluation/{id}', [ReviewController::class, 'destroy'])->name('evaluation.destroy');
 });
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/medical-record', [MedicalRecordController::class, 'index'])->name('medical-record.index');
+    Route::get('/medical-record/get-data', [MedicalRecordController::class, 'getData'])->name('medical-record.getData');
+    Route::get('/medical-record/get-columns', [MedicalRecordController::class, 'getColumns'])->name('medical-record.getColumns');
+});
+
+
 
 // Include doctors routes
 // require __DIR__. '/doctors.php';
