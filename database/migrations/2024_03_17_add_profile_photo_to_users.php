@@ -9,7 +9,7 @@ return new class extends Migration
 public function up()
 {
     Schema::table('users', function (Blueprint $table) {
-        $table->string('profile_photo')->default('default-avatar.png')->after('email');
+        $table->string('profile_photo')->nullable()->after('email');
     });
 }
 };

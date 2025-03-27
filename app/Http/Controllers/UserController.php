@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use App\Models\Specialization;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Doctor;
 
 class UserController extends Controller
@@ -53,12 +54,14 @@ class UserController extends Controller
             'identity_number' => $validation['identity_number'],
         ];
 
+        $userData = $request->except('profile_photo');
+        
+        // Only set profile_photo if an image was uploaded
         if ($request->hasFile('profile_photo')) {
-            $file = $request->file('profile_photo');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('storage/profile-photos'), $filename);
-            $userData['profile_photo'] = $filename;
+            $path = $request->file('profile_photo')->store('profile-photos', 'public');
+            $userData['profile_photo'] = $path;
         }
+        // Don't set any default value for profile_photo
 
         $user = User::create($userData);
         $user->assignRole($validation['role']);
@@ -73,7 +76,8 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::all();
-        return view('dashboard.employees.editUser', compact('user', 'roles'));
+        $specializations = Specialization::all();  // Add this line
+        return view('dashboard.employees.editUser', compact('user', 'roles', 'specializations'));
     }
 
     public function update(Request $request, User $user)
@@ -88,13 +92,26 @@ class UserController extends Controller
             "status_account" => "nullable|in:active,not-active,banded",
         ]);
 
+        if ($request->hasFile('profile_photo')) {
+            // Delete old photo if exists
+            if ($user->profile_photo) {
+                Storage::disk('public')->delete($user->profile_photo);
+            }
+            
+            // Store new photo
+            $path = $request->file('profile_photo')->store('profile-photos', 'public');
+            $user->profile_photo = $path;
+        }
+
+        // Update other user fields
         $user->update([
-            'name' => $validation['name'],
-            'birth_date' => $validation['birth_date'],
-            'blood_type' => $validation['blood_type'],
-            'phone_number' => $validation['phone'],
-            'address' => $validation['address'],
-            "status_account" => $validation['status_account'],
+            'name' => $request->name,
+            'birth_date' => $request->birth_date,
+            'blood_type' => $request->blood_type,
+            'address' => $request->address,
+            'phone_number' => $request->phone,
+            'status_account' => $request->status_account,
+            'profile_photo' => $user->profile_photo, // Add this line to save the photo path
         ]);
 
         $user->syncRoles($validation['role']);

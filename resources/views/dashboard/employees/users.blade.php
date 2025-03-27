@@ -62,7 +62,7 @@
                                     <tr>
                                         <td>
                                             <img alt="avatar" class="rounded-circle avatar-md"
-                                                src="../../assets/img/faces/1.jpg">
+                                                src="{{ $user->profile_photo ? asset('storage/' . $user->profile_photo) : asset('assets/img/faces/1.jpg') }}">
                                         </td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->created_at->format('d/m/Y') }}</td>

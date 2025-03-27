@@ -7,9 +7,27 @@
                 <p class="mb-2">{{ __('Update any user information you want to change') }}</p>
             </div>
             <div class="card-body pt-0">
-                <form class="form-horizontal" action="{{ route('user.update', $user->id) }}" method="POST">
+                <form class="form-horizontal" action="{{ route('user.update', $user->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('put')
+                    
+                    <div class="form-group">
+                        <label for="profile_photo" class="form-label">{{ __('Profile Photo') }} ({{ __('Optional') }})</label>
+                        <input type="file" name="profile_photo" class="form-control @error('profile_photo') is-invalid @enderror"
+                            id="profile_photo" accept="image/*" />
+                        @if($user->profile_photo)
+                            <div class="mt-2">
+                                <img src="{{ asset('storage/' . $user->profile_photo) }}" alt="Current Profile Photo" 
+                                     class="img-thumbnail" style="max-width: 150px;">
+                            </div>
+                        @endif
+                        <small class="form-text text-muted">{{ __('Leave empty to keep current photo') }}</small>
+                        @error('profile_photo')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
                     <div class="form-group">
                         <label for="inputName">{{ __('Name') }} ({{ __('Optional') }})</label>
                         <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
@@ -88,8 +106,44 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="form-group">
-                        {{--  is work (work , not work , banded)  --}}
+
+                    <div class="form-group" id="specializationGroup" style="display: none;">
+                        <label for="specialization" class="form-label">{{ __('Specialization') }}</label>
+                        <select class="form-control @error('specialization') is-invalid @enderror" name="specialization" id="specialization">
+                            <option selected disabled>{{ __('Select Specialization') }}</option>
+                            @foreach ($specializations as $specialization)
+                                <option value="{{ $specialization->id }}" 
+                                    {{ old('specialization', optional($user->doctor)->specialization_id) == $specialization->id ? 'selected' : '' }}>
+                                    {{ $specialization->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('specialization')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group" id="licenseGroup" style="display: none;">
+                        <label for="license_number" class="form-label">{{ __('License Number') }}</label>
+                        <input type="text" name="license_number" class="form-control @error('license_number') is-invalid @enderror"
+                            id="license_number" placeholder="{{ __('License Number') }}" 
+                            value="{{ old('license_number', optional($user->doctor)->license_number) }}" />
+                        @error('license_number')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group" id="experienceGroup" style="display: none;">
+                        <label for="experience_years" class="form-label">{{ __('Years of Experience') }}</label>
+                        <input type="number" name="experience_years" class="form-control @error('experience_years') is-invalid @enderror"
+                            id="experience_years" placeholder="{{ __('Years of Experience') }}" 
+                            value="{{ old('experience_years', optional($user->doctor)->experience_years) }}" min="0" />
+                        @error('experience_years')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    {{--  is work (work , not work , banded)  --}}
                         <label for="status">{{ __('Status') }} ({{ __('Optional') }})</label>
                         <select class="form-control @error('status') is-invalid @enderror" name="status_account"
                             id="status">
@@ -119,3 +173,30 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        const doctorFields = ['#specializationGroup', '#licenseGroup', '#experienceGroup'];
+        
+        function toggleDoctorFields(isDoctor) {
+            doctorFields.forEach(field => {
+                if (isDoctor) {
+                    $(field).slideDown();
+                    $(field + ' input, ' + field + ' select').prop('required', true);
+                } else {
+                    $(field).slideUp();
+                    $(field + ' input, ' + field + ' select').prop('required', false);
+                }
+            });
+        }
+
+        $('#role').on('change', function() {
+            toggleDoctorFields($(this).val() === 'doctor');
+        });
+
+        // Check initial state
+        toggleDoctorFields($('#role').val() === 'doctor');
+    });
+</script>
+@endpush
