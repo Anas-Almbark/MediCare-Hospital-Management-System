@@ -4,8 +4,10 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProfileUserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\BillController;
@@ -22,19 +24,20 @@ use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\ReviewController;
 use Chatify\Http\Controllers\MessagesController as ChatifyMessagesController;
 
+Route::get('/', [AuthenticatedSessionController::class, 'index'])
 
-Route::get('{path?}', [UserController::class, 'idFetch'])
-    ->where('path', '|dashboard')
+    ->name('welcome');
+
+// Route::get('{path?}', [UserController::class, 'idFetch'])
+//     ->where('path', '|dashboard')
+//     ->middleware(['auth', 'verified', 'prevent.patient.dashboard'])
+//     ->name('dashboard');
+
+    Route::get('/dashboard', [UserController::class, 'idFetch'])
     ->middleware(['auth', 'verified', 'prevent.patient.dashboard'])
     ->name('dashboard');
 
-// Route::get('/user/home', function () {
-//     return view('welcome');
-// })->middleware(['auth', 'verified', 'role:patient'])->name('welcome');
-Route::get('/user/home',[ReviewController::class,'index'])->middleware(['auth', 'verified', 'role:patient'])->name('welcome');
-Route::get('/user/home', [DoctorController::class, 'showDoctorsForHome'])
-    ->middleware(['auth', 'verified', 'role:patient'])
-    ->name('welcome');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -178,7 +181,7 @@ Route::get('/about', [PatientController::class, 'about'])->name('about');
 Route::get('/services', [PatientController::class, 'services'])->name('services');
 Route::get('/doctors', [PatientController::class, 'doctors'])->name('doctors');
 Route::get('/doctors-detail', [PatientController::class, 'doctorsDetail'])->name('doctors-detail');
-Route::get('/', [DoctorController::class, 'showDoctorsForHome'])->name('home');
+// Route::get('/doctors-show', [DoctorController::class, 'showDoctorsForHome'])->name('home');
 Route::resource('supports', SupportController::class);
 Route::get('/supports/create', [SupportController::class, 'create'])->name('supports.create');
 Route::get('/user/messages', [SupportController::class, 'usermessages'])->name('supports.usermessages');
@@ -205,6 +208,10 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
+
+Route::get('/profile-user', [ProfileUserController::class, 'show'])->name('profileuser.show');
+Route::get('/profile-user-edit', [ProfileUserController::class, 'edit'])->name('profileuser.edit');
+Route::put('/profile-user/update', [ProfileUserController::class, 'update'])->name('profileuser.update');
 
 // Include doctors routes
 // require __DIR__. '/doctors.php';

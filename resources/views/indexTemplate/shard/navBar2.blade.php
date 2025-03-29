@@ -44,21 +44,8 @@
                          
                          <div class="collapse navbar-collapse clearfix" id="navbarSupportedContent">
                              <ul class="navigation clearfix">
-                                 <li class="dropdown"><a href="#">Home</a>
-                                     <ul>
-                                         <li><a href="index.html">Home page 01</a></li>
-                                         <li><a href="index-2.html">Home page 02</a></li>
-                                         <li><a href="{{ route('welcome') }}">Home page 03</a></li>
-                                                    <li><a href="index-4.html">Home page 04</a></li>
-                                         <li class="dropdown"><a href="#">Header Styles</a>
-                                             <ul>
-                                                 <li><a href="index.html">Header Style One</a></li>
-                                                 <li><a href="index-2.html">Header Style Two</a></li>
-                                                 <li><a href="index-3.html">Header Style Three</a></li>
-                                                              <li><a href="index-4.html">Header Style Four</a></li>
-                                             </ul>
-                                         </li>
-                                     </ul>
+                                 <li class=""><a href="{{ route('welcome') }}">Home</a>
+                                 
                                  </li>
                                           <li class="dropdown"><a href="#">About us</a>
                                      <ul>

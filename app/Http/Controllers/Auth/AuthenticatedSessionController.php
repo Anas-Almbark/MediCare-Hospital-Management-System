@@ -8,15 +8,35 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Models\Review;
+use App\Models\Doctor;
 
 class AuthenticatedSessionController extends Controller
 {
     /**
      * Display the login view.
      */
-    public function create(): View
+    public function index()
     {
-        return view('auth.login');
+        if (auth()->check()) {
+            if (auth()->user()->hasRole('patient')) {
+                $reviews = Review::all();
+                $doctors = Doctor::all();
+                return view('welcome', compact('reviews', 'doctors'));
+            }
+            return redirect()->route('dashboard');
+        }
+
+        $reviews = Review::all();
+        $doctors = Doctor::all();
+        return view('welcome', compact('reviews', 'doctors'));
+    }
+    public function create(): View|RedirectResponse
+    {
+        if (!auth()->check()) {
+            return view('auth.login');
+        }
+        return redirect()->route('welcome');
     }
 
     /**
@@ -28,14 +48,11 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        
-
-        $intendedUrl = redirect()->intended()->getTargetUrl();
-        if (Auth::user()->hasRole('patient') && str_contains($intendedUrl, 'dashboard')) {
-            return redirect()->route('welcome');
+        if (Auth::user()->hasRole('admin')) {
+            return redirect()->route('dashboard');
         }
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->route('welcome');
     }
 
     /**
@@ -49,6 +66,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect()->route('welcome');
     }
 }

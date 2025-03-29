@@ -18,10 +18,73 @@
                               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                    <span class="icon flaticon-menu"></span>
                               </button>
+                              
                          </div>
                          
                          <div class="collapse navbar-collapse clearfix" id="navbarSupportedContent">
+                              @auth
+                                      
+                                 
+                              <li>
+                                  
+                                   <div class="user-box" style="margin-right: 20px;">
+                                       <div class="dropdown">
+                                           <a href="#" class="d-flex align-items-center dropdown-toggle" data-toggle="dropdown" style="text-decoration: none;">
+                                               @if(auth()->user()->profile_photo)
+                                                   <img src="{{ asset('storage/' . auth()->user()->profile_photo) }}" 
+                                                        alt="Profile" 
+                                                        class="rounded-circle"
+                                                        style="width: 40px; height: 40px; object-fit: cover; border: 2px solid #fff;">
+                                               @else
+                                                   <i class="fas fa-user-circle" style="font-size: 40px; color: #fff;"></i>
+                                               @endif
+                                           </a>
+                                           <div class="dropdown-menu dropdown-menu-right" style="min-width: 200px; margin-top: 10px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                                               <div class="px-4 py-3 text-center border-bottom">
+                                                   @if(auth()->user()->profile_photo)
+                                                       <img src="{{ asset('storage/' . auth()->user()->profile_photo) }}" 
+                                                            alt="Profile" 
+                                                            class="rounded-circle mb-2"
+                                                            style="width: 60px; height: 60px; object-fit: cover;">
+                                                   @else
+                                                       <i class="fas fa-user-circle" style="font-size: 60px; color: #3fbbc0;"></i>
+                                                   @endif
+                                                   <h6 class="mb-0">{{ auth()->user()->name }}</h6>
+                                                   <small class="text-muted">{{ auth()->user()->email }}</small>
+                                               </div>
+                                               <a class="dropdown-item py-2" href="{{ route('profileuser.show') }}">
+                                                   <i class="fas fa-user mr-2"></i> Profile
+                                               </a>
+                                              
+                                               <a class="dropdown-item py-2" href="{{ route('profile.edit') }}">
+                                                   <i class="fas fa-user-edit mr-2"></i> Edit Profile
+                                               </a>
+                                               <div class="dropdown-divider"></div>
+                                               <a class="dropdown-item py-2 text-danger" href="{{ route('logout') }}"
+                                                  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                   <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                                               </a>
+                                               <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                                   @csrf
+                                               </form>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   
+                              </li>
+                              @else
+                                   <div class="auth-buttons" style="margin-left: auto; margin-right: 20px;">
+                                        <a href="{{ route('login') }}" class="btn btn-outline-light me-2" style="margin-right: 10px;">
+                                             <i class="fas fa-sign-in-alt"></i> Login
+                                        </a>
+                                        <a href="{{ route('register') }}" class="btn btn-primary">
+                                             <i class="fas fa-user-plus"></i> Register
+                                        </a>
+                                   </div>
+                              @endauth          
+                             
                               <ul class="navigation clearfix">
+                                   
                                    <li class="current dropdown"><a href="#">Home</a>
                                         <ul>
                                              <li><a href="index.html">Home page 01</a></li>
@@ -116,19 +179,7 @@
                                </li>
 
                                    <li><a href="{{route('evaluation.create')}}">evaluation</a></li>
-                                   @auth
-                                   <li>
-                                        <a href="{{ route('logout') }}" 
-                                           onclick="event.preventDefault();
-                                           document.getElementById('logout-form').submit();">
-                                           Logout
-                                        </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                            @csrf
-                                        </form>
-                                   </li>
-                                   @endauth
-                                  
+                               
                               </ul>
                          </div>
                     </nav>
@@ -136,6 +187,7 @@
 
                     <!-- Main Menu End-->
                     <div class="outer-box clearfix">
+                         
                          <!-- Main Menu End-->
                          <div class="nav-box">
                               <div class="nav-btn nav-toggler navSidebar-button"><span class="icon flaticon-menu-1"></span></div>
