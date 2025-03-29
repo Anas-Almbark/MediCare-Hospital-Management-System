@@ -96,7 +96,7 @@
                                     <i class="fas fa-calendar-times text-muted mb-3" style="font-size: 3rem;"></i>
                                     <h5 class="mt-3">{{ __('No appointments found') }}</h5>
                                     <p class="text-muted">{{ __('You have not booked any appointments yet.') }}</p>
-                                    <a href="{{ route('patient.appointments') }}" class="btn btn-primary">
+                                    <a href="{{ route('patient.appointments.my') }}" class="btn btn-primary">
                                         <i class="fas fa-calendar-plus me-1"></i>
                                         {{ __('Book an Appointment') }}
                                     </a>
