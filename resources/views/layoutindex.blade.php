@@ -40,7 +40,7 @@
         <div class="preloader"></div>
 
         <header class="main-header">
-            @if (Request::is('user/home'))
+            @if (Request::is('/'))
                 @include('indexTemplate.shard.navBar')
             @else
                 @include('indexTemplate.shard.navBar2')
