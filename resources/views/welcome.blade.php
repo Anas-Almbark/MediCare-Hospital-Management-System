@@ -397,9 +397,9 @@
 							</div>
 						</div>
 						<div class="lower-content">
-							<h3><a href="#">Dr. {{ $doctor->name }}</a></h3>
-							<div class="designation">{{ $doctor->doctor->specialization->name ?? 'Specialist' }}</div>
-						</div>
+                            <h3><a href="#">Dr. {{ $doctor->name }}</a></h3>
+                            <div class="designation">{{ optional($doctor->doctor)->specialization->name ?? 'General' }}</div>
+                        </div>
 					</div>
 				</div>
 				@endforeach

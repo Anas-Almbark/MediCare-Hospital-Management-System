@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\User;
+use App\Models\Doctor;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\Notifications\AppointmentStatusChanged;
+use Illuminate\Support\Facades\Notification;
 class AppointmentController extends Controller
 {
     public function index(Request $request)
@@ -168,93 +170,71 @@ class AppointmentController extends Controller
 
     public function availableAppointments(Request $request)
     {
-        $query = Appointment::with('doctor')
-            ->where('status', 'available')
-            ->whereDate('date', '>=', now());
+        $doctors = User::role('doctor')
+            ->with([
+                'doctor.specialization',
+                'schedules.appointments' => function($query) {
+                    $query->where('date', '>=', now())
+                          ->where('status', 'available');
+                }
+            ])
+            ->get();
     
-        if ($request->filled('doctor_id')) {
-            $query->where('doctor_id', $request->doctor_id);
-        }
+        // للتحقق من البيانات
+        \Log::info('Doctors data:', $doctors->toArray());
     
-        if ($request->filled('date')) {
-            $query->whereDate('date', $request->date);
-        }
-    
-        if ($request->filled('time_of_day')) {
-            switch ($request->time_of_day) {
-                case 'morning':
-                    $query->whereTime('start_time', '>=', '06:00:00')
-                          ->whereTime('start_time', '<', '12:00:00');
-                    break;
-                case 'afternoon':
-                    $query->whereTime('start_time', '>=', '12:00:00')
-                          ->whereTime('start_time', '<', '17:00:00');
-                    break;
-                case 'evening':
-                    $query->whereTime('start_time', '>=', '17:00:00')
-                          ->whereTime('start_time', '<', '22:00:00');
-                    break;
-            }
-        }
-    
-        $appointments = $query->orderBy('date')
-            ->orderBy('start_time')
-            ->paginate(12)
-            ->withQueryString();
-    
-        $doctors = User::role('doctor')->get();
-    
-        return view('patient_pages.appointments.index', compact('appointments', 'doctors'));
+        return view('indexTemplate.profileuser.appointments.available', compact('doctors'));
     }
 
     public function bookAppointment(Appointment $appointment)
     {
-        // التحقق من أن الموعد متاح
-        if ($appointment->status !== 'available') {
-            return back()->with('error', __('This appointment is no longer available.'));
+        try {
+            $appointment->update([
+                'status' => 'pending',
+                'patient_id' => auth()->id()
+            ]);
+    
+            $doctor = User::findOrFail($appointment->doctor_id);
+            Notification::send($doctor, new AppointmentStatusChanged($appointment, 'pending'));
+    
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            \Log::error('Booking error: ' . $e->getMessage());
+            return response()->json(['error' => 'Unable to book appointment'], 500);
         }
-    
-        // التحقق من أن المستخدم ليس لديه موعد في نفس الوقت
-        $hasConflict = Appointment::where('patient_id', auth()->id())
-            ->where('date', $appointment->date)
-            ->where('start_time', $appointment->start_time)
-            ->exists();
-    
-        if ($hasConflict) {
-            return back()->with('error', __('You already have an appointment at this time.'));
-        }
-    
-        // حجز الموعد
-        $appointment->update([
-            'patient_id' => auth()->id(),
-            'status' => 'pending'
-        ]);
-    
-        return redirect()->back()
-            ->with('success', __('Appointment booked successfully. Waiting for doctor confirmation.'));
     }
 
-    public function updateStatus(Request $request, Appointment $appointment)
+    public function updateStatus(Request $request, $id)
     {
-        $validated = $request->validate([
-            'status' => 'required',
-            'notes' => 'nullable|string|max:500'
-        ]);
+        $appointment = Appointment::findOrFail($id);
+        $appointment->status = $request->status;
+        $appointment->notes = $request->notes;
+        $appointment->save();
     
-        $appointment->update([
-            'status' => $validated['status'],
-            'notes' => $validated['notes']
-        ]);
+        if ($request->status === 'confirmed') {
+            \Illuminate\Support\Facades\DB::table('notifications')->insert([
+                'receiver' => $appointment->patient_id,
+                'message' => "Your appointment on " . $appointment->date . " at " . 
+                    \Carbon\Carbon::parse($appointment->start_time)->format('h:i A') . 
+                    " has been confirmed☑️ by Dr. " . auth()->user()->name,
+                'status' => 'pending',
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        }
+        elseif ($request->status === 'rejected') {
+            \Illuminate\Support\Facades\DB::table('notifications')->insert([
+                'receiver' => $appointment->patient_id,
+                'message' => "Your appointment on " . $appointment->date . " has been rejected❌ by Dr. " . 
+                    auth()->user()->name . ". Reason: " . ($request->notes ?? 'No reason provided'),
+                'status' => 'pending',
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        }
     
-        $message = $validated['status'] === 'confirmed' 
-            ? __('Appointment confirmed successfully') 
-            : __('Appointment rejected successfully');
-    
-        return redirect()->back()
-            ->with('success', $message);
+        return redirect()->back()->with('success', 'Appointment status updated successfully');
     }
-
-
 
     public function updateNote(Request $request, Appointment $appointment)
     {
@@ -303,5 +283,27 @@ class AppointmentController extends Controller
         $appointment->update(['status' => 'cancelled']);
     
         return back()->with('success', __('Appointment cancelled successfully.'));
+    }
+
+    public function showAvailable()
+    {
+        $doctors = User::role('doctor')
+            ->with(['doctor.specialization', 'schedules.appointments' => function($query) {
+                $query->where('status', 'available');
+            }])
+            ->get();
+
+        return view('indexTemplate.profileuser.appointments.available', compact('doctors'));
+    }
+
+    public function book(Request $request)
+    {
+        $appointment = Appointment::findOrFail($request->appointment_id);
+        $appointment->update([
+            'status' => 'booked',
+            'patient_id' => auth()->id()
+        ]);
+    
+        return redirect()->back()->with('success', 'Appointment booked successfully!');
     }
 }
