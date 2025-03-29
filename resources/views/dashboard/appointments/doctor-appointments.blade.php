@@ -171,11 +171,14 @@
                                                             <i class="fas fa-eye"></i>
                                                         </a>
                                                         @if ($appointment->status != 'cancelled')
-                                                            <a href="{{ route('prescription.create', $appointment->id) }}"
-                                                                class="btn btn-light"
-                                                                title="{{ __('Create Prescription') }}">
-                                                                <i class="fas fa-prescription"></i>
-                                                            </a>
+                                                        @if ($appointment->patient_id)
+                                                        <a href="{{ route('prescription.create', $appointment->id) }}"
+                                                            class="btn btn-light"
+                                                            title="{{ __('Create Prescription') }}">
+                                                            <i class="fas fa-prescription"></i>
+                                                        </a>
+                                                        @endif
+
                                                             <form
                                                                 action="{{ route('doctor.appointments.destroy', $appointment->id) }}"
                                                                 method="POST" class="d-inline"

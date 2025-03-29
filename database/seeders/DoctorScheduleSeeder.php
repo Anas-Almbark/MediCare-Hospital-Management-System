@@ -33,19 +33,16 @@ class DoctorScheduleSeeder extends Seeder
         // Define working days
         $workingDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         
-        // Get the selected day or default to today
-        $selectedDay = request('day', Carbon::now()->format('l'));
-        
         // Start from today and generate dates for the next 7 days
         $today = Carbon::today();
         $dates = [];
         
-        // Find the next occurrence of the selected day
-        $date = $today->copy();
-        while ($date->format('l') !== $selectedDay) {
-            $date->addDay();
+        // Generate dates for next 7 days
+        for ($i = 0; $i < 7; $i++) {
+            $date = $today->copy()->addDays($i);
+            $dayName = $date->format('l');
+            $dates[$dayName] = $date->format('Y-m-d');
         }
-        $dates[$selectedDay] = $date->format('Y-m-d');
 
         $shifts = [
             [
@@ -61,15 +58,17 @@ class DoctorScheduleSeeder extends Seeder
         ];
 
         $schedules = [];
-        foreach ($shifts as $shift) {
-            $schedules[] = [
-                'doctor_id' => $doctorId,
-                'day_of_week' => $selectedDay,
-                'date' => $dates[$selectedDay],
-                'start_time' => $shift['start'],
-                'end_time' => $shift['end'],
-                'appointment_duration' => $shift['duration']
-            ];
+        foreach ($dates as $dayName => $date) {
+            foreach ($shifts as $shift) {
+                $schedules[] = [
+                    'doctor_id' => $doctorId,
+                    'day_of_week' => $dayName,
+                    'date' => $date,
+                    'start_time' => $shift['start'],
+                    'end_time' => $shift['end'],
+                    'appointment_duration' => $shift['duration']
+                ];
+            }
         }
 
         return $schedules;

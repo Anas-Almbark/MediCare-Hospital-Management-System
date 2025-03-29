@@ -57,6 +57,14 @@ class AppointmentMiddleware
     }
 
     /**
+     * Check if appointment date has passed
+     */
+    public function isPastAppointment(Appointment $appointment): bool
+    {
+        return now()->startOfDay()->gt($appointment->date);
+    }
+
+    /**
      * Get appropriate error message based on validation type
      */
     public function getErrorMessage(string $type): string
@@ -66,7 +74,8 @@ class AppointmentMiddleware
             'time_conflict' => 'You already have another appointment at this time and date',
             'doctor_limit' => 'You cannot book more than two appointments with the same doctor',
             'unauthorized' => 'You are not authorized to access this appointment',
-            'doctor_unauthorized' => 'You can only manage appointments assigned to you'
+            'doctor_unauthorized' => 'You can only manage appointments assigned to you',
+            'past_date' => 'Cannot book appointments for past dates'
         ];
 
         return $messages[$type] ?? 'An error occurred during booking';
@@ -77,6 +86,11 @@ class AppointmentMiddleware
         if ($request->route('appointment')) {
             $appointment = $request->route('appointment');
             
+            // Check if trying to book a past appointment
+            if ($this->isPastAppointment($appointment)) {
+                return redirect()->back()->with('error', $this->getErrorMessage('past_date'));
+            }
+
             // Check if doctor is trying to manage someone else's appointment
             if ($this->isDoctorUnauthorized($appointment)) {
                 return redirect()->back()->with('error', $this->getErrorMessage('doctor_unauthorized'));

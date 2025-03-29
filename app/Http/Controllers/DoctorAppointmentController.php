@@ -67,36 +67,33 @@ class DoctorAppointmentController extends Controller
 
     public function pending()
     {
-        $appointments = Appointment::with('patient')
-            ->where('doctor_id', auth()->id())
+        $pendingAppointments = Appointment::where('doctor_id', auth()->id())
             ->where('status', 'pending')
-            ->orderBy('date')
+            ->with('patient')
+            ->latest()
             ->paginate(10);
-
-        return view('doctor.appointments.pending', compact('appointments'));
+    
+        return view('dashboard.appointments.pending', compact('pendingAppointments'));
     }
 
     public function updateStatus(Request $request, Appointment $appointment)
     {
-        if ($this->middleware->isDoctorUnauthorized($appointment)) {
-            return back()->with('error', $this->middleware->getErrorMessage('doctor_unauthorized'));
-        }
-
-        $request->validate([
-            'status' => 'required|in:confirmed,rejected',
-            'notes' => 'nullable|string|max:255'
+        $validated = $request->validate([
+            'status' => 'required',
+            'notes' => 'nullable|string|max:500'
         ]);
-
+    
         $appointment->update([
-            'status' => $request->status,
-            'notes' => $request->notes
+            'status' => $validated['status'],
+            'notes' => $validated['notes']
         ]);
-
-        $message = $request->status === 'confirmed' 
-            ? 'Appointment confirmed successfully'
-            : 'Appointment rejected';
-
-        return back()->with('success', $message);
+    
+        $message = $validated['status'] === 'confirmed' 
+            ? __('Appointment confirmed successfully') 
+            : __('Appointment rejected successfully');
+    
+        return redirect()->back()
+            ->with('success', $message);
     }
 
     public function addNotes(Request $request, Appointment $appointment)

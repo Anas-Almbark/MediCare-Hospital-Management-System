@@ -111,6 +111,10 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        @php
+                                                            $middleware = new \App\Http\Middleware\AppointmentMiddleware();
+                                                        @endphp
+                                                        @if (!$middleware->isPastAppointment($appointment))
                                                         <form action="{{ route('appointment.book', $appointment->id) }}"
                                                             method="POST">
                                                             @csrf
@@ -120,6 +124,13 @@
                                                                 {{ __('Book') }}
                                                             </button>
                                                         </form>
+                                                        @else
+                                                        <div class="alert alert-warning text-center mb-0">
+                                                            <i class="fas fa-clock-rotate-left me-2"></i>
+                                                            {{ __('Appointment Expired') }}
+                                                        </div>
+                                                        @endif
+
                                                     </div>
                                                 </div>
                                             </div>

@@ -126,7 +126,7 @@
                     <ul class="slide-menu">
                         <li><a class="slide-item"
                                 href="{{ route('doctor.appointments.index') }}">{{ __('My Appointments') }}</a></li>
-                        <li><a class="slide-item" href="{{ route('appointment.pending') }}">
+                        <li><a class="slide-item" href="{{ route('doctor.appointments.pending') }}">
                                 <span class="badge bg-warning rounded-pill float-end">
                                     {{ \App\Models\Appointment::where('doctor_id', auth()->id())->where('status', 'pending')->count() }}
                                 </span>

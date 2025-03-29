@@ -7,26 +7,15 @@ use App\Http\Controllers\DoctorScheduleController;
 use Illuminate\Support\Facades\Route;
 
 // Doctor Routes
-Route::middleware(['auth', 'role:doctor'])->group(function () {
-    Route::get('/doctor/appointments', [AppointmentController::class, 'doctorAppointments'])
-        ->name('appointments.doctor');
-    Route::get('/appointments/pending', [AppointmentController::class, 'pendingAppointments'])
-        ->name('appointment.pending');
-    Route::patch('/appointments/{appointment}/update-status', [AppointmentController::class, 'updateStatus'])
-        ->name('appointment.update-status');
-});
-
-// Patient Routes
-// Route::middleware(['auth', 'role:patient'])->group(function () {
-//     Route::get('/patient/available-appointments', [AppointmentController::class, 'availableAppointments'])
-//         ->name('patient.appointments');
-//     Route::get('/appointments/my', [AppointmentController::class, 'myAppointments'])
-//         ->name('appointment.my');
-//     Route::get('/appointments/{appointment}/book', [AppointmentController::class, 'bookAppointment'])
-//         ->name('appointment.book');
-//     Route::get('/appointments/{appointment}/cancel', [AppointmentController::class, 'cancelAppointment'])
-//         ->name('appointment.cancel');
+// Route::middleware(['auth', 'role:doctor'])->group(function () {
+//     Route::get('/doctor/appointments', [AppointmentController::class, 'doctorAppointments'])
+//         ->name('appointments.doctor');
+//     Route::get('/appointments/pending', [AppointmentController::class, 'pendingAppointments'])
+//         ->name('appointment.pending');
+//     Route::patch('/appointments/{appointment}/update-status', [AppointmentController::class, 'updateStatus'])
+//         ->name('appointment.update-status');
 // });
+
 
 // Patient Appointment Routes
 Route::middleware(['auth', 'role:patient'])->group(function () {
@@ -51,6 +40,8 @@ Route::middleware(['auth', 'role:doctor'])->group(function () {
     Route::get('/doctor/appointment/{id}', [DoctorAppointmentController::class, 'show'])->name('doctor.appointments.show');
     Route::delete('/delete/appointment/{appointment}', [DoctorAppointmentController::class, 'destroy'])->name('doctor.appointments.destroy');
     Route::get('/edit/appointment/{appointment}', [DoctorAppointmentController::class, 'edit'])->name('doctor.appointments.edit');
+    Route::patch('/appointments/{appointment}/update-status', [DoctorAppointmentController::class, 'updateStatus'])
+    ->name('appointment.update-status');
 
 
 });
