@@ -21,6 +21,7 @@ use App\Http\Controllers\StaticSalaryController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\SpecializationController;
 use App\Http\Controllers\LabTypeController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\ReviewController;
 use Chatify\Http\Controllers\MessagesController as ChatifyMessagesController;
@@ -164,6 +165,8 @@ Route::middleware(['auth', 'role:lab_technician|super-admin'])->group(function (
     Route::delete("/delete/lab-type/{labType}", [LabTypeController::class, "destroy"])->name('lab-type.destroy');
 });
 
+
+Route::post('/chat', [ChatController::class, 'chat'])->name('chat.ai')->middleware('web');
 Route::get('/chat/{id?}', [ChatifyMessagesController::class, 'index'])->name('chatify');
 Route::get('change/language/{locale}', [LanguageController::class, 'changeLanguage'])->name('change.language');
 
