@@ -111,25 +111,39 @@
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>
-                                                <th>Date</th>
                                                 <th>Doctor</th>
-                                                <th>Diagnosis</th>
-                                                <th>Status</th>
+                                                <th>Patient</th>
+                                                <th>Description</th>
+                                                <th>Appointment Date</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>2024-01-20</td>
-                                                <td>Dr. John Doe</td>
-                                                <td>Regular Checkup</td>
-                                                <td><span class="badge bg-success">Active</span></td>
-                                                <td>
-                                                    <a href="#" class="btn btn-sm btn-outline-primary">
-                                                        <i class="fas fa-eye"></i> View
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                            @php
+                                                $prescriptions = App\Models\Prescription::where('patient_id', auth()->id())
+                                                    ->with(['doctor', 'appointment'])
+                                                    ->orderBy('created_at', 'desc')
+                                                    ->get();
+                                            @endphp
+
+                                            @forelse($prescriptions as $prescription)
+                                                <tr>
+                                                    <td>Dr. {{ $prescription->doctor->name }}</td>
+                                                    <td>{{ auth()->user()->name }}</td>
+                                                    <td>{{ $prescription->description }}</td>
+                                                    <td>{{ $prescription->appointment->appointment_date ?? 'N/A' }}</td>
+                                                    <td>
+                                                        <a href="{{ route('prescription.show', $prescription->id) }}" 
+                                                           class="btn btn-sm btn-outline-primary">
+                                                            <i class="fas fa-eye"></i> View
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="5" class="text-center">No prescriptions found</td>
+                                                </tr>
+                                            @endforelse
                                         </tbody>
                                     </table>
                                 </div>
