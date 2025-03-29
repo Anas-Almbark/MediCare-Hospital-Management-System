@@ -9,7 +9,8 @@ class Prescription extends Model
     protected $fillable = [
         'doctor_id',
         'patient_id',
-        'description'
+        'description',
+        'appointment_id'
     ];
 
     public function doctor()
@@ -22,8 +23,8 @@ class Prescription extends Model
         return $this->belongsTo(User::class, 'patient_id');
     }
 
-    public function appointments()
+    public function appointment()
     {
-        return $this->hasMany(Appointment::class);
+        return $this->belongsTo(Appointment::class,'appointment_id');
     }
 }

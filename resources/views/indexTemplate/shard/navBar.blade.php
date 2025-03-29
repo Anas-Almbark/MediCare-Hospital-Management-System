@@ -1,13 +1,14 @@
 <header class="main-header header-style-three">
-        
-     <!-- Header Upper -->
-   <div class="header-upper">
-       <div class="inner-container clearfix">
-           
-               <!--Info-->
-               <div class="logo-outer">
-                    <div class="logo"><a href="index.html"><img src="{{ asset('assets/img/logo-v.png') }}" alt="" title="" style="width: 160px; height: auto;"></a></div>
-               </div>
+
+    <!-- Header Upper -->
+    <div class="header-upper">
+        <div class="inner-container clearfix">
+
+            <!--Info-->
+            <div class="logo-outer">
+                <div class="logo"><a href="index.html"><img src="{{ asset('assets/img/logo-white.png') }}" alt=""
+                            title="" style="width: 160px; height: auto;"></a></div>
+            </div>
 
                <!--Nav Box-->
                <div class="nav-outer clearfix">
@@ -212,39 +213,41 @@
    </div>
    <!--End Header Upper-->
 
-     <!--Sticky Header-->
-   <div class="sticky-header">
+    <!--Sticky Header-->
+    <div class="sticky-header">
         <div class="auto-container clearfix">
             <!--Logo-->
             <div class="logo pull-left">
-                <a href="index.html" class="img-responsive"><img src="images/logo-small.png" alt="" title=""></a>
-           </div>
-           
-               <!--Right Col-->
-           <div class="right-col pull-right">
-                    <!-- Main Menu -->
-               <nav class="main-menu navbar-expand-md">
-                   <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent1">
-                       <ul class="navigation clearfix"><!--Keep This Empty / Menu will come through Javascript--></ul>
-                   </div>
-               </nav><!-- Main Menu End-->
-           </div>
-           
-       </div>
-   </div>
-   <!--End Sticky Header-->
-     
+                <a href="index.html" class="img-responsive"><img src="images/logo-small.png" alt=""
+                        title=""></a>
+            </div>
+
+            <!--Right Col-->
+            <div class="right-col pull-right">
+                <!-- Main Menu -->
+                <nav class="main-menu navbar-expand-md">
+                    <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent1">
+                        <ul class="navigation clearfix"><!--Keep This Empty / Menu will come through Javascript--></ul>
+                    </div>
+                </nav><!-- Main Menu End-->
+            </div>
+
+        </div>
+    </div>
+    <!--End Sticky Header-->
+
     <!-- Mobile Menu  -->
-   <div class="mobile-menu">
-       <div class="menu-backdrop"></div>
-       <div class="close-btn"><span class="icon far fa-window-close"></span></div>
-       
-       <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->
-       <nav class="menu-box">
-            <div class="nav-logo"><a href="index.html"><img src="images/nav-logo.png" alt="" title=""></a></div>
-           
-           <ul class="navigation clearfix"><!--Keep This Empty / Menu will come through Javascript--></ul>
-       </nav>
-   </div><!-- End Mobile Menu -->
+    <div class="mobile-menu">
+        <div class="menu-backdrop"></div>
+        <div class="close-btn"><span class="icon far fa-window-close"></span></div>
+
+        <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->
+        <nav class="menu-box">
+            <div class="nav-logo"><a href="index.html"><img src="images/nav-logo.png" alt=""
+                        title=""></a></div>
+
+            <ul class="navigation clearfix"><!--Keep This Empty / Menu will come through Javascript--></ul>
+        </nav>
+    </div><!-- End Mobile Menu -->
 
 </header>

@@ -66,7 +66,7 @@
                                             </button>
                                         </form>
                                         @elseif($appointment->status === 'available')
-                                            <form action="{{ route('patient.appointments.book', $appointment->id) }}"
+                                            <form action="{{ route('appointment.book', $appointment->id) }}"
                                                   method="POST"
                                                   class="d-inline"
                                                   onsubmit="return confirm('{{ __('Are you sure you want to confirm this appointment?') }}')">
@@ -77,7 +77,7 @@
                                                 </button>
                                             </form>
                                     @endif
-                                    @if($appointment->status === 'confirmed')
+                                    @if($appointment->status === 'confirmed'||$appointment->status === 'completed')
                                         <form action="{{ route('patient.appointments.show', $appointment->id) }}" 
                                               method="POST" 
                                               class="d-inline">

@@ -1,6 +1,7 @@
 @extends('layoutindex')
-
 @section('content')
+
+    
     <div class="container py-4">
         <div class="card">
             <div class="card-header">

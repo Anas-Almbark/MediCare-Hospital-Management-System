@@ -17,39 +17,29 @@ Route::middleware(['auth', 'role:doctor'])->group(function () {
 });
 
 // Patient Routes
-Route::middleware(['auth', 'role:patient'])->group(function () {
-    Route::get('/patient/available-appointments', [AppointmentController::class, 'availableAppointments'])
-        ->name('patient.appointments');
-    Route::get('/appointments/my', [AppointmentController::class, 'myAppointments'])
-        ->name('appointment.my');
-    Route::get('/appointments/{appointment}/book', [AppointmentController::class, 'bookAppointment'])
-        ->name('appointment.book');
-    Route::get('/appointments/{appointment}/cancel', [AppointmentController::class, 'cancelAppointment'])
-        ->name('appointment.cancel');
-});
-
-// Common Routes
-Route::middleware(['auth'])->group(function () {
-    Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointment.index');
-    Route::get('/appointment/{id}', [AppointmentController::class, 'show'])->name('appointment.show');
-    Route::get('/new/appointment', [AppointmentController::class, 'create'])->name('appointment.create');
-    Route::post('/add/appointment', [AppointmentController::class, 'store'])->name('appointment.store');
-    Route::get('/edit/appointment/{appointment}', [AppointmentController::class, 'edit'])->name('appointment.edit');
-    Route::put('/update/appointment/{appointment}', [AppointmentController::class, 'update'])->name('appointment.update');
-    Route::delete('/delete/appointment/{appointment}', [AppointmentController::class, 'destroy'])->name('appointment.destroy');
-});
-
+// Route::middleware(['auth', 'role:patient'])->group(function () {
+//     Route::get('/patient/available-appointments', [AppointmentController::class, 'availableAppointments'])
+//         ->name('patient.appointments');
+//     Route::get('/appointments/my', [AppointmentController::class, 'myAppointments'])
+//         ->name('appointment.my');
+//     Route::get('/appointments/{appointment}/book', [AppointmentController::class, 'bookAppointment'])
+//         ->name('appointment.book');
+//     Route::get('/appointments/{appointment}/cancel', [AppointmentController::class, 'cancelAppointment'])
+//         ->name('appointment.cancel');
+// });
 
 // Patient Appointment Routes
 Route::middleware(['auth', 'role:patient'])->group(function () {
     Route::get('/appointments/available', [PatientAppointmentController::class, 'index'])->name('patient.appointments.available');
     Route::get('/appointments/my', [PatientAppointmentController::class, 'myAppointments'])->name('patient.appointments.my');
-    Route::post('/appointments/{appointment}/book', [PatientAppointmentController::class, 'book'])->name('patient.appointments.book');
+    Route::post('/appointments/{appointment}/book', [PatientAppointmentController::class, 'bookAppointment'])
+    ->name('appointment.book');
     Route::post('/appointments/{appointment}/cancel', [PatientAppointmentController::class, 'cancel'])->name('patient.appointments.cancel');
     Route::post('/appointments/{appointment}/show', [PatientAppointmentController::class, 'show'])
     ->name('patient.appointments.show');
     Route::get('/prescriptions/{prescription}/download', [PatientAppointmentController::class, 'downloadPrescription'])
         ->name('patient.prescriptions.download');
+        Route::get('/appointments/create', [PatientAppointmentController::class, 'create'])->name('appointment.create');
 });
 
 // Doctor Appointment Routes
@@ -58,6 +48,11 @@ Route::middleware(['auth', 'role:doctor'])->group(function () {
     Route::get('/doctor/appointments/pending', [DoctorAppointmentController::class, 'pending'])->name('doctor.appointments.pending');
     Route::patch('/doctor/appointments/{appointment}/status', [DoctorAppointmentController::class, 'updateStatus'])->name('doctor.appointments.update-status');
     Route::post('/doctor/appointments/{appointment}/notes', [DoctorAppointmentController::class, 'addNotes'])->name('doctor.appointments.add-notes');
+    Route::get('/doctor/appointment/{id}', [DoctorAppointmentController::class, 'show'])->name('doctor.appointments.show');
+    Route::delete('/delete/appointment/{appointment}', [DoctorAppointmentController::class, 'destroy'])->name('doctor.appointments.destroy');
+    Route::get('/edit/appointment/{appointment}', [DoctorAppointmentController::class, 'edit'])->name('doctor.appointments.edit');
+
+
 });
 
 

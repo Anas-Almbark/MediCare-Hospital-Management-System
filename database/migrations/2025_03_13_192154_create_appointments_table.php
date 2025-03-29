@@ -21,7 +21,7 @@ return new class extends Migration
             $table->time('start_time'); // بداية الدوام
             $table->time('end_time'); // نهاية الدوام
             $table->text("notes")->nullable();
-            $table->enum("status", ["available", "pending", "confirmed", "cancelled", "rejected"]);
+            $table->enum("status", ["available", "pending", "confirmed", "cancelled", "rejected","completed"]);
             $table->timestamps();
         });
     }

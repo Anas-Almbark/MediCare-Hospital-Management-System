@@ -123,4 +123,18 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Application Middlewares
+    |--------------------------------------------------------------------------
+    |
+    | These middleware will be assigned to every route in your application.
+    | You can add your own middleware to this array.
+    |
+    */
+    
+    'middleware' => [
+        'appointment' => \App\Http\Middleware\AppointmentMiddleware::class,
+    ],
+
 ];

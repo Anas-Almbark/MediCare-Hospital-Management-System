@@ -3,10 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Middleware\AppointmentMiddleware;
 
 class DoctorAppointmentController extends Controller
 {
+    protected $middleware;
+
+    public function __construct()
+    {
+        $this->middleware = new AppointmentMiddleware();
+    }
+
     public function index()
     {
         $appointmentDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -69,8 +78,8 @@ class DoctorAppointmentController extends Controller
 
     public function updateStatus(Request $request, Appointment $appointment)
     {
-        if ($appointment->doctor_id !== auth()->id()) {
-            return back()->with('error', 'غير مصرح لك بتحديث هذا الموعد');
+        if ($this->middleware->isDoctorUnauthorized($appointment)) {
+            return back()->with('error', $this->middleware->getErrorMessage('doctor_unauthorized'));
         }
 
         $request->validate([
@@ -84,16 +93,16 @@ class DoctorAppointmentController extends Controller
         ]);
 
         $message = $request->status === 'confirmed' 
-            ? 'تم تأكيد الموعد بنجاح'
-            : 'تم رفض الموعد';
+            ? 'Appointment confirmed successfully'
+            : 'Appointment rejected';
 
         return back()->with('success', $message);
     }
 
     public function addNotes(Request $request, Appointment $appointment)
     {
-        if ($appointment->doctor_id !== auth()->id()) {
-            return back()->with('error', 'غير مصرح لك بإضافة ملاحظات لهذا الموعد');
+        if ($this->middleware->isDoctorUnauthorized($appointment)) {
+            return back()->with('error', $this->middleware->getErrorMessage('doctor_unauthorized'));
         }
 
         $request->validate([
@@ -104,6 +113,42 @@ class DoctorAppointmentController extends Controller
             'notes' => $request->notes
         ]);
 
-        return back()->with('success', 'تم إضافة الملاحظات بنجاح');
+        return back()->with('success', 'Notes added successfully');
+    }
+
+    public function show(string $id)
+    {
+        $appointment = Appointment::with(['patient', 'doctor'])->findOrFail($id);
+        
+        if ($this->middleware->isDoctorUnauthorized($appointment)) {
+            return back()->with('error', $this->middleware->getErrorMessage('doctor_unauthorized'));
+        }
+
+        return view('dashboard.appointments.show', compact('appointment'));
+    }
+
+    public function destroy($id)
+    {
+        $appointment = Appointment::findOrFail($id);
+        
+        if ($this->middleware->isDoctorUnauthorized($appointment)) {
+            return back()->with('error', $this->middleware->getErrorMessage('doctor_unauthorized'));
+        }
+
+        $appointment->delete();
+        return redirect()->back()->with('success', 'Appointment deleted successfully');
+    }
+
+    public function edit($id)
+    {
+        $appointment = Appointment::findOrFail($id);
+        
+        if ($this->middleware->isDoctorUnauthorized($appointment)) {
+            return back()->with('error', $this->middleware->getErrorMessage('doctor_unauthorized'));
+        }
+
+        $doctors = User::role('doctor')->get();
+        $patients = User::role('patient')->get();
+        return view('dashboard.appointments.edit', compact('appointment', 'doctors', 'patients'));
     }
 }

@@ -91,34 +91,59 @@
                                 </div>
                             </div>
                             <!-- Prescription Information -->
-                            @if( $appointment->prescription)
+                            @if($appointment->prescription)
                             <div class="col-md-12">
                                 <div class="card border-0 shadow-sm">
                                     <div class="card-body">
-                                        <h6 class="card-title mb-3">
-                                            <i class="fas fa-prescription text-primary me-2"></i>
-                                            {{ __('Prescription') }}
-                                        </h6>
-                                        <div class="prescription-content p-3 bg-light rounded">
-                                            <div class="mb-3">
-                                                <strong>{{ __('Doctor') }}:</strong> 
-                                                {{ $appointment->doctor->name }}
-                                            </div>
-                                            <div class="mb-3">
-                                                <strong>{{ __('Date') }}:</strong> 
-                                                {{ \Carbon\Carbon::parse($appointment->date)->format('l, F j, Y') }}
-                                            </div>
-                                            <div class="prescription-description">
-                                                <strong>{{ __('Description') }}:</strong>
-                                                <p class="mt-2">{{ $appointment->prescription->description }}</p>
-                                            </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-4">
+                                            <h6 class="card-title mb-0">
+                                                <i class="fas fa-prescription text-primary me-2"></i>
+                                                {{ __('Prescription') }}
+                                            </h6>
+                                            <span class="badge bg-success">{{ __('Active') }}</span>
                                         </div>
-                                        <div class="mt-3">
-                                            <a href="{{ route('patient.prescriptions.download', $appointment->prescription->id) }}" 
-                                               class="btn btn-primary">
-                                                <i class="fas fa-download me-2"></i>
-                                                {{ __('Download Prescription') }}
-                                            </a>
+                                        <div class="prescription-content p-4 bg-light rounded">
+                                            <div class="row mb-4">
+                                                <div class="col-md-6">
+                                                    <div class="d-flex align-items-center mb-3">
+                                                        <i class="fas fa-user-md text-primary me-3 fa-lg"></i>
+                                                        <div>
+                                                            <small class="text-muted d-block">{{ __('Prescribed By') }}</small>
+                                                            <strong>Dr. {{ $appointment->doctor->name }}</strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="d-flex align-items-center mb-3">
+                                                        <i class="fas fa-calendar-alt text-primary me-3 fa-lg"></i>
+                                                        <div>
+                                                            <small class="text-muted d-block">{{ __('Prescription Date') }}</small>
+                                                            <strong>{{ \Carbon\Carbon::parse($appointment->prescription->created_at)->format('l, F j, Y') }}</strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="prescription-details bg-white p-4 rounded border">
+                                                <h6 class="text-primary mb-3">
+                                                    <i class="fas fa-notes-medical me-2"></i>
+                                                    {{ __('Medical Instructions') }}
+                                                </h6>
+                                                <p class="mb-0 prescription-text">{{ $appointment->prescription->description }}</p>
+                                            </div>
+                                            <div class="text-end mt-4">
+                                                <form action="{{ route('patient.prescriptions.download', $appointment->prescription->id) }}" 
+                                                      method="GET" class="d-inline">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-primary">
+                                                        <i class="fas fa-download me-2"></i>
+                                                        {{ __('Download Prescription') }}
+                                                    </button>
+                                                </form>
+                                                <button type="button" class="btn btn-info ms-2" onclick="printPrescription()">
+                                                    <i class="fas fa-print me-2"></i>
+                                                    {{ __('Print Prescription') }}
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -142,6 +167,20 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+        .prescription-content {
+            background-color: #f8f9fa;
+        }
+        .prescription-details {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .prescription-text {
+            line-height: 1.8;
+            color: #2c3e50;
+            white-space: pre-line;
+        }
+        .fa-lg {
+            font-size: 1.5em;
         }
     </style>
     @endpush
@@ -172,6 +211,10 @@
                 });
             });
         });
+
+        function printPrescription() {
+            window.print();
+        }
     </script>
     @endpush
 @endsection

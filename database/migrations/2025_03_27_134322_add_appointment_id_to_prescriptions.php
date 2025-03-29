@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('appointments', function (Blueprint $table) {
-            $table->foreignId("prescription_id")->nullable()->constrained("prescriptions")->cascadeOnDelete();
-
+        Schema::table('prescriptions', function (Blueprint $table) {
+            $table->foreignId('appointment_id')->nullable()->constrained('appointments')->onDelete('cascade');
         });
     }
 
@@ -22,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('appointments', function (Blueprint $table) {
+        Schema::table('prescriptions', function (Blueprint $table) {
             //
         });
     }

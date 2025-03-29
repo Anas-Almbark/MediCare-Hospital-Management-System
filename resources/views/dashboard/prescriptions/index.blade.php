@@ -1,7 +1,7 @@
 @extends('dashboard')
 @section('content')
     @include('dashboard.shard.successMsg')
-    <form action="{{ route("prescription.create") }}" method="get">
+    <form action="" method="get">
         @csrf
         <button type="submit" class="btn btn-success ml-3 my-3"> Add new prescription </button>
     </form>
