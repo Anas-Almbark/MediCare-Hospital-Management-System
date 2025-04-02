@@ -122,7 +122,7 @@
                         <p class="mg-b-20">Distribution of laboratory tests by status.</p>
                         <div class="chartjs-wrapper-demo">
                             <span class="display" id="lab-tests"
-                                data-tests="{{ $labTests->pluck('labType')->pluck('name')->unique() }}"
+                                data-tests="{{ $labTests->pluck('labType')->pluck('name')->unique()->values()->join(',') }}"
                                 data-values={{ $labTests->pluck('labType')->pluck('name')->countBy()->values()->join(',') }}>
                             </span>
                             <canvas id="labTestsPieChart"></canvas>
@@ -153,6 +153,9 @@
                         </div>
                         <p class="mg-b-20">Distribution of laboratory test requests by their current status.</p>
                         <div class="chartjs-wrapper-demo">
+                            <span class="display" id="lab-status"
+                                data-values={{ $labTests->pluck('status')->sort()->countBy()->values()->join(',') }}>
+                            </span>
                             <canvas id="labTestRequestsStatusChart"></canvas>
                         </div>
                     </div>
@@ -165,6 +168,9 @@
                     <div class="main-content-label mg-b-5">Gender Distribution</div>
                     <p class="mg-b-20">Distribution of male and female patients</p>
                     <div class="chartjs-wrapper-demo">
+                        <span class="display" id="gender-distribution"
+                            data-values={{ $users->pluck('gender')->sort()->countBy()->unique()->values()->join(',') }}>
+                        </span>
                         <canvas id="genderDistributionChart"></canvas>
                     </div>
                 </div>

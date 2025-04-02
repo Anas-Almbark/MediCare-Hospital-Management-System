@@ -5,11 +5,13 @@ document.addEventListener("DOMContentLoaded", function () {
     var genderChart = new Chart(ctx, {
         type: "pie",
         data: {
-            labels: ["Male", "Female"],
+            labels: ["Other", "Female", "Male"],
             datasets: [
                 {
-                    backgroundColor: ["#3366ff", "#ff66b3"],
-                    data: [55, 45],
+                    backgroundColor: ["#ddd", "#ff66b3", "#3366ff"],
+                    data: document
+                        .getElementById("gender-distribution")
+                        .dataset.values.split(","),
                 },
             ],
         },
