@@ -13,7 +13,7 @@ class LabType extends Model
     ];
     public function labTest()
     {
-        return $this->belongsTo(LabTest::class);
+        return $this->belongsTo(LabTest::class , 'id');
     }
     public static function filterRange($request)
     {

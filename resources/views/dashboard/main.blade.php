@@ -121,9 +121,12 @@
                         </div>
                         <p class="mg-b-20">Distribution of laboratory tests by status.</p>
                         <div class="chartjs-wrapper-demo">
+                            <span class="display" id="lab-tests"
+                                data-tests="{{ $labTests->pluck('labType')->pluck('name')->unique() }}"
+                                data-values={{ $labTests->pluck('labType')->pluck('name')->countBy()->values()->join(',') }}>
+                            </span>
                             <canvas id="labTestsPieChart"></canvas>
                         </div>
-
                     </div>
                 </div>
             </div>
