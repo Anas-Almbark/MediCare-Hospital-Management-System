@@ -397,17 +397,16 @@
 							</div>
 						</div>
 						<div class="lower-content">
-							<h3><a href="#">Dr. {{ $doctor->name }}</a></h3>
-							<div class="designation">{{ $doctor->doctor->specialization->name ?? 'Specialist' }}</div>
-						</div>
+                            <h3><a href="#">Dr. {{ $doctor->name }}</a></h3>
+                            <div class="designation">{{ optional($doctor->doctor)->specialization->name ?? 'General' }}</div>
+                        </div>
 					</div>
 				</div>
 				@endforeach
 			</div>
 
 		</div>
-	</section>
-        <section class="video-section" style="background-image:url({{ asset('assets/img/viedo.png')}})">
+	</section>        <section class="video-section" style="background-image:url({{ asset('assets/img/viedo.png')}})">
             <div class="auto-container">
                 <div class="content">
                     <a href="https://youtu.be/EceDhNJE6Eg?si=FR5FclvNg4t9pmjk" class="lightbox-image play-box"><span
@@ -903,3 +902,239 @@
 
     </div>
 @endsection
+
+<!-- AI Chat Button -->
+    <div class="ai-chat-button" id="aiChatButton">
+        <button class="chat-toggle-btn" onclick="toggleChat()">
+            <i class="fas fa-robot"></i> AI Chat
+        </button>
+        
+        <div class="chat-container" id="chatContainer" style="display: none;">
+            <div class="chat-header">
+                <h4>Medical AI Assistant</h4>
+                <button class="close-btn" onclick="toggleChat()">×</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot">
+                    مرحباً! أنا مساعدك الطبي بالذكاء الاصطناعي. كيف يمكنني مساعدتك اليوم؟
+                </div>
+                <div class="typing-indicator" id="typingIndicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            
+            </div>
+            <div class="chat-input">
+                <input type="text" id="userInput" placeholder="اكتب سؤالك الطبي هنا...">
+                <button onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <style>
+        /* ... existing styles ... */
+        
+        .typing-indicator {
+            display: none;
+            background-color: #f0f2f5;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            max-width: 80%;
+            margin-right: auto;
+        }
+    
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #93959f;
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: typing 1s infinite;
+        }
+    
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+    
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+    </style>
+    <style>
+    .ai-chat-button {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1000;
+    }
+
+    .chat-toggle-btn {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 15px 25px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 16px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+
+    .chat-toggle-btn:hover {
+        background: #0056b3;
+        transform: translateY(-2px);
+    }
+
+    .chat-container {
+        position: fixed;
+        bottom: 100px;
+        right: 30px;
+        width: 350px;
+        height: 500px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chat-header {
+        padding: 15px;
+        background: #007bff;
+        color: white;
+        border-radius: 10px 10px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .chat-header h4 {
+        margin: 0;
+    }
+
+    .close-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .chat-messages {
+        flex: 1;
+        padding: 15px;
+        overflow-y: auto;
+    }
+
+    .message {
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        max-width: 80%;
+    }
+
+    .message.bot {
+        background: #f0f2f5;
+        margin-right: auto;
+    }
+
+    .message.user {
+        background: #007bff;
+        color: white;
+        margin-left: auto;
+    }
+
+    .chat-input {
+        padding: 15px;
+        border-top: 1px solid #eee;
+        display: flex;
+    }
+
+    .chat-input input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        margin-right: 10px;
+    }
+
+    .chat-input button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+    </style>
+<script>
+    document.getElementById('userInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    function toggleChat() {
+        const container = document.getElementById('chatContainer');
+        container.style.display = container.style.display === 'none' ? 'flex' : 'none';
+    }
+    
+    function addMessage(message, type) {
+        const messagesDiv = document.getElementById('chatMessages');
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message', type);
+        messageElement.textContent = message;
+        messagesDiv.appendChild(messageElement);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const input = document.getElementById('userInput');
+        const message = input.value.trim();
+        if (!message) return;
+
+        addMessage(message, 'user');
+        input.value = '';
+
+        const typingIndicator = document.getElementById('typingIndicator');
+        typingIndicator.style.display = 'block';
+
+        try {
+            const response = await fetch('{{ route("chat.ai") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ message: message })
+            });
+
+            typingIndicator.style.display = 'none';
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            
+            if (data.response) {
+                addMessage(data.response, 'bot');
+            } else if (data.error) {
+                throw new Error(data.error);
+            } else {
+                throw new Error('Invalid response format');
+            }
+        } catch (error) {
+            typingIndicator.style.display = 'none';
+            console.error('Error:', error);
+            addMessage('عذراً، حدث خطأ. يرجى المحاولة مرة أخرى.', 'bot');
+        }
+    }
+</script>

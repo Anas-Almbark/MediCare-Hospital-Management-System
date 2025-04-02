@@ -10,6 +10,8 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
+    use Notifiable;
+    
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasRoles;
 
@@ -91,7 +93,12 @@ class User extends Authenticatable
 
     public function doctorAppointments()
     {
-        return $this->hasMany(Appointment::class, 'doctor_id')->with(['patient', 'schedule']);
+        return $this->hasMany(Appointment::class, 'doctor_id');
+    }
+
+    public function patientAppointments()
+    {
+        return $this->hasMany(Appointment::class, 'patient_id');
     }
 
     public function schedules()
@@ -104,7 +111,12 @@ class User extends Authenticatable
     }
     public function doctor()
     {
-        return $this->belongsTo(Doctor::class);
+        return $this->hasOne(Doctor::class, 'doctor', 'id');
+    }
+
+    public function getSpecializationAttribute()
+    {
+        return $this->doctor ? $this->doctor->specialization->name : null;
     }
     public function salaries()
     {

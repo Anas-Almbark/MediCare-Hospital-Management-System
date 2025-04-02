@@ -1,183 +1,159 @@
 @extends('indexTemplate.profileUser.profile-layout')
 
 @section('content')
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-        <a class="navbar-brand" href="{{ route('welcome') }}">
-           
-        </a>
-        <div class="d-flex">
-            <a href="{{ route('welcome') }}" class="btn btn-outline-light me-2">Home</a>
-            <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                @csrf
-                <button type="submit" class="btn btn-outline-light">Logout</button>
-            </form>
-        </div>
-    </div>
-</nav>
-
-<div class="container-fluid">
-    <div class="row">
-        <!-- Sidebar -->
-        <div class="col-md-3 col-lg-2 d-md-block bg-light sidebar py-4">
-            <div class="position-sticky">
-                <div class="text-center mb-4">
-                    @if(auth()->user()->profile_photo)
-                        <img src="{{ asset('storage/' . auth()->user()->profile_photo) }}" 
-                             alt="Profile" 
-                             class="rounded-circle mb-3"
-                             style="width: 100px; height: 100px; object-fit: cover;">
-                    @else
-                        <i class="fas fa-user-circle" style="font-size: 100px; color: #3fbbc0;"></i>
-                    @endif
-                    <h5 class="mt-2">{{ auth()->user()->name }}</h5>
-                </div>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">
-                            <i class="fas fa-user-circle me-2"></i>Profile
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-calendar-check me-2"></i>Appointments
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-file-medical me-2"></i>Medical Records
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-bell me-2"></i>Notifications
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="col-md-9 col-lg-10 ms-sm-auto px-4 py-4">
-            <div class="row">
-                <!-- Profile Information Card -->
-                <div class="col-md-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="card-title mb-0">Profile Information</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <h6 class="mb-0">Full Name</h6>
-                                </div>
-                                <div class="col-sm-8 text-secondary">
-                                    {{ auth()->user()->name }}
-                                </div>
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Main Content -->
+  
+                    <!-- Profile Information Card -->
+                    <div class="col-lg-6">
+                        <div class="card h-100">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="card-title mb-0">Profile Information</h5>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <h6 class="mb-0">Email</h6>
-                                </div>
-                                <div class="col-sm-8 text-secondary">
-                                    {{ auth()->user()->email }}
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <h6 class="mb-0">Phone</h6>
-                                </div>
-                                <div class="col-sm-8 text-secondary">
-                                    {{ auth()->user()->phone_number ?? 'Not set' }}
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <h6 class="mb-0">Address</h6>
-                                </div>
-                                <div class="col-sm-8 text-secondary">
-                                    {{ auth()->user()->address ?? 'Not set' }}
-                                </div>
-                            </div>
-                            <div class="text-end">
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-                                    <i class="fas fa-edit me-1"></i>Edit Profile
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Doctors Card -->
-                <div class="col-md-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-header bg-info text-white">
-                            <h5 class="card-title mb-0">My Doctors</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                @forelse([1,2] as $doctor) 
-                                <div class="col-md-6 mb-3">
-                                    <div class="card">
-                                        <div class="card-body text-center">
-                                            <i class="fas fa-user-md fa-3x mb-3 text-info"></i>
-                                            <h6>Dr. John Doe</h6>
-                                            <p class="text-muted small">Cardiologist</p>
-                                            <a href="#" class="btn btn-sm btn-outline-info">View Profile</a>
-                                        </div>
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col-sm-4">
+                                        <h6 class="mb-0">Full Name</h6>
+                                    </div>
+                                    <div class="col-sm-8 text-secondary">
+                                        {{ auth()->user()->name }}
                                     </div>
                                 </div>
-                                @empty
-                                <div class="col-12 text-center">
-                                    <p>No doctors assigned yet.</p>
+                                <div class="row mb-3">
+                                    <div class="col-sm-4">
+                                        <h6 class="mb-0">Email</h6>
+                                    </div>
+                                    <div class="col-sm-8 text-secondary">
+                                        {{ auth()->user()->email }}
+                                    </div>
                                 </div>
-                                @endforelse
+                                <div class="row mb-3">
+                                    <div class="col-sm-4">
+                                        <h6 class="mb-0">Phone</h6>
+                                    </div>
+                                    <div class="col-sm-8 text-secondary">
+                                        {{ auth()->user()->phone_number ?? 'Not set' }}
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-4">
+                                        <h6 class="mb-0">Address</h6>
+                                    </div>
+                                    <div class="col-sm-8 text-secondary">
+                                        {{ auth()->user()->address ?? 'Not set' }}
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                                        <i class="fas fa-edit me-1"></i>Edit Profile
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Prescriptions Card -->
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header bg-success text-white">
-                            <h5 class="card-title mb-0">Medical Prescriptions</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Date</th>
-                                            <th>Doctor</th>
-                                            <th>Diagnosis</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>2024-01-20</td>
-                                            <td>Dr. John Doe</td>
-                                            <td>Regular Checkup</td>
-                                            <td><span class="badge bg-success">Active</span></td>
-                                            <td>
-                                                <a href="#" class="btn btn-sm btn-outline-primary">
-                                                    <i class="fas fa-eye"></i> View
+                    <!-- Doctors Card -->
+                    <div class="col-lg-6">
+                        <div class="card h-100">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="card-title mb-0">My Doctors</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    @php
+                                        $myDoctors = App\Models\Appointment::where('patient_id', auth()->id())
+                                        ->with('doctor.specialization')
+                                        ->distinct('doctor_id')
+                                        ->get()
+                                        ->pluck('doctor');
+                                    @endphp
+                                    
+                                    @forelse($myDoctors as $doctor)
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                @if($doctor->profile_photo)
+                                                    <img src="{{ asset('storage/' . $doctor->profile_photo) }}" 
+                                                         alt="Dr. {{ $doctor->name }}" 
+                                                         class="rounded-circle mb-3" 
+                                                         style="width: 80px; height: 80px; object-fit: cover;">
+                                                @else
+                                                    <i class="fas fa-user-md fa-3x mb-3 text-info"></i>
+                                                @endif
+                                                <h6>Dr. {{ $doctor->name }}</h6>
+                                                <p class="text-muted small">{{ $doctor->specialization->name ?? 'General' }}</p>
+                                                <a href="{{ route('doctors-detail', ['id' => $doctor->id]) }}" class="btn btn-sm btn-outline-info">
+                                                    View Profile
                                                 </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @empty
+                                    <div class="col-12 text-center">
+                                        <p>No appointments with any doctors yet.</p>
+                                    </div>
+                                    @endforelse
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prescriptions Card -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="card-title mb-0">Medical Prescriptions</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Doctor</th>
+                                                <th>Patient</th>
+                                                <th>Description</th>
+                                                <th>Appointment Date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php
+                                                $prescriptions = App\Models\Prescription::where('patient_id', auth()->id())
+                                                    ->with(['doctor', 'appointment'])
+                                                    ->orderBy('created_at', 'desc')
+                                                    ->get();
+                                            @endphp
+
+                                            @forelse($prescriptions as $prescription)
+                                                <tr>
+                                                    <td>Dr. {{ $prescription->doctor->name }}</td>
+                                                    <td>{{ auth()->user()->name }}</td>
+                                                    <td>{{ $prescription->description }}</td>
+                                                    <td>{{ $prescription->appointment->appointment_date ?? 'N/A' }}</td>
+                                                    <td>
+                                                        <a href="{{ route('prescription.show', $prescription->id) }}" 
+                                                           class="btn btn-sm btn-outline-primary">
+                                                            <i class="fas fa-eye"></i> View
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="5" class="text-center">No prescriptions found</td>
+                                                </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+ 
 
 <!-- Edit Profile Modal -->
 <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
@@ -222,38 +198,81 @@
 </div>
 
 <style>
-.navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1030;
+.content-wrapper {
+    margin-left: 250px; /* عرض السايد بار */
+    transition: margin-left 0.3s;
 }
 
 .container-fluid {
-    margin-top: 56px; 
+    padding: 20px;
+    margin-top: 0;
 }
 
-.sidebar {
-    min-height: calc(100vh - 56px);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding-top: 20px;
-}
-
-.sidebar .nav-link {
-    color: #333;
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
-    margin-bottom: 0.5rem;
-}
-
-.sidebar .nav-link:hover,
-.sidebar .nav-link.active {
-    background-color: #e9ecef;
-    color: #0d6efd;
+@media (max-width: 768px) {
+    .content-wrapper {
+        margin-left: 0;
+    }
 }
 
 .card {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: 100%;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.row.g-4 {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 1.5rem;
+}
+
+/* تحسين تنسيق الجداول في الشاشات الصغيرة */
+.table-responsive {
+    margin: 0;
+    padding: 0;
+    border-radius: 0.5rem;
+}
+
+/* تحسين المسافات بين العناصر */
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-header {
+    padding: 1rem 1.5rem;
+}
+
+/* تخصيص خلفية Modal */
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+    opacity: 1 !important;
+    z-index: 1040 !important;
+}
+
+.modal {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-dialog {
+    z-index: 1050;
+}
+
+.modal-content {
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 1050;
 }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('editProfileModal');
+    modal.addEventListener('show.bs.modal', function () {
+        document.body.classList.add('modal-open');
+    });
+});
+</script>
 @endsection

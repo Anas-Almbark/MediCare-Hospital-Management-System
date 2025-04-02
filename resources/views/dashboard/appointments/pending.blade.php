@@ -68,6 +68,8 @@
                                                         @csrf
                                                         @method('PATCH')
                                                         <input type="hidden" name="status" value="confirmed">
+                                                        <input type="hidden" name="patient_id" value="{{ $appointment->patient->id }}">
+                                                        <input type="hidden" name="send_notification" value="1">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">{{ __('Confirm Appointment') }}</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>

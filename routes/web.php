@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProfileUserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoctorController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\StaticSalaryController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\SpecializationController;
 use App\Http\Controllers\LabTypeController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\ReviewController;
 use Chatify\Http\Controllers\MessagesController as ChatifyMessagesController;
@@ -163,6 +165,8 @@ Route::middleware(['auth', 'role:lab_technician|super-admin'])->group(function (
     Route::delete("/delete/lab-type/{labType}", [LabTypeController::class, "destroy"])->name('lab-type.destroy');
 });
 
+
+Route::post('/chat', [ChatController::class, 'chat'])->name('chat.ai')->middleware('web');
 Route::get('/chat/{id?}', [ChatifyMessagesController::class, 'index'])->name('chatify');
 Route::get('change/language/{locale}', [LanguageController::class, 'changeLanguage'])->name('change.language');
 
@@ -170,7 +174,9 @@ Route::get('/about', [PatientController::class, 'about'])->name('about');
 Route::get('/services', [PatientController::class, 'services'])->name('services');
 Route::get('/doctors', [PatientController::class, 'doctors'])->name('doctors');
 Route::get('/doctors-detail', [PatientController::class, 'doctorsDetail'])->name('doctors-detail');
-// Route::get('/doctors-show', [DoctorController::class, 'showDoctorsForHome'])->name('home');
+// Route::get('/', [DoctorController::class, 'showDoctorsForHome'])->name('welcome');
+
+Route::get('/doctors-show', [DoctorController::class, 'showDoctorsForHome'])->name('home');
 Route::resource('supports', SupportController::class);
 Route::get('/supports/create', [SupportController::class, 'create'])->name('supports.create');
 Route::get('/user/messages', [SupportController::class, 'usermessages'])->name('supports.usermessages');
@@ -191,6 +197,11 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/available-appointments', [AppointmentController::class, 'showAvailable'])->name('available.appointments');
+    Route::post('appointments/{appointment}/book', [AppointmentController::class, 'bookAppointment'])->name('appointment.book');
+});
+
+Route::middleware(['auth'])->group(function () {
     Route::get('/medical-record', [MedicalRecordController::class, 'index'])->name('medical-record.index');
     Route::get('/medical-record/get-data', [MedicalRecordController::class, 'getData'])->name('medical-record.getData');
     Route::get('/medical-record/get-columns', [MedicalRecordController::class, 'getColumns'])->name('medical-record.getColumns');
@@ -202,6 +213,15 @@ Route::get('/profile-user', [ProfileUserController::class, 'show'])->name('profi
 Route::get('/profile-user-edit', [ProfileUserController::class, 'edit'])->name('profileuser.edit');
 Route::put('/profile-user/update', [ProfileUserController::class, 'update'])->name('profileuser.update');
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
+    Route::get('/medical-history', [PatientController::class, 'medicalHistory'])->name('patient.medical-history');
+
+    // Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/mark-as-read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+});
+
+
 // Include doctors routes
 // require __DIR__. '/doctors.php';
 
@@ -209,3 +229,7 @@ Route::put('/profile-user/update', [ProfileUserController::class, 'update'])->na
 require __DIR__ . '/appointments.php';
 
 require __DIR__ . '/auth.php';
+
+
+
+
