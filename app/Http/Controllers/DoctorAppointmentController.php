@@ -21,25 +21,37 @@ class DoctorAppointmentController extends Controller
         $appointmentDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         $appointmentsByDay = [];
 
+        // Check if user is super-admin
+        $isAdmin = auth()->user()->hasRole('super-admin');
+        $doctorId = $isAdmin ? request('doctor_id', null) : auth()->id();
+
+        // Get appointments query
+        $appointmentsQuery = Appointment::query();
+        if ($doctorId) {
+            $appointmentsQuery->where('doctor_id', $doctorId);
+        }
+
         foreach ($appointmentDays as $day) {
-            $appointmentsByDay[$day] = Appointment::where('doctor_id', auth()->id())
+            $appointmentsByDay[$day] = $appointmentsQuery->clone()
                 ->where('day_of_week', $day)
-                ->with('patient')
+                ->with(['patient', 'doctor'])
                 ->orderBy('start_time')
                 ->paginate(10, ['*'], "page_$day");
         }
 
         // Get statistics
-        $availableAppointments = Appointment::where('doctor_id', auth()->id())
+        $statsQuery = $appointmentsQuery->clone();
+        
+        $availableAppointments = $statsQuery->clone()
             ->whereNull('patient_id')
             ->count();
 
-        $bookedAppointments = Appointment::where('doctor_id', auth()->id())
+        $bookedAppointments = $statsQuery->clone()
             ->whereNotNull('patient_id')
             ->where('status', 'confirmed')
             ->count();
 
-        $pendingAppointments = Appointment::where('doctor_id', auth()->id())
+        $pendingAppointments = $statsQuery->clone()
             ->where('status', 'pending')
             ->count();
 
@@ -60,9 +72,12 @@ class DoctorAppointmentController extends Controller
                 ->values();
         }
 
+        // Get doctors list for admin filter
+        $doctors = $isAdmin ? User::role('doctor')->get() : null;
+
         return view('dashboard.appointments.doctor-appointments', 
             compact('appointmentsByDay', 'appointmentDays', 'availableAppointments', 
-                    'bookedAppointments', 'pendingAppointments'));
+                    'bookedAppointments', 'pendingAppointments', 'doctors', 'doctorId'));
     }
 
     public function pending()

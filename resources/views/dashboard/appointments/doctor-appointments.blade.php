@@ -8,6 +8,20 @@
                         <h5 class="card-title mb-1">{{ __("Doctor's Appointments") }}</h5>
                         <p class="text-muted mb-0">{{ __('View and manage your appointments') }}</p>
                     </div>
+                    @if(auth()->user()->hasRole('super-admin'))
+                        <div class="col-md-3">
+                            <form action="{{ route('doctor.appointments.index') }}" method="GET">
+                                <select name="doctor_id" class="form-select" onchange="this.form.submit()">
+                                    <option value="">{{ __('All Doctors') }}</option>
+                                    @foreach($doctors as $doctor)
+                                        <option value="{{ $doctor->id }}" {{ request('doctor_id') == $doctor->id ? 'selected' : '' }}>
+                                            {{ $doctor->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </form>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="row px-4">
@@ -112,6 +126,7 @@
                                             <th>{{ __('Time') }}</th>
                                             <th>{{ __('Date') }}</th>
                                             <th>{{ __('Patient') }}</th>
+                                            <th>{{ __('Doctor') }}</th>
                                             <th>{{ __('Status') }}</th>
                                             <th>{{ __('Notes') }}</th>
                                             <th>{{ __('Actions') }}</th>
@@ -144,16 +159,29 @@
                                                             class="text-muted">{{$appointment->date }}</small>
                                                     </div>
                                                 </td>
-
                                                 <td>
                                                     <div>
                                                         @if ($appointment->patient)
                                                             <strong>{{ $appointment->patient->name }}</strong>
                                                             <br>
-                                                            <small
-                                                                class="text-muted">{{ $appointment->patient->email }}</small>
+                                                            <small class="text-muted">{{ $appointment->patient->email }}</small>
                                                         @else
                                                             <span class="text-muted">{{ __('No patient assigned') }}</span>
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        @if (true)
+                                                            <strong>{{\App\Models\User::where('id',$appointment->doctor_id)->first()->name  }}</strong>
+                                                            <br>
+                                                            <small class="text-muted">
+                                                                
+                                                                <br>
+                                                                {{\App\Models\User::where('id',$appointment->doctor_id)->first()->email}}
+                                                            </small>
+                                                        @else
+                                                            <span class="text-muted">{{ __('No doctor assigned') }}</span>
                                                         @endif
                                                     </div>
                                                 </td>
