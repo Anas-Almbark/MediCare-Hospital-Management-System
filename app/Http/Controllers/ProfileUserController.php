@@ -12,7 +12,13 @@ class ProfileUserController extends Controller
     public function show()
     {
         $user = Auth::user();
-        return view('indexTemplate.profileuser.show', compact('user'));
+     
+            $doctors = User::role('doctor')
+                ->with('doctor.specialization')
+                ->get();
+        
+        
+        return view('indexTemplate.profileuser.show', compact('user','doctors'));
     }
 
     public function edit()

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use App\Models\Review;
 use App\Models\Doctor;
-
+use App\Models\User;
 class AuthenticatedSessionController extends Controller
 {
     /**
@@ -19,17 +19,20 @@ class AuthenticatedSessionController extends Controller
     public function index()
     {
         if (auth()->check()) {
-            if (auth()->user()->hasRole('patient')) {
-                $reviews = Review::all();
-                $doctors = Doctor::all();
-                return view('welcome', compact('reviews', 'doctors'));
+            if (!auth()->user()->hasRole('patient')) {
+               
+                
+                return redirect()->route('dashboard');
             }
-            return redirect()->route('dashboard');
+           
         }
-
         $reviews = Review::all();
-        $doctors = Doctor::all();
-        return view('welcome', compact('reviews', 'doctors'));
+        $doctors = User::role('doctor')
+        
+        ->with('doctor.specialization')
+        ->take(4)
+        ->get();
+                return view('welcome', compact('reviews',  'doctors'));
     }
     public function create(): View|RedirectResponse
     {

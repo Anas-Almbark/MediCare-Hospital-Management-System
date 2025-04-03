@@ -26,9 +26,7 @@ use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\ReviewController;
 use Chatify\Http\Controllers\MessagesController as ChatifyMessagesController;
 
-Route::get('/', [AuthenticatedSessionController::class, 'index'])
-
-    ->name('welcome');
+Route::get('/', [AuthenticatedSessionController::class, 'index'])->name('welcome');
 
 // Route::get('{path?}', [UserController::class, 'idFetch'])
 //     ->where('path', '|dashboard')
@@ -174,7 +172,7 @@ Route::get('/about', [PatientController::class, 'about'])->name('about');
 Route::get('/services', [PatientController::class, 'services'])->name('services');
 Route::get('/doctors', [PatientController::class, 'doctors'])->name('doctors');
 Route::get('/doctors-detail', [PatientController::class, 'doctorsDetail'])->name('doctors-detail');
-// Route::get('/', [DoctorController::class, 'showDoctorsForHome'])->name('welcome');
+// Route::get('/doctor-show', [DoctorController::class, 'showDoctorsForHome'])->name('welcome');
 
 Route::get('/doctors-show', [DoctorController::class, 'showDoctorsForHome'])->name('home');
 Route::resource('supports', SupportController::class);
@@ -198,7 +196,27 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/available-appointments', [AppointmentController::class, 'showAvailable'])->name('available.appointments');
-    Route::post('appointments/{appointment}/book', [AppointmentController::class, 'bookAppointment'])->name('appointment.book');
+    Route::post('/appointments/{appointment}/book', [AppointmentController::class, 'bookAppointment'])->name('appointment.book');
+    Route::get('/appointments/{appointment}', [AppointmentController::class, 'show'])->name('appointment.show');
+    Route::get('/book-appointment/{doctor}', [AppointmentController::class, 'bookingForm'])->name('book.appointment');
+
+    // Doctor routes
+    // Route::get('/doctors/{doctor}/detail', [DoctorController::class, 'show'])->name('doctors-detail');
+
+    // Medical Records routes
+    Route::get('/medical-records/{record}', [MedicalRecordController::class, 'show'])->name('medical-records.show');
+    Route::get('/medical-records/{record}/download', [MedicalRecordController::class, 'download'])->name('medical-records.download');
+
+    // Prescriptions routes
+    Route::get('/prescription/{prescription}', [PrescriptionController::class, 'show'])->name('prescription.show');
+    Route::get('/prescription/{prescription}/download', [PrescriptionController::class, 'download'])->name('prescription.download');
+
+    // Profile User routes
+    Route::prefix('profile-user')->group(function () {
+        Route::get('/', [ProfileUserController::class, 'show'])->name('profileuser.show');
+        Route::get('/edit', [ProfileUserController::class, 'edit'])->name('profileuser.edit');
+        Route::put('/update', [ProfileUserController::class, 'update'])->name('profileuser.update');
+    });
 });
 
 Route::middleware(['auth'])->group(function () {

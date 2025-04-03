@@ -1,65 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        @include('indexTemplate.shard.head')
-        <!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
-        <!--[if lt IE 9]><script src="{{ asset('js/respond.js') }}"></script><![endif]-->
-        
-        <!-- jQuery first -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        
-        <!-- Then SweetAlert2 -->
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        
-        <!-- Then Toastr CSS and JS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-        
-        <!-- Toastr Default Options -->
-        <script>
-            toastr.options = {
-                "closeButton": true,
-                "progressBar": true,
-                "positionClass": "toast-top-right",
-                "timeOut": "3000",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut",
-                "preventDuplicates": true
-            }
-        </script>
-    </head>
-<body>
-    @include('indexTemplate.profileuser.shard.navBar')
-    @include('indexTemplate.profileuser.shard.sideBar')
-    @yield('content')
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-    <!-- Scripts -->
-    <!-- في نهاية الملف، قبل إغلاق تاج body -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<head>
+    @include('dashboard/shard.head')
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    @include('indexTemplate.shard.scripts')
-    @include('partials.messages')  
-    <!-- في السايدبار -->
-    @php
-        $unreadCount = DB::table('notifications')
-            ->where('receiver', auth()->id())
-            ->where('status', '!=', 'read')
-            ->count();
-    @endphp
-    
-    <div class="position-relative">
-        <a href="{{ route('notifications') }}" class="nav-link">
-            <i class="fas fa-bell"></i> Notifications
-            @if($unreadCount > 0)
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    {{ $unreadCount }}
-                </span>
-            @endif
-        </a>
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script>
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher("61f83e8b0f6d41d4e503", {
+            cluster: "eu",
+            auth: {
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
+                }
+            }
+        });
+
+        var userId = 11;
+        var channel = pusher.subscribe("private-user-" + userId);
+        channel.bind("user-notification", function(data) {
+            alert("new notify: " + data.message);
+        });
+    </script>
+    <style>
+        .main-content {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            padding: 20px;
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .page {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .app-content {
+            flex: 1;
+        }
+
+        /* Override any existing sidebar margins */
+        .app.sidebar-mini {
+            --sidebar-width: 0px;
+        }
+    </style>
+</head>
+
+<body class="main-body">
+    <div class="page">
+        <div class="main-content app-content">
+            @include('dashboard.shard.navBar')
+            <div class="container">
+                @yield('content')
+            </div>
+        </div>
+        @include('indexTemplate/profileuser/shard.rightSideBar')
+
+        @include('indexTemplate/profileuser/shard.footer')
     </div>
+    <a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
+    @include('indexTemplate/profileuser/shard.scripts')
+    @stack('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

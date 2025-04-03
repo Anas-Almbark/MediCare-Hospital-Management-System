@@ -5,6 +5,8 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-9 col-lg-10 ms-sm-auto px-4 py-4">
+                @include('indexTemplate.profileuser.shard.successMsg')
+                
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2 class="text-primary">Doctor Schedules</h2>
                 </div>
