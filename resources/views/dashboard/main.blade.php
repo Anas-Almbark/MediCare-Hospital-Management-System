@@ -19,7 +19,8 @@
                         <div class="pb-0 mt-0">
                             <div class="d-flex">
                                 <div class="">
-                                    <h4 class="tx-20 font-weight-bold mb-1 text-white">{{ 55 }}</h4>
+                                    <h4 class="tx-20 font-weight-bold mb-1 text-white">{{ $countRoles['doctor'] }}
+                                    </h4>
                                     <p class="mb-0 tx-12 text-white op-7">{{ __('Total Registered Doctors') }}</p>
                                 </div>
                                 <span class="float-right my-auto ml-auto">
@@ -41,7 +42,7 @@
                         <div class="pb-0 mt-0">
                             <div class="d-flex">
                                 <div class="">
-                                    <h4 class="tx-20 font-weight-bold mb-1 text-white">{{ 234 }}</h4>
+                                    <h4 class="tx-20 font-weight-bold mb-1 text-white">{{ $countRoles['patient'] }}</h4>
                                     <p class="mb-0 tx-12 text-white op-7">{{ __('Total Registered Patients') }}</p>
                                 </div>
                                 <span class="float-right my-auto ml-auto">
@@ -63,7 +64,8 @@
                         <div class="pb-0 mt-0">
                             <div class="d-flex">
                                 <div class="">
-                                    <h4 class="tx-20 font-weight-bold mb-1 text-white">{{ 25 }}</h4>
+                                    <h4 class="tx-20 font-weight-bold mb-1 text-white">
+                                        {{ $countRoles['doctor_secretary'] }}</h4>
                                     <p class="mb-0 tx-12 text-white op-7">{{ __('Total Registered Secretaries') }}</p>
                                 </div>
                                 <span class="float-right my-auto ml-auto">
@@ -121,9 +123,12 @@
                         </div>
                         <p class="mg-b-20">Distribution of laboratory tests by status.</p>
                         <div class="chartjs-wrapper-demo">
+                            <span class="display" id="lab-tests"
+                                data-tests="{{ $labTests->pluck('labType')->pluck('name')->unique()->values()->join(',') }}"
+                                data-values={{ $labTests->pluck('labType')->pluck('name')->countBy()->values()->join(',') }}>
+                            </span>
                             <canvas id="labTestsPieChart"></canvas>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -150,6 +155,9 @@
                         </div>
                         <p class="mg-b-20">Distribution of laboratory test requests by their current status.</p>
                         <div class="chartjs-wrapper-demo">
+                            <span class="display" id="lab-status"
+                                data-values={{ $labTests->pluck('status')->sort()->countBy()->values()->join(',') }}>
+                            </span>
                             <canvas id="labTestRequestsStatusChart"></canvas>
                         </div>
                     </div>
@@ -162,6 +170,9 @@
                     <div class="main-content-label mg-b-5">Gender Distribution</div>
                     <p class="mg-b-20">Distribution of male and female patients</p>
                     <div class="chartjs-wrapper-demo">
+                        <span class="display" id="gender-distribution"
+                            data-values={{ $users->pluck('gender')->sort()->countBy()->unique()->values()->join(',') }}>
+                        </span>
                         <canvas id="genderDistributionChart"></canvas>
                     </div>
                 </div>

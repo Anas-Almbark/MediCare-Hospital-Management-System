@@ -45,17 +45,6 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="doctor_id">Doctor Name</label>
-                                <select class="form-control" id="doctor_id" name="doctor_id">
-                                    <option value="">Select Doctor</option>
-                                    @foreach ($doctors ?? [] as $doctor)
-                                        <option value="{{ $doctor->id }}">{{ $doctor->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
                                 <label for="lab_type_id">Required Test</label>
                                 <select class="form-control" id="lab_type_id" name="lab_type_id" required>
                                     <option value="" @readonly(true)>Select Test</option>

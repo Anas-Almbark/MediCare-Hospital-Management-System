@@ -32,7 +32,7 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
 });
 
 // Doctor Appointment Routes
-Route::middleware(['auth', 'role:doctor'])->group(function () {
+Route::middleware(['auth', 'role:doctor|super-admin'])->group(function () {
     Route::get('/doctor/appointments', [DoctorAppointmentController::class, 'index'])->name('doctor.appointments.index');
     Route::get('/doctor/appointments/pending', [DoctorAppointmentController::class, 'pending'])->name('doctor.appointments.pending');
     Route::patch('/doctor/appointments/{appointment}/status', [DoctorAppointmentController::class, 'updateStatus'])->name('doctor.appointments.update-status');
@@ -48,7 +48,7 @@ Route::middleware(['auth', 'role:doctor'])->group(function () {
 
 
 // Doctor Schedule Routes
-Route::middleware(['auth', 'role:doctor'])->group(function () {
+Route::middleware(['auth', 'role:doctor|super-admin'])->group(function () {
     Route::get('/doctor/schedules', [DoctorScheduleController::class, 'index'])
         ->name('doctor.schedules.index');
     Route::get('/doctor/schedules/create', [DoctorScheduleController::class, 'create'])

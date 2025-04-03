@@ -3,26 +3,6 @@
 
 <head>
     @include('dashboard/shard.head')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
-    <script>
-        Pusher.logToConsole = true;
-
-        var pusher = new Pusher("61f83e8b0f6d41d4e503", {
-            cluster: "eu",
-            auth: {
-                headers: {
-                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
-                }
-            }
-        });
-
-        var userId = 11;
-        var channel = pusher.subscribe("private-user-" + userId);
-        channel.bind("user-notification", function(data) {
-            alert("new notify: " + data.message);
-        });
-    </script>
 </head>
 
 <body class="main-body app sidebar-mini">

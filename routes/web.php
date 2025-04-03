@@ -33,7 +33,7 @@ Route::get('/', [AuthenticatedSessionController::class, 'index'])->name('welcome
 //     ->middleware(['auth', 'verified', 'prevent.patient.dashboard'])
 //     ->name('dashboard');
 
-    Route::get('/dashboard', [UserController::class, 'idFetch'])
+Route::get('/dashboard', [UserController::class, 'idFetch'])
     ->middleware(['auth', 'verified', 'prevent.patient.dashboard'])
     ->name('dashboard');
 
@@ -70,8 +70,8 @@ Route::middleware(['auth', 'role:super-admin'])->group(function () {
     Route::get("/edit/user/{user}", [UserController::class, "edit"])->name("user.edit");
     Route::put("/update/user/{user}", [UserController::class, "update"])->name("user.update");
     Route::delete("/delete/user/{user}", [UserController::class, "destroy"])->name("user.destroy");
-    Route::get("user/search", [UserController::class, "searchByName"])->name('user.search');
-    Route::post("/user/filter", [UserController::class, "filterByRole"])->name('user.filter'); // تم تعديل المسار
+    Route::get("/user/search", [UserController::class, "searchByName"])->name('user.search');
+    Route::get("/user/filter", [UserController::class, "filterByRole"])->name('user.filter'); // تم تعديل المسار
 });
 
 
@@ -247,7 +247,3 @@ Route::middleware(['auth'])->group(function () {
 require __DIR__ . '/appointments.php';
 
 require __DIR__ . '/auth.php';
-
-
-
-

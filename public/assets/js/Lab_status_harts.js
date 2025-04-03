@@ -4,13 +4,15 @@ var ctx = document
 var myChart = new Chart(ctx, {
     type: "doughnut",
     data: {
-        labels: ["Pending", "Completed", "Cancelled"],
+        labels: ["Cancelled", "Completed", "Pending"],
         datasets: [
             {
-                data: [30, 50, 20],
-                backgroundColor: ["#f7b731", "#38cb89", "#ef4b4b"],
+                data: document
+                    .getElementById("lab-status")
+                    .dataset.values.split(","),
+                backgroundColor: ["#ef4b4b", "#38cb89", "#f7b731"],
                 borderWidth: 0,
-                hoverBackgroundColor: ["#f7b731", "#38cb89", "#ef4b4b"],
+                hoverBackgroundColor: ["#ef4b4b", "#38cb89", , "#f7b731"],
             },
         ],
     },

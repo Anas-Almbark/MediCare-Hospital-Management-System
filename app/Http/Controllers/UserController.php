@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use App\Models\Specialization;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Doctor;
+use App\Models\LabTest;
 
 class UserController extends Controller
 {
@@ -55,7 +55,7 @@ class UserController extends Controller
         ];
 
         $userData = $request->except('profile_photo');
-        
+
         // Only set profile_photo if an image was uploaded
         if ($request->hasFile('profile_photo')) {
             $path = $request->file('profile_photo')->store('profile-photos', 'public');
@@ -97,7 +97,7 @@ class UserController extends Controller
             if ($user->profile_photo) {
                 Storage::disk('public')->delete($user->profile_photo);
             }
-            
+
             // Store new photo
             $path = $request->file('profile_photo')->store('profile-photos', 'public');
             $user->profile_photo = $path;
@@ -141,7 +141,8 @@ class UserController extends Controller
         $users = User::where('id', '!=', Auth::id())
             ->latest()
             ->get();
-
-        return view('dashboard.main', compact('users'));
+        $countRoles = $users->load('roles')->pluck('roles')->flatten()->pluck('name')->countBy();
+        $labTests = LabTest::all();
+        return view('dashboard.main', compact('users', 'labTests', 'countRoles'));
     }
 }
