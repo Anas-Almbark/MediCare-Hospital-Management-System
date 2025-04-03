@@ -100,7 +100,6 @@
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0">Employee Name</th>
-                                    <th class="border-bottom-0">Static Salary</th>
                                     <th class="border-bottom-0">Base Salary</th>
                                     <th class="border-bottom-0">Bonus</th>
                                     <th class="border-bottom-0">Deductions</th>
@@ -113,7 +112,6 @@
                                 @foreach ($salaries as $salary)
                                     <tr>
                                         <td>{{ $salary->user->name ?? '' }}</td>
-                                        <td>${{ $salary->staticSalary->salary ?? '' }}</td>
                                         <td>${{ number_format($salary->base_salary, 2) }}</td>
                                         <td>${{ number_format($salary->bonus, 2) }}</td>
                                         <td>${{ number_format($salary->deductions, 2) }}</td>

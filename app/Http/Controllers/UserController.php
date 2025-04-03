@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use App\Models\Specialization;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Doctor;
 use App\Models\LabTest;
 
 class UserController extends Controller
@@ -142,8 +141,8 @@ class UserController extends Controller
         $users = User::where('id', '!=', Auth::id())
             ->latest()
             ->get();
-
+        $countRoles = $users->load('roles')->pluck('roles')->flatten()->pluck('name')->countBy();
         $labTests = LabTest::all();
-        return view('dashboard.main', compact('users', 'labTests'));
+        return view('dashboard.main', compact('users', 'labTests', 'countRoles'));
     }
 }

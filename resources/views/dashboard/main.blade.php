@@ -19,7 +19,8 @@
                         <div class="pb-0 mt-0">
                             <div class="d-flex">
                                 <div class="">
-                                    <h4 class="tx-20 font-weight-bold mb-1 text-white">{{ 55 }}</h4>
+                                    <h4 class="tx-20 font-weight-bold mb-1 text-white">{{ $countRoles['doctor'] }}
+                                    </h4>
                                     <p class="mb-0 tx-12 text-white op-7">{{ __('Total Registered Doctors') }}</p>
                                 </div>
                                 <span class="float-right my-auto ml-auto">
@@ -41,7 +42,7 @@
                         <div class="pb-0 mt-0">
                             <div class="d-flex">
                                 <div class="">
-                                    <h4 class="tx-20 font-weight-bold mb-1 text-white">{{ 234 }}</h4>
+                                    <h4 class="tx-20 font-weight-bold mb-1 text-white">{{ $countRoles['patient'] }}</h4>
                                     <p class="mb-0 tx-12 text-white op-7">{{ __('Total Registered Patients') }}</p>
                                 </div>
                                 <span class="float-right my-auto ml-auto">
@@ -63,7 +64,8 @@
                         <div class="pb-0 mt-0">
                             <div class="d-flex">
                                 <div class="">
-                                    <h4 class="tx-20 font-weight-bold mb-1 text-white">{{ 25 }}</h4>
+                                    <h4 class="tx-20 font-weight-bold mb-1 text-white">
+                                        {{ $countRoles['doctor_secretary'] }}</h4>
                                     <p class="mb-0 tx-12 text-white op-7">{{ __('Total Registered Secretaries') }}</p>
                                 </div>
                                 <span class="float-right my-auto ml-auto">

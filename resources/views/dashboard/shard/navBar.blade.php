@@ -118,30 +118,6 @@
                         </div>
                         <div class="main-notification-list Notification-scroll">
                             <a class="d-flex p-3 border-bottom" href="#">
-                                <div class="notifyimg bg-pink">
-                                    <i class="la la-file-alt text-white"></i>
-                                </div>
-                                <div class="ml-3">
-                                    <h5 class="notification-label mb-1">New files available</h5>
-                                    <div class="notification-subtext">{{ __('10 hour ago') }}</div>
-                                </div>
-                                <div class="ml-auto">
-                                    <i class="las la-angle-right text-right text-muted"></i>
-                                </div>
-                            </a>
-                            <a class="d-flex p-3" href="#">
-                                <div class="notifyimg bg-purple">
-                                    <i class="la la-gem text-white"></i>
-                                </div>
-                                <div class="ml-3">
-                                    <h5 class="notification-label mb-1">Updates Available</h5>
-                                    <div class="notification-subtext">{{ __('2 days ago') }}</div>
-                                </div>
-                                <div class="ml-auto">
-                                    <i class="las la-angle-right text-right text-muted"></i>
-                                </div>
-                            </a>
-                            <a class="d-flex p-3 border-bottom" href="#">
                                 <div class="notifyimg bg-success">
                                     <i class="la la-shopping-basket text-white"></i>
                                 </div>

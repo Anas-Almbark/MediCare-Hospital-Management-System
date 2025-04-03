@@ -159,7 +159,7 @@
                         </thead>
                         <tbody>
                             @forelse ($labTests as $labTest)
-                                <tr>
+                                <tr class="@if ($labTest->doctor && $labTest->status == 'pending') table-primary @else '' @endif">
                                     <td>{{ $labTest->patientData->name }}</td>
                                     <td>{{ $labTest->labType->name }}</td>
                                     <td>${{ $labTest->labType->price }}</td>
@@ -293,13 +293,13 @@
             waLink.href =
                 `whatsapp://send?phone=${phone.replace(/[^0-9]/g, '')}&text=${encodeURIComponent(
 `🔬✨ مرحبًا عزيزي،
-                                                                                                                            نتائج اختبار المختبر ${testName} جاهزة الآن! ✅
-                                                                                                                            📅 التاريخ: ${date}
+                                                                                                                                                                                                                            نتائج اختبار المختبر ${testName} جاهزة الآن! ✅
+                                                                                                                                                                                                                            📅 التاريخ: ${date}
 
-                                                                                                                            📄 يمكنك الاطلاع على النتائج من خلال الرابط التالي:
-                                                                                                                            ${resultUrl}
+                                                                                                                                                                                                                            📄 يمكنك الاطلاع على النتائج من خلال الرابط التالي:
+                                                                                                                                                                                                                            ${resultUrl}
 
-                                                                                                                            نتمنى لك دوام الصحة والعافية! 💙`)}`;
+                                                                                                                                                                                                                            نتمنى لك دوام الصحة والعافية! 💙`)}`;
 
             waLink.click();
         }

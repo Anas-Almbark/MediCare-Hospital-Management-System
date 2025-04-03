@@ -15,17 +15,18 @@ class LabTestController extends Controller
 {
     public function index()
     {
-        $labTests = LabTest::with(['patientData', 'doctorData'])->paginate(10);
+        $labTests = LabTest::with(['patientData', 'doctorData'])
+            ->orderByRaw('CASE WHEN doctor IS NOT NULL THEN 0 ELSE 1 END')
+            ->paginate(10);
         $labTypes = LabType::all();
         return view('dashboard.lab-tests.index', compact('labTests', 'labTypes'));
     }
 
     public function create()
     {
-        $doctors = User::role('doctor')->get();
         $patients = User::role('patient')->get();
         $labTypes = LabType::all();
-        return view('dashboard.lab-tests.create', compact('doctors', 'patients', 'labTypes'));
+        return view('dashboard.lab-tests.create', compact('patients', 'labTypes'));
     }
 
     public function store(AddLabTestRequest $request)
@@ -42,7 +43,7 @@ class LabTestController extends Controller
 
         $labTestData = [
             'patient' => $patient->id,
-            'doctor' => $validation['doctor_id'],
+            'doctor' => $validation['doctor_id'] ?? null,
             'lab_type_id' => $validation['lab_type_id'],
         ];
 
