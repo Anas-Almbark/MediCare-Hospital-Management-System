@@ -42,8 +42,14 @@
                         @forelse ($prescriptions as $prescription)
                             <tr>
                                 <td><strong class="ml-3">{{ $loop->iteration }}</strong></td>
-                                <td>{{ $prescription->doctor()->first()->name }}</td>
-                                <td>{{ $prescription->patient()->first()->name }}</td>
+                                <td>
+                                    @if($prescription->doctor)
+                                        Dr. {{ $prescription->doctor->name }}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>{{ $prescription->patient->name ?? 'N/A' }}</td>
                                 <td>{{ $prescription->description }}</td>
                                 <td>{{ $prescription->created_at->diffForHumans() }}</td>
                                 <td>

@@ -133,7 +133,7 @@ class DoctorController extends Controller
             ]);
     
             Doctor::create([
-                'doctor' => $user->id,
+                'doctor' => $user->id,  // Use 'doctor' instead of 'id'
                 'specialization_id' => $validation['specialization'],
                 'license_number' => $validation['license_number'],
                 'experience_years' => $validation['experience_years']

@@ -57,7 +57,7 @@
 <body class="main-body">
     <div class="page">
         <div class="main-content app-content">
-            @include('dashboard.shard.navBar')
+            @include('indexTemplate/profileuser/shard.navBar')
             <div class="container">
                 @yield('content')
             </div>

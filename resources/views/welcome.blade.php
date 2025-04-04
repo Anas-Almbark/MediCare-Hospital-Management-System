@@ -381,9 +381,9 @@
 					<div class="inner-box wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
 						<div class="image">
 							@if($doctor->profile_photo)
-								<img src="{{ asset('storage/profile-photos/' . $doctor->profile_photo) }}" alt="{{ $doctor->name }}" />
+								<img src="{{ asset('storage/' . $doctor->profile_photo) }}" alt="{{ $doctor->name }}" style="width: 270px; height: 270px; object-fit: cover;" />
 							@else
-								<img src="{{ asset('assets/img/default-avatar.png') }}" alt="{{ $doctor->name }}" />
+								<img src="{{ asset('assets/img/default-avatar.png') }}" alt="{{ $doctor->name }}" style="width: 270px; height: 270px; object-fit: cover;" />
 							@endif
 							<div class="overlay-box">
 								<ul class="social-icons">

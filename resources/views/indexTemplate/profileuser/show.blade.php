@@ -38,15 +38,15 @@
                                 <!-- main-profile-bio -->
                                 <div class="row">
                                     <div class="col-md-4 col mb20">
-                                        <h5>{{ $appointments_count ?? 0 }}</h5>
+                                        <h5>{{ $appointments_count ?? '0' }}</h5>
                                         <h6 class="text-small text-muted mb-0">Appointments</h6>
                                     </div>
                                     <div class="col-md-4 col mb20">
-                                        <h5>{{ $prescriptions_count ?? 0 }}</h5>
+                                        <h5>{{ $prescriptions_count ?? '0' }}</h5>
                                         <h6 class="text-small text-muted mb-0">Prescriptions</h6>
                                     </div>
                                     <div class="col-md-4 col mb20">
-                                        <h5>{{ $doctors_count ?? 0 }}</h5>
+                                        <h5>{{ $doctors_count ?? '0' }}</h5>
                                         <h6 class="text-small text-muted mb-0">Doctors</h6>
                                     </div>
                                 </div>
@@ -58,34 +58,35 @@
                                     <p><i class="fas fa-map-marker-alt mr-2"></i> {{ auth()->user()->address ?? 'Not set' }}</p>
                                 </div>
                                 <hr class="mg-y-30">
-                                <h6>Skills</h6>
+                                <h6>Patient Status</h6>
                                 <div class="skill-bar mb-4 clearfix mt-3">
-                                    <span>HTML5 / CSS3</span>
+                                    <span>Profile Completion</span>
                                     <div class="progress mt-2">
                                         <div class="progress-bar bg-primary-gradient" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%"></div>
                                     </div>
                                 </div>
-                                <!--skill bar-->
+                                
                                 <div class="skill-bar mb-4 clearfix">
-                                    <span>Javascript</span>
+                                    <span>Appointment Attendance</span>
                                     <div class="progress mt-2">
-                                        <div class="progress-bar bg-danger-gradient" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 89%"></div>
+                                        <div class="progress-bar bg-danger-gradient" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
                                     </div>
                                 </div>
-                                <!--skill bar-->
+                                
                                 <div class="skill-bar mb-4 clearfix">
-                                    <span>Bootstrap</span>
+                                    <span>Medication Adherence</span>
                                     <div class="progress mt-2">
-                                        <div class="progress-bar bg-success-gradient" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 80%"></div>
+                                        <div class="progress-bar bg-success-gradient" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%"></div>
                                     </div>
                                 </div>
-                                <!--skill bar-->
+                                
                                 <div class="skill-bar clearfix">
-                                    <span>Coffee</span>
+                                    <span>Health Activities</span>
                                     <div class="progress mt-2">
-                                        <div class="progress-bar bg-info-gradient" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 95%"></div>
+                                        <div class="progress-bar bg-info-gradient" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%"></div>
                                     </div>
                                 </div>
+                                
                                 <!--skill bar-->
                             </div><!-- main-profile-overview -->
                         </div>
@@ -94,49 +95,56 @@
             </div>
             <div class="col-lg-8">
                 <div class="row row-sm">
+                    
                     <div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
-                        <div class="card ">
+                        <div class="card">
                             <div class="card-body">
                                 <div class="counter-status d-flex md-mb-0">
                                     <div class="counter-icon bg-primary-transparent">
-                                        <i class="icon-layers text-primary"></i>
+                                        <i class="fas fa-calendar-check text-primary"></i>
                                     </div>
                                     <div class="ml-auto">
-                                        <h5 class="tx-13">Orders</h5>
-                                        <h2 class="mb-0 tx-22 mb-1 mt-1">1,587</h2>
-                                        <p class="text-muted mb-0 tx-11"><i class="si si-arrow-up-circle text-success mr-1"></i>increase</p>
+                                        <h5 class="tx-13">Next Appointment</h5>
+                                        <h2 class="mb-0 tx-22 mb-1 mt-1">{{ $next_appointment ?? 'No upcoming' }}</h2>
+                                        <p class="text-muted mb-0 tx-11">
+                                            <i class="far fa-clock mr-1"></i>Upcoming
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
-                        <div class="card ">
+                        <div class="card">
                             <div class="card-body">
                                 <div class="counter-status d-flex md-mb-0">
-                                    <div class="counter-icon bg-danger-transparent">
-                                        <i class="icon-paypal text-danger"></i>
+                                    <div class="counter-icon bg-warning-transparent">
+                                        <i class="fas fa-pills text-warning"></i>
                                     </div>
                                     <div class="ml-auto">
-                                        <h5 class="tx-13">Revenue</h5>
-                                        <h2 class="mb-0 tx-22 mb-1 mt-1">46,782</h2>
-                                        <p class="text-muted mb-0 tx-11"><i class="si si-arrow-up-circle text-success mr-1"></i>increase</p>
+                                        <h5 class="tx-13">Active Prescriptions</h5>
+                                        <h2 class="mb-0 tx-22 mb-1 mt-1">{{ $active_prescriptions ?? '0' }}</h2>
+                                        <p class="text-muted mb-0 tx-11">
+                                            <i class="fas fa-clipboard-list mr-1"></i>Current
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
-                        <div class="card ">
+                        <div class="card">
                             <div class="card-body">
                                 <div class="counter-status d-flex md-mb-0">
-                                    <div class="counter-icon bg-success-transparent">
-                                        <i class="icon-rocket text-success"></i>
+                                    <div class="counter-icon bg-info-transparent">
+                                        <i class="fas fa-file-medical text-info"></i>
                                     </div>
                                     <div class="ml-auto">
-                                        <h5 class="tx-13">Product sold</h5>
-                                        <h2 class="mb-0 tx-22 mb-1 mt-1">1,890</h2>
-                                        <p class="text-muted mb-0 tx-11"><i class="si si-arrow-up-circle text-success mr-1"></i>increase</p>
+                                        <h5 class="tx-13">Medical Records</h5>
+                                        <h2 class="mb-0 tx-22 mb-1 mt-1">{{ $medical_records ?? '0' }}</h2>
+                                        <p class="text-muted mb-0 tx-11">
+                                            <i class="fas fa-folder-open mr-1"></i>Total Records
+                                        </p>
                                     </div>
                                 </div>
                             </div>

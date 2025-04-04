@@ -15,7 +15,12 @@ class PrescriptionController extends Controller
 {
     public function index()
     {
-        $prescriptions = Prescription::with(['doctor', 'patient'])->paginate(10);
+        $prescriptions = Prescription::with(['doctor', 'patient'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+            
+        // dd($prescriptions->first()->doctor);
+        
         return view('dashboard.prescriptions.index', compact('prescriptions'));
     }
 

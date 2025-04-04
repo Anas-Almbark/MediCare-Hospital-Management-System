@@ -209,7 +209,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Prescriptions routes
     Route::get('/prescription/{prescription}', [PrescriptionController::class, 'show'])->name('prescription.show');
-    Route::get('/prescription/{prescription}/download', [PrescriptionController::class, 'download'])->name('prescription.download');
+    Route::get('/prescription/{id}/download', [PrescriptionController::class, 'download'])->name('prescription.download');
 
     // Profile User routes
     Route::prefix('profile-user')->group(function () {
@@ -227,6 +227,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 
+Route::get('/user/profile', [ProfileController::class, 'show'])->name('user.profile');
 Route::get('/profile-user', [ProfileUserController::class, 'show'])->name('profileuser.show');
 Route::get('/profile-user-edit', [ProfileUserController::class, 'edit'])->name('profileuser.edit');
 Route::put('/profile-user/update', [ProfileUserController::class, 'update'])->name('profileuser.update');

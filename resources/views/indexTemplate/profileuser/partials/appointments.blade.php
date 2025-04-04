@@ -11,34 +11,30 @@
         <tbody>
             @php
                 $appointments = App\Models\Appointment::where('patient_id', auth()->id())
-                    ->with(['doctor.user', 'doctor.specialization'])
+                    ->with(['doctor' => function($query) {
+                        $query->join('users', 'doctors.doctor', '=', 'users.id')
+                              ->join('specializations', 'doctors.specialization_id', '=', 'specializations.id')
+                              ->select('doctors.*', 'users.name', 'users.profile_photo', 'specializations.name as specialization_name');
+                    }])
                     ->orderBy('date', 'desc')
                     ->get();
-
-                // Uncomment for debugging
-                // dd($appointments->first()->doctor);
             @endphp
 
             @forelse($appointments as $appointment)
                 <tr>
                     <td>
-                        @php
-                            $doctor = $appointment->doctor;
-                            $user = $doctor ? $doctor->user : null;
-                        @endphp
-                        
-                        @if($user)
+                        @if($appointment->doctor)
                             <div class="d-flex align-items-center">
-                                <img src="{{ $user->profile_photo 
-                                    ? asset('storage/' . $user->profile_photo) 
+                                <img src="{{ $appointment->doctor->profile_photo 
+                                    ? asset('storage/' . $appointment->doctor->profile_photo) 
                                     : asset('assets/img/default-avatar.png') }}" 
                                     class="rounded-circle me-2" 
                                     style="width: 40px; height: 40px; object-fit: cover;"
-                                    alt="Dr. {{ $user->name }}">
+                                    alt="Dr. {{ $appointment->doctor->name }}">
                                 <div>
-                                    <div class="fw-bold">Dr. {{ $user->name }}</div>
+                                    <div class="fw-bold">Dr. {{ $appointment->doctor->name }}</div>
                                     <small class="text-muted">
-                                        {{ $doctor->specialization->name ?? 'General' }}
+                                        {{ $appointment->doctor->specialization_name }}
                                     </small>
                                 </div>
                             </div>

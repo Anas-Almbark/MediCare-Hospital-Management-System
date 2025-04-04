@@ -28,6 +28,7 @@ class UserController extends Controller
     }
     public function store(Request $request)
     {
+        // التحقق من البيانات الأساسية للمستخدم
         $validation = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users|max:255',
@@ -42,6 +43,7 @@ class UserController extends Controller
             'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
+        // إنشاء المستخدم
         $userData = [
             'name' => $validation['name'],
             'email' => $validation['email'],
@@ -54,18 +56,15 @@ class UserController extends Controller
             'identity_number' => $validation['identity_number'],
         ];
 
-        $userData = $request->except('profile_photo');
-
-        // Only set profile_photo if an image was uploaded
         if ($request->hasFile('profile_photo')) {
             $path = $request->file('profile_photo')->store('profile-photos', 'public');
             $userData['profile_photo'] = $path;
         }
-        // Don't set any default value for profile_photo
 
         $user = User::create($userData);
         $user->assignRole($validation['role']);
 
+        // إذا كان الدور طبيب، نرسل إلى DoctorController لإكمال البيانات
         if ($validation['role'] === 'doctor') {
             return app(DoctorController::class)->createDoctor($user, $request);
         }

@@ -9,7 +9,7 @@ class Doctor extends Model
 {
     use HasFactory, HasRoles;
     protected $fillable = [
-        'id', 
+        'doctor',  // Change 'id' to 'doctor'
         'specialization_id',
         'license_number',
         'experience_years'
@@ -24,7 +24,7 @@ class Doctor extends Model
                     ->where('status', 'available')
                     ->where('date', '>=', now())
                     ->orderBy('date')
-                    ->orderBy('start_time');  // تم تغيير 'time' إلى 'start_time'
+                    ->orderBy('start_time'); 
     }
     public function user()
     {
@@ -34,5 +34,9 @@ class Doctor extends Model
     public function specialization()
     {
         return $this->belongsTo(Specialization::class);
+    }
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class, 'doctor_id');
     }
 }
