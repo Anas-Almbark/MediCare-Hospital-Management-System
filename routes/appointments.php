@@ -22,7 +22,7 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
     Route::get('/appointments/available', [PatientAppointmentController::class, 'index'])->name('patient.appointments.available');
     Route::get('/appointments/my', [PatientAppointmentController::class, 'myAppointments'])->name('patient.appointments.my');
     Route::post('/appointments/{appointment}/book', [PatientAppointmentController::class, 'bookAppointment'])
-    ->name('appointment.book');
+    ->name('patient.appointment.book');
     Route::post('/appointments/{appointment}/cancel', [PatientAppointmentController::class, 'cancel'])->name('patient.appointments.cancel');
     Route::post('/appointments/{appointment}/show', [PatientAppointmentController::class, 'show'])
     ->name('patient.appointments.show');

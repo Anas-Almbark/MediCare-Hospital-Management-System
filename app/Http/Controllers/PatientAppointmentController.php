@@ -14,6 +14,7 @@ class PatientAppointmentController extends Controller
 {
     public function index()
     {
+        // Remove the dd('ok') line as it's stopping the execution
         $currentDate = request('date', now()->format('Y-m-d'));
         $doctorId = request('doctor_id');
 
@@ -24,10 +25,9 @@ class PatientAppointmentController extends Controller
             ->when($doctorId, function($query) use ($doctorId) {
                 return $query->where('doctor_id', $doctorId);
             })
-            ->paginate(8); // Set number of items per page
+            ->paginate(8);
 
         $doctors = User::role('doctor')->get();
-
         return view('patient_pages.appointments.index', compact(
             'appointments', 
             'currentDate', 

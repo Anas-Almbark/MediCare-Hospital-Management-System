@@ -115,7 +115,7 @@
                                                             $middleware = new \App\Http\Middleware\AppointmentMiddleware();
                                                         @endphp
                                                         @if (!$middleware->isPastAppointment($appointment))
-                                                        <form action="{{ route('appointment.book', $appointment->id) }}"
+                                                        <form action="{{ route('pateint.appointment.book', $appointment->id) }}"
                                                             method="POST">
                                                             @csrf
                                                             <button type="submit" class="btn btn-primary w-100"
