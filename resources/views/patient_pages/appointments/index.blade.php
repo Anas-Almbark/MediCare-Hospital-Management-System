@@ -67,12 +67,12 @@
                                 <div class="d-flex align-items-center mb-3">
                                     <img src="{{ $doctor->avatar ?? asset('images/default-avatar.png') }}"
                                         class="rounded-circle border border-primary" width="60" height="60"
-                                        alt="Dr. {{ $doctor->name }}">
+                                        alt="Dr. {{ $doctor->id }}">
                                     <div class="ms-3">
-                                        <h5 class="mb-1">Dr. {{ $doctor->name }}</h5>
+                                        <h5 class="mb-1">Dr. {{ $doctor->id }}</h5>
                                         <p class="text-muted mb-0">
                                             <i class="fas fa-stethoscope me-1"></i>
-                                            {{ $doctor->specialization }}
+                                            {{ $doctor->specialization_id }}
                                         </p>
                                     </div>
                                 </div>
@@ -115,7 +115,7 @@
                                                             $middleware = new \App\Http\Middleware\AppointmentMiddleware();
                                                         @endphp
                                                         @if (!$middleware->isPastAppointment($appointment))
-                                                        <form action="{{ route('pateint.appointment.book', $appointment->id) }}"
+                                                        <form action="{{ route('patient.appointment.book', $appointment->id) }}"
                                                             method="POST">
                                                             @csrf
                                                             <button type="submit" class="btn btn-primary w-100"

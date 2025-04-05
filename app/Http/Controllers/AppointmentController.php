@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\AppointmentStatusChanged;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Log;
 class AppointmentController extends Controller
 {
     public function index(Request $request)
@@ -181,7 +182,7 @@ class AppointmentController extends Controller
             ->get();
     
         // للتحقق من البيانات
-        \Log::info('Doctors data:', $doctors->toArray());
+    Log::info('Doctors data:', $doctors->toArray());
     
         return view('indexTemplate.profileuser.appointments.available', compact('doctors'));
     }
@@ -199,7 +200,7 @@ class AppointmentController extends Controller
     
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
-            \Log::error('Booking error: ' . $e->getMessage());
+            Log::error('Booking error: ' . $e->getMessage());
             return response()->json(['error' => 'Unable to book appointment'], 500);
         }
     }
