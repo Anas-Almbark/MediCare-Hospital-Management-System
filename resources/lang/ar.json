@@ -155,5 +155,20 @@
     "Address": "العنوان",
     "Enter address": "أدخل العنوان",
     "Phone Number": "رقم الهاتف",
-    "Enter phone number": "أدخل رقم الهاتف"
+    "Enter phone number": "أدخل رقم الهاتف",
+    "Doctor Schedule": "جدول الطبيب",
+    "Available Appointments": "المواعيد المتاحة",
+    "Specialization": "التخصص",
+    "License Number": "رقم الترخيص",
+    "Experience Years": "سنوات الخبرة",
+    "Schedule": "الجدول",
+    "Start Time": "وقت البدء",
+    "End Time": "وقت الانتهاء",
+    "Available": "متاح",
+    "Booked": "محجوز",
+    "Doctor Information": "معلومات الطبيب",
+    "Doctor ID": "رقم الطبيب",
+    "Doctor Name": "اسم الطبيب",
+    "Doctor Appointments": "مواعيد الطبيب"
 }
+
