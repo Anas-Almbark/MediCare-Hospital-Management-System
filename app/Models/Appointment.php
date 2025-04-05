@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Prescription;
 
 class Appointment extends Model
 {
@@ -24,5 +25,10 @@ class Appointment extends Model
     public function patient()
     {
         return $this->belongsTo(User::class, 'patient_id');
+    }
+
+    public function prescription()
+    {
+        return $this->hasOne(Prescription::class);
     }
 }

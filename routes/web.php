@@ -197,7 +197,7 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/available-appointments', [AppointmentController::class, 'showAvailable'])->name('available.appointments');
     Route::post('/appointments/{appointment}/book', [AppointmentController::class, 'bookAppointment'])->name('appointment.book');
-    // Route::get('/appointments/{appointment}', [AppointmentController::class, 'show'])->name('appointment.show');
+    Route::get('/appointments/{appointment}', [AppointmentController::class, 'show'])->name('appointment.show');
     Route::get('/book-appointment/{doctor}', [AppointmentController::class, 'bookingForm'])->name('book.appointment');
 
     // Doctor routes

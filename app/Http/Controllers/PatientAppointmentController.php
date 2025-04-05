@@ -102,13 +102,11 @@ class PatientAppointmentController extends Controller
         }
         
         $appointment = Appointment::with([
-            'doctor' => function($query) {
-                $query->select('id', 'name', 'email')
-                    ->with('specialization:id,name');
+            'doctor.user' => function($query) {
+                $query->select('id', 'name', 'email');
             },
-            'prescription' => function($query) {
-                $query->with('doctor:id,name');
-            }
+            'doctor.specialization:id,name',
+            'prescription.doctor:id,name'  // Updated this line
         ])->findOrFail($appointment->id);
 
         return view('patient_pages.appointments.show', compact('appointment'));
