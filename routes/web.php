@@ -74,8 +74,7 @@ Route::middleware(['auth', 'role:super-admin'])->group(function () {
     Route::get("/user/filter", [UserController::class, "filterByRole"])->name('user.filter'); // تم تعديل المسار
 });
 
-
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:super-admin|accountant'])->group(function () {
     Route::get("/salaries", [SalaryController::class, "index"])->name("salaries.index");
     Route::get("/new/salary", [SalaryController::class, "create"])->name("salaries.create");
     Route::post("/add/salary", [SalaryController::class, "store"])->name("salaries.store");
@@ -84,7 +83,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put("/update/salary/{salary}", [SalaryController::class, "update"])->name("salaries.update");
 });
 
-Route::middleware(['auth', 'role:super-admin'])->group(function () {
+Route::middleware(['auth', 'role:super-admin|accountant'])->group(function () {
     Route::get("/static_salaries", [StaticSalaryController::class, "index"])->name("staticSalaries.index");
     Route::get("/new/static_salaries", [StaticSalaryController::class, "create"])->name("staticSalaries.create");
     Route::post("/add/static_salaries", [StaticSalaryController::class, "store"])->name("staticSalaries.store");

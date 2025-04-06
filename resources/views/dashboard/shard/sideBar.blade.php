@@ -82,7 +82,7 @@
                 </li>
             @endhasrole
             <li class="side-item side-item-category">{{ __('Management') }}</li>
-            @hasrole('super-admin')
+            @hasrole('accountant|super-admin')
                 <li class="slide">
                     <a class="side-menu__item" data-toggle="slide" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
@@ -100,17 +100,19 @@
                     </ul>
                 </li>
             @endhasrole
-            <li class="slide">
-                <a class="side-menu__item" href="{{ route('bill.index') }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path
-                            d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2 2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"
-                            opacity=".3" />
-                        <path
-                            d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2 2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
-                    </svg><span class="side-menu__label">{{ __('Bills') }}</span></a>
-            </li>
+            @hasrole('receptionist|accountant|super-admin')
+                <li class="slide">
+                    <a class="side-menu__item" href="{{ route('bill.index') }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path
+                                d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2 2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"
+                                opacity=".3" />
+                            <path
+                                d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2 2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
+                        </svg><span class="side-menu__label">{{ __('Bills') }}</span></a>
+                </li>
+            @endhasrole
             @hasrole('doctor|super-admin')
                 <li class="slide">
                     <a class="side-menu__item" data-toggle="slide" href="#">
@@ -128,14 +130,14 @@
                     <ul class="slide-menu">
                         <li><a class="slide-item"
                                 href="{{ route('doctor.appointments.index') }}">{{ __('All Appointments') }}</a></li>
-                                @hasanyrole('doctor')
-                        <li><a class="slide-item" href="{{ route('doctor.appointments.pending') }}">
-                                <span class="badge bg-warning rounded-pill float-end">
-                                    {{ \App\Models\Appointment::where('doctor_id', auth()->id())->where('status', 'pending')->count() }}
-                                </span>
-                                {{ __('Pending Requests') }}
-                            </a></li>
-                            @endhasanyrole
+                        @hasanyrole('doctor')
+                            <li><a class="slide-item" href="{{ route('doctor.appointments.pending') }}">
+                                    <span class="badge bg-warning rounded-pill float-end">
+                                        {{ \App\Models\Appointment::where('doctor_id', auth()->id())->where('status', 'pending')->count() }}
+                                    </span>
+                                    {{ __('Pending Requests') }}
+                                </a></li>
+                        @endhasanyrole
                     </ul>
                 </li>
                 <li class="slide">
@@ -152,33 +154,37 @@
                     <ul class="slide-menu">
                         <li><a class="slide-item"
                                 href="{{ route('doctor.schedules.index') }}">{{ __('View Schedule') }}</a></li>
-                                @hasanyrole('doctor')
-                        <li><a class="slide-item"
-                                href="{{ route('doctor.schedules.create') }}">{{ __('Set Schedule') }}</a></li>
-                                @endhasanyrole
+                        @hasanyrole('doctor')
+                            <li><a class="slide-item"
+                                    href="{{ route('doctor.schedules.create') }}">{{ __('Set Schedule') }}</a></li>
+                        @endhasanyrole
                     </ul>
                 </li>
             @endhasrole
-            <li class="slide">
-                <a class="side-menu__item" href="{{ route('prescription.index') }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path d="M4 19h16v-7H4v7zM9 10h6v2H9z" opacity=".3" />
-                        <path
-                            d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-8-2h4v2h-4V4zm8 14H4v-7h16v7zm0-9H4V8h16v1zM9 10h6v2H9z" />
-                    </svg><span class="side-menu__label">{{ __('Prescriptions') }}</span></a>
-            </li>
-            <li class="slide">
-                <a class="side-menu__item" href="{{ route('medical-record.index') }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path
-                            d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-8-2h4v2h-4V4zm8 14H4V8h16v12z"
-                            opacity=".3" />
-                        <path
-                            d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-8-2h4v2h-4V4zm8 14H4V8h16v12zM6 10h12v2H6zm0 4h12v2H6z" />
-                    </svg><span class="side-menu__label">{{ __('Medical Records') }}</span></a>
-            </li>
+            @hasrole('doctor|nurse|super-admin')
+                <li class="slide">
+                    <a class="side-menu__item" href="{{ route('prescription.index') }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 19h16v-7H4v7zM9 10h6v2H9z" opacity=".3" />
+                            <path
+                                d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-8-2h4v2h-4V4zm8 14H4v-7h16v7zm0-9H4V8h16v1zM9 10h6v2H9z" />
+                        </svg><span class="side-menu__label">{{ __('Prescriptions') }}</span></a>
+                </li>
+            @endhasrole
+            @hasrole('receptionist|nurse|super-admin')
+                <li class="slide">
+                    <a class="side-menu__item" href="{{ route('medical-record.index') }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path
+                                d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-8-2h4v2h-4V4zm8 14H4V8h16v12z"
+                                opacity=".3" />
+                            <path
+                                d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-8-2h4v2h-4V4zm8 14H4V8h16v12zM6 10h12v2H6zm0 4h12v2H6z" />
+                        </svg><span class="side-menu__label">{{ __('Medical Records') }}</span></a>
+                </li>
+            @endhasrole
             @hasrole('lab_technician|super-admin')
                 <li class="slide">
                     <a class="side-menu__item" data-toggle="slide" href="#">
